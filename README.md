@@ -1,7 +1,7 @@
-# The Update Framework (tuf)
-TUF is a CNCF graduated framework for securing software update systems. It provides specifications for structuring repositories and verifying updates, protecting against key compromise, rollback attacks, and other threats.
+# Artifact Hub (artifact-hub)
+Artifact Hub is a CNCF incubating web application for finding, installing, and publishing cloud-native packages including Helm charts, OPA policies, OLM operators, and many other artifact types.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/tuf/refs/heads/main/apis.yml)
+**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/artifact-hub/refs/heads/main/apis.yml)
 
 ## Scope
 - **Type:** Index
@@ -9,7 +9,7 @@ TUF is a CNCF graduated framework for securing software update systems. It provi
 - **Access:** 3rd-Party
 
 ## Tags:
- - Software Updates, Security, Verification, Supply Chain, Cloud Native, Graduated
+ - Package Registry, Helm Charts, Discovery, Cloud Native, Incubating
 
 ## Timestamps
 - **Created:** 2026-03-16
@@ -17,20 +17,20 @@ TUF is a CNCF graduated framework for securing software update systems. It provi
 
 ## APIs
 
-### TUF Repository Specification
-The TUF specification defines the structure of update repositories including root, targets, snapshot, and timestamp metadata files with signatures and delegation rules.
+### Artifact Hub API
+The Artifact Hub API provides RESTful endpoints for searching and retrieving cloud-native packages, managing repositories, handling subscriptions and webhooks, and administering organizations.
 
-**Human URL:** [https://theupdateframework.github.io/specification/latest/](https://theupdateframework.github.io/specification/latest/)
+**Human URL:** [https://artifacthub.io/docs/api/](https://artifacthub.io/docs/api/)
 
 #### Tags:
- - Specification, Repository Metadata, Verification
+ - REST API, Package Search, Registry
 
 #### Properties
-- [Documentation](https://theupdateframework.github.io/specification/latest/)
+- [Documentation](https://artifacthub.io/docs/api/)
 
 ## Common Properties
-- [Documentation](https://theupdateframework.io/overview/)
-- [GitHub](https://github.com/theupdateframework)
+- [Documentation](https://artifacthub.io/docs/)
+- [GitHub](https://github.com/artifacthub/hub)
 
 ## Maintainers
 **FN:** Kin Lane
