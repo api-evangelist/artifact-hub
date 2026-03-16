@@ -1,52 +1,51 @@
-aid: tuf
-name: The Update Framework (TUF)
+aid: artifact-hub
+name: Artifact Hub
 description: >-
-  TUF (The Update Framework) is a CNCF graduated framework for securing
-  software update systems. It provides a specification for how software
-  repositories should be structured and how clients should verify updates
-  to protect against key compromise, rollback attacks, and mix-and-match
-  attacks. TUF is used by many package managers and update systems including
-  PyPI, Sigstore, and various Linux distributions.
-url: https://theupdateframework.io
+  Artifact Hub is a CNCF incubating web-based application that enables
+  finding, installing, and publishing cloud-native packages. It supports
+  Helm charts, OPA policies, Falco rules, OLM operators, Tinkerbell actions,
+  kubectl plugins, Tekton tasks, KEDA scalers, CoreDNS plugins, and more.
+  Artifact Hub provides a searchable catalog with versioning, security
+  reports, and changelog tracking.
+url: https://artifacthub.io
 image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Software Updates
-- Security
-- Verification
-- Supply Chain
+- Package Registry
+- Helm Charts
+- Discovery
 - Cloud Native
-- Graduated
+- Incubating
 created: '2026-03-16'
 modified: '2026-03-16'
 specificationVersion: '0.19'
 type: Index
 apis:
-- aid: tuf:tuf-spec
-  name: TUF Repository Specification
+- aid: artifact-hub:artifact-hub-api
+  name: Artifact Hub API
   description: >-
-    The TUF specification defines the structure of update repositories
-    including the root, targets, snapshot, and timestamp metadata files.
-    Each metadata file has a defined schema with signatures, expiration
-    dates, and delegation rules. Clients follow a defined verification
-    workflow to securely resolve and download updates while protecting
-    against various attack vectors.
-  humanURL: https://theupdateframework.github.io/specification/latest/
+    The Artifact Hub API provides RESTful endpoints for searching and
+    retrieving cloud-native packages, managing repositories, handling
+    user subscriptions and webhooks, and administering organizations. It
+    supports filtering by package kind, repository, organization, and
+    various metadata attributes. The API enables programmatic access to
+    the full Artifact Hub catalog.
+  humanURL: https://artifacthub.io/docs/api/
   properties:
   - type: Documentation
-    url: https://theupdateframework.github.io/specification/latest/
+    url: https://artifacthub.io/docs/api/
   tags:
-  - Specification
-  - Repository Metadata
-  - Verification
+  - REST API
+  - Package Search
+  - Registry
 common:
 - type: Documentation
-  name: TUF Documentation
-  description: Official TUF documentation and specification.
-  url: https://theupdateframework.io/overview/
+  name: Artifact Hub Documentation
+  description: Official Artifact Hub documentation.
+  url: https://artifacthub.io/docs/
 - type: GitHubOrg
-  name: TUF GitHub
-  description: Source code and reference implementations.
-  url: https://github.com/theupdateframework
+  name: Artifact Hub GitHub
+  description: Source code repository.
+  url: https://github.com/artifacthub/hub
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
