@@ -129,6 +129,8 @@ common:
         description: >-
           Artifact Hub is an official CNCF incubating project integrated into
           the Cloud Native Computing Foundation's ecosystem.
+  - type: LLMsTxt
+    url: https://artifacthub.io/llms.txt
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
