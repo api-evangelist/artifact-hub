@@ -1,0 +1,1371 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/search",
+            "params": [
+              {
+                "name": "ts_query_web",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "ts_query",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query",
+                "description": "Repository kind (0 helm, 1 falco, 2 opa, 3 olm, ...)"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "repo",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "user",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "license",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "capabilities",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "deprecated",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "operators",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "verified_publisher",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "official",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cncf",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "facets",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search packages"
+        },
+        {
+          "info": {
+            "name": "Get a random sample of packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/random"
+          },
+          "docs": "Get a random sample of packages"
+        },
+        {
+          "info": {
+            "name": "Get aggregated package statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/stats"
+          },
+          "docs": "Get aggregated package statistics"
+        },
+        {
+          "info": {
+            "name": "Get the packages starred by the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/starred",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get the packages starred by the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get the latest version of a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKind/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoKind",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the latest version of a package"
+        },
+        {
+          "info": {
+            "name": "Get a specific version of a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKind/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoKind",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a specific version of a package"
+        },
+        {
+          "info": {
+            "name": "Get a package summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKind/:repoName/:packageName/summary",
+            "params": [
+              {
+                "name": "repoKind",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a package summary"
+        },
+        {
+          "info": {
+            "name": "Get an RSS feed of package changes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKind/:repoName/:packageName/feed/rss",
+            "params": [
+              {
+                "name": "repoKind",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an RSS feed of package changes"
+        },
+        {
+          "info": {
+            "name": "Get star information for a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/stars",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get star information for a package"
+        },
+        {
+          "info": {
+            "name": "Toggle star on a package for the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/stars",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Toggle star on a package for the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get a package security report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/security-report",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a package security report"
+        },
+        {
+          "info": {
+            "name": "Get default values for a Helm chart package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/values",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get default values for a Helm chart package"
+        },
+        {
+          "info": {
+            "name": "Get the JSON schema for a Helm chart's values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/values-schema",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the JSON schema for a Helm chart's values"
+        },
+        {
+          "info": {
+            "name": "Get the rendered templates for a Helm chart",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/templates",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the rendered templates for a Helm chart"
+        },
+        {
+          "info": {
+            "name": "Get the changelog for a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/changelog",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the changelog for a package"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/repositories/search",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "url",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "user",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "include_credentials",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search repositories"
+        },
+        {
+          "info": {
+            "name": "Add a repository for the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/repositories/user",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Add a repository for the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Update a user repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update a user repository"
+        },
+        {
+          "info": {
+            "name": "Delete a user repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete a user repository"
+        },
+        {
+          "info": {
+            "name": "Add a repository owned by the given organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Add a repository owned by the given organization"
+        },
+        {
+          "info": {
+            "name": "Update an organization repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update an organization repository"
+        },
+        {
+          "info": {
+            "name": "Delete an organization repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete an organization repository"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users"
+          },
+          "docs": "Register a new user"
+        },
+        {
+          "info": {
+            "name": "Delete the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/users",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Authenticate a user and create a session cookie",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/login"
+          },
+          "docs": "Authenticate a user and create a session cookie"
+        },
+        {
+          "info": {
+            "name": "Log out the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/users/logout",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Log out the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get the authenticated user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/users/profile",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get the authenticated user's profile"
+        },
+        {
+          "info": {
+            "name": "Update the authenticated user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/profile",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update the authenticated user's profile"
+        },
+        {
+          "info": {
+            "name": "Change the authenticated user's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/password",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Change the authenticated user's password"
+        },
+        {
+          "info": {
+            "name": "Request a password reset code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/password-reset-code"
+          },
+          "docs": "Request a password reset code"
+        },
+        {
+          "info": {
+            "name": "Complete a password reset using a code",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/reset-password"
+          },
+          "docs": "Complete a password reset using a code"
+        },
+        {
+          "info": {
+            "name": "Verify a user's email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/verify-email"
+          },
+          "docs": "Verify a user's email address"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/orgs",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Create an organization"
+        },
+        {
+          "info": {
+            "name": "List organizations the authenticated user belongs to",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/user",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List organizations the authenticated user belongs to"
+        },
+        {
+          "info": {
+            "name": "Get organization details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization details"
+        },
+        {
+          "info": {
+            "name": "Update organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update organization"
+        },
+        {
+          "info": {
+            "name": "Delete organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete organization"
+        },
+        {
+          "info": {
+            "name": "List members of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/members",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List members of an organization"
+        },
+        {
+          "info": {
+            "name": "Add a user as a member of an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/member/:userAlias",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userAlias",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Add a user as a member of an organization"
+        },
+        {
+          "info": {
+            "name": "Remove a member from an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/member/:userAlias",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "userAlias",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Remove a member from an organization"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the authenticated user's package subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List the authenticated user's package subscriptions"
+        },
+        {
+          "info": {
+            "name": "Create a package subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Create a package subscription"
+        },
+        {
+          "info": {
+            "name": "Delete a package subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete a package subscription"
+        },
+        {
+          "info": {
+            "name": "Get the authenticated user's subscriptions for a package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/subscriptions/:packageID",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get the authenticated user's subscriptions for a package"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the authenticated user's webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/user",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List the authenticated user's webhooks"
+        },
+        {
+          "info": {
+            "name": "Create a webhook for the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/user",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Create a webhook for the authenticated user"
+        },
+        {
+          "info": {
+            "name": "Get a user webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get a user webhook"
+        },
+        {
+          "info": {
+            "name": "Update a user webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update a user webhook"
+        },
+        {
+          "info": {
+            "name": "Delete a user webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete a user webhook"
+        },
+        {
+          "info": {
+            "name": "List organization webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List organization webhooks"
+        },
+        {
+          "info": {
+            "name": "Create an organization webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Create an organization webhook"
+        },
+        {
+          "info": {
+            "name": "Trigger a test webhook delivery",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/test",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Trigger a test webhook delivery"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the authenticated user's API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/api-keys",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "List the authenticated user's API keys"
+        },
+        {
+          "info": {
+            "name": "Create an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/api-keys",
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Create an API key"
+        },
+        {
+          "info": {
+            "name": "Get an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/api-keys/:apiKeyID",
+            "params": [
+              {
+                "name": "apiKeyID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Get an API key"
+        },
+        {
+          "info": {
+            "name": "Update an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/api-keys/:apiKeyID",
+            "params": [
+              {
+                "name": "apiKeyID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Update an API key"
+        },
+        {
+          "info": {
+            "name": "Delete an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/api-keys/:apiKeyID",
+            "params": [
+              {
+                "name": "apiKeyID",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "session",
+              "value": "{{session}}",
+              "placement": "query"
+            }
+          },
+          "docs": "Delete an API key"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stats",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get site-wide aggregated statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/stats"
+          },
+          "docs": "Get site-wide aggregated statistics"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
