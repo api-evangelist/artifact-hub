@@ -47,6 +47,10 @@ apis:
       - type: GitHubRepository
         url: https://github.com/artifacthub/hub
 common:
+  - type: DomainSecurity
+    url: security/artifact-hub-domain-security.yml
+  - type: Authentication
+    url: authentication/artifact-hub-authentication.yml
   - type: Documentation
     url: https://artifacthub.io/docs/
     title: Artifact Hub Documentation

@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/artifact-hub-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - cookie
+  - header
+schemes:
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: X-API-KEY-ID
+  description: |-
+    API key authentication. Clients send the API key ID in the
+    `X-API-KEY-ID` header and the API key secret in the
+    `X-API-KEY-SECRET` header.
+  sources:
+  - openapi/artifact-hub-openapi.yml
+- name: cookieAuth
+  type: apiKey
+  in: cookie
+  parameter: session
+  description: Session cookie obtained from /api/v1/users/login
+  sources:
+  - openapi/artifact-hub-openapi.yml
