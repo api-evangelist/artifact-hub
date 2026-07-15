@@ -47,6 +47,8 @@ apis:
       - type: GitHubRepository
         url: https://github.com/artifacthub/hub
 common:
+  - type: AgenticAccess
+    url: agentic-access/artifact-hub-agentic-access.yml
   - type: DomainSecurity
     url: security/artifact-hub-domain-security.yml
   - type: Authentication
