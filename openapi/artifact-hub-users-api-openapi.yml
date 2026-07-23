@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: Artifact Hub API Keys Users API
+  version: '1.0'
+  description: 'Artifact Hub is a CNCF web-based application that enables finding,
+
+    installing, and publishing cloud-native packages including Helm charts,
+
+    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
+
+    The HTTP API powers artifacthub.io and can be used against any self-hosted
+
+    instance.
+
+    '
+  contact:
+    name: Artifact Hub
+    url: https://artifacthub.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://artifacthub.io
+  description: Public Artifact Hub instance
+tags:
+- name: Users
+  description: User accounts and sessions
+paths:
+  /api/v1/users:
+    post:
+      tags:
+      - Users
+      summary: Register a new user
+      responses:
+        '201':
+          description: Created
+    delete:
+      tags:
+      - Users
+      summary: Delete the authenticated user
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/login:
+    post:
+      tags:
+      - Users
+      summary: Authenticate a user and create a session cookie
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+  /api/v1/users/logout:
+    get:
+      tags:
+      - Users
+      summary: Log out the authenticated user
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/profile:
+    get:
+      tags:
+      - Users
+      summary: Get the authenticated user's profile
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+      - Users
+      summary: Update the authenticated user's profile
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/password:
+    put:
+      tags:
+      - Users
+      summary: Change the authenticated user's password
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/password-reset-code:
+    post:
+      tags:
+      - Users
+      summary: Request a password reset code
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/reset-password:
+    put:
+      tags:
+      - Users
+      summary: Complete a password reset using a code
+      responses:
+        '204':
+          description: No Content
+  /api/v1/users/verify-email:
+    post:
+      tags:
+      - Users
+      summary: Verify a user's email address
+      responses:
+        '204':
+          description: No Content
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+      description: 'API key authentication. Clients send the API key ID in the
+
+        `X-API-KEY-ID` header and the API key secret in the
+
+        `X-API-KEY-SECRET` header.
+
+        '
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/v1/users/login

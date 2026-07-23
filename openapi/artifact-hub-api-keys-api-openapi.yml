@@ -1,0 +1,111 @@
+openapi: 3.1.0
+info:
+  title: Artifact Hub API Keys API
+  version: '1.0'
+  description: 'Artifact Hub is a CNCF web-based application that enables finding,
+
+    installing, and publishing cloud-native packages including Helm charts,
+
+    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
+
+    The HTTP API powers artifacthub.io and can be used against any self-hosted
+
+    instance.
+
+    '
+  contact:
+    name: Artifact Hub
+    url: https://artifacthub.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://artifacthub.io
+  description: Public Artifact Hub instance
+tags:
+- name: API Keys
+  description: API key management
+paths:
+  /api/v1/api-keys:
+    get:
+      tags:
+      - API Keys
+      summary: List the authenticated user's API keys
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+      - API Keys
+      summary: Create an API key
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          description: Created
+  /api/v1/api-keys/{apiKeyID}:
+    get:
+      tags:
+      - API Keys
+      summary: Get an API key
+      parameters:
+      - name: apiKeyID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+      - API Keys
+      summary: Update an API key
+      parameters:
+      - name: apiKeyID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+    delete:
+      tags:
+      - API Keys
+      summary: Delete an API key
+      parameters:
+      - name: apiKeyID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No Content
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+      description: 'API key authentication. Clients send the API key ID in the
+
+        `X-API-KEY-ID` header and the API key secret in the
+
+        `X-API-KEY-SECRET` header.
+
+        '
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/v1/users/login

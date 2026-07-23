@@ -1,0 +1,401 @@
+openapi: 3.1.0
+info:
+  title: Artifact Hub API Keys Packages API
+  version: '1.0'
+  description: 'Artifact Hub is a CNCF web-based application that enables finding,
+
+    installing, and publishing cloud-native packages including Helm charts,
+
+    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
+
+    The HTTP API powers artifacthub.io and can be used against any self-hosted
+
+    instance.
+
+    '
+  contact:
+    name: Artifact Hub
+    url: https://artifacthub.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://artifacthub.io
+  description: Public Artifact Hub instance
+tags:
+- name: Packages
+  description: Search and retrieve cloud-native packages
+paths:
+  /api/v1/packages/search:
+    get:
+      tags:
+      - Packages
+      summary: Search packages
+      parameters:
+      - name: ts_query_web
+        in: query
+        schema:
+          type: string
+      - name: ts_query
+        in: query
+        schema:
+          type: string
+      - name: kind
+        in: query
+        description: Repository kind (0 helm, 1 falco, 2 opa, 3 olm, ...)
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: category
+        in: query
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: repo
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: org
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: user
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: license
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: capabilities
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: deprecated
+        in: query
+        schema:
+          type: boolean
+      - name: operators
+        in: query
+        schema:
+          type: boolean
+      - name: verified_publisher
+        in: query
+        schema:
+          type: boolean
+      - name: official
+        in: query
+        schema:
+          type: boolean
+      - name: cncf
+        in: query
+        schema:
+          type: boolean
+      - name: sort
+        in: query
+        schema:
+          type: string
+          enum:
+          - relevance
+          - stars
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          default: 20
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          default: 0
+      - name: facets
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Search results
+  /api/v1/packages/random:
+    get:
+      tags:
+      - Packages
+      summary: Get a random sample of packages
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/stats:
+    get:
+      tags:
+      - Packages
+      summary: Get aggregated package statistics
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/starred:
+    get:
+      tags:
+      - Packages
+      summary: Get the packages starred by the authenticated user
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}:
+    get:
+      tags:
+      - Packages
+      summary: Get the latest version of a package
+      parameters:
+      - name: repoKind
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: repoName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: packageName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/{version}:
+    get:
+      tags:
+      - Packages
+      summary: Get a specific version of a package
+      parameters:
+      - name: repoKind
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: repoName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: packageName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/summary:
+    get:
+      tags:
+      - Packages
+      summary: Get a package summary
+      parameters:
+      - name: repoKind
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: repoName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: packageName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/feed/rss:
+    get:
+      tags:
+      - Packages
+      summary: Get an RSS feed of package changes
+      parameters:
+      - name: repoKind
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: repoName
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: packageName
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: RSS feed
+          content:
+            application/rss+xml: {}
+  /api/v1/packages/{packageID}/stars:
+    get:
+      tags:
+      - Packages
+      summary: Get star information for a package
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+      - Packages
+      summary: Toggle star on a package for the authenticated user
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/packages/{packageID}/{version}/security-report:
+    get:
+      tags:
+      - Packages
+      summary: Get a package security report
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{packageID}/{version}/values:
+    get:
+      tags:
+      - Packages
+      summary: Get default values for a Helm chart package
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{packageID}/{version}/values-schema:
+    get:
+      tags:
+      - Packages
+      summary: Get the JSON schema for a Helm chart's values
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{packageID}/{version}/templates:
+    get:
+      tags:
+      - Packages
+      summary: Get the rendered templates for a Helm chart
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: version
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+  /api/v1/packages/{packageID}/changelog:
+    get:
+      tags:
+      - Packages
+      summary: Get the changelog for a package
+      parameters:
+      - name: packageID
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+      description: 'API key authentication. Clients send the API key ID in the
+
+        `X-API-KEY-ID` header and the API key secret in the
+
+        `X-API-KEY-SECRET` header.
+
+        '
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/v1/users/login

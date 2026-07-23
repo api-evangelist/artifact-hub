@@ -1,0 +1,160 @@
+openapi: 3.1.0
+info:
+  title: Artifact Hub API Keys Webhooks API
+  version: '1.0'
+  description: 'Artifact Hub is a CNCF web-based application that enables finding,
+
+    installing, and publishing cloud-native packages including Helm charts,
+
+    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
+
+    The HTTP API powers artifacthub.io and can be used against any self-hosted
+
+    instance.
+
+    '
+  contact:
+    name: Artifact Hub
+    url: https://artifacthub.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+- url: https://artifacthub.io
+  description: Public Artifact Hub instance
+tags:
+- name: Webhooks
+  description: Webhook configuration and delivery
+paths:
+  /api/v1/webhooks/user:
+    get:
+      tags:
+      - Webhooks
+      summary: List the authenticated user's webhooks
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+      - Webhooks
+      summary: Create a webhook for the authenticated user
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '201':
+          description: Created
+  /api/v1/webhooks/user/{webhookID}:
+    get:
+      tags:
+      - Webhooks
+      summary: Get a user webhook
+      parameters:
+      - name: webhookID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+      - Webhooks
+      summary: Update a user webhook
+      parameters:
+      - name: webhookID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '204':
+          description: No Content
+    delete:
+      tags:
+      - Webhooks
+      summary: Delete a user webhook
+      parameters:
+      - name: webhookID
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '204':
+          description: No Content
+  /api/v1/webhooks/org/{orgName}:
+    get:
+      tags:
+      - Webhooks
+      summary: List organization webhooks
+      parameters:
+      - name: orgName
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '200':
+          description: OK
+    post:
+      tags:
+      - Webhooks
+      summary: Create an organization webhook
+      parameters:
+      - name: orgName
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '201':
+          description: Created
+  /api/v1/webhooks/test:
+    post:
+      tags:
+      - Webhooks
+      summary: Trigger a test webhook delivery
+      security:
+      - cookieAuth: []
+      - apiKey: []
+      responses:
+        '204':
+          description: No Content
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+      description: 'API key authentication. Clients send the API key ID in the
+
+        `X-API-KEY-ID` header and the API key secret in the
+
+        `X-API-KEY-SECRET` header.
+
+        '
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/v1/users/login
