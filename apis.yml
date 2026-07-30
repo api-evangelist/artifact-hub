@@ -12,7 +12,20 @@ description: >-
   under Apache 2.0 and governed by the CNCF.
 url: >-
   https://raw.githubusercontent.com/api-evangelist/artifact-hub/refs/heads/main/apis.yml
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/artifact-hub.png
 tags:
   - Cloud Native
   - CNCF
@@ -25,27 +38,106 @@ modified: '2026-04-19'
 specificationVersion: '0.19'
 type: Index
 apis:
-  - aid: artifact-hub:artifact-hub-api
-    name: Artifact Hub API
-    description: >-
-      The Artifact Hub REST API provides endpoints for searching and retrieving
-      cloud-native packages across all supported artifact types, managing
-      repositories, handling user authentication and sessions, managing
-      organization memberships, configuring webhooks for release notifications,
-      and administering package security reports. The API is the backend
-      service powering artifacthub.io and is available for self-hosted instances.
-    humanURL: https://artifacthub.io/docs/api/
-    baseURL: https://artifacthub.io/api/v1
-    tags:
-      - Package Search
-      - Registry
-      - REST API
-      - Cloud Native
-    properties:
-      - type: Documentation
-        url: https://artifacthub.io/docs/api/
-      - type: GitHubRepository
-        url: https://github.com/artifacthub/hub
+- aid: artifact-hub:artifact-hub-api
+  name: Artifact Hub API
+  description: >-
+    The Artifact Hub REST API provides endpoints for searching and retrieving cloud-native packages across
+    all supported artifact types, managing repositories, handling user authentication and sessions, managing
+    organization memberships, configuring webhooks for release notifications, and administering package
+    security reports. The API is the backend service powering artifacthub.io and is available for self-hosted
+    instances.
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Package Search
+  - Registry
+  - REST API
+  - Cloud Native
+  properties:
+  - type: Documentation
+    url: https://artifacthub.io/docs/api/
+  - type: GitHubRepository
+    url: https://github.com/artifacthub/hub
+- aid: artifact-hub:artifact-hub-api-keys-api
+  name: Artifact Hub API Keys API
+  description: API key management
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-api-keys-api-openapi.yml
+- aid: artifact-hub:artifact-hub-organizations-api
+  name: Artifact Hub Organizations API
+  description: Organizations and memberships
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-organizations-api-openapi.yml
+- aid: artifact-hub:artifact-hub-packages-api
+  name: Artifact Hub Packages API
+  description: Search and retrieve cloud-native packages
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Packages
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-packages-api-openapi.yml
+- aid: artifact-hub:artifact-hub-repositories-api
+  name: Artifact Hub Repositories API
+  description: Repository management
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-repositories-api-openapi.yml
+- aid: artifact-hub:artifact-hub-stats-api
+  name: Artifact Hub Stats API
+  description: Site-wide statistics
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Stats
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-stats-api-openapi.yml
+- aid: artifact-hub:artifact-hub-subscriptions-api
+  name: Artifact Hub Subscriptions API
+  description: Package event subscriptions
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-subscriptions-api-openapi.yml
+- aid: artifact-hub:artifact-hub-users-api
+  name: Artifact Hub Users API
+  description: User accounts and sessions
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-users-api-openapi.yml
+- aid: artifact-hub:artifact-hub-webhooks-api
+  name: Artifact Hub Webhooks API
+  description: Webhook configuration and delivery
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-webhooks-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/artifact-hub-agentic-access.yml
