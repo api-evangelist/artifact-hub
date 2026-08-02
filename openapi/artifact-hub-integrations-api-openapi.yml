@@ -1,0 +1,330 @@
+openapi: 3.0.3
+info:
+  title: Artifact Hub Integrations API
+  description: Find, install and publish Cloud Native packages
+  version: 1.22.0
+  contact:
+    name: Artifact Hub support
+    url: https://cloud-native.slack.com/channels/artifact-hub
+servers:
+- url: https://artifacthub.io/api/v1
+  description: Artifact Hub production API
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
+    and carried no schemas.
+tags:
+- name: Integrations
+  description: ''
+paths:
+  /harbor-replication:
+    get:
+      tags:
+      - Integrations
+      summary: Get Harbor replication dump
+      description: Get Harbor replication dump
+      operationId: getHarborReplicationDump
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - repository
+                  - package
+                  - version
+                  - url
+                properties:
+                  repository:
+                    type: string
+                    nullable: false
+                  package:
+                    type: string
+                    nullable: false
+                  version:
+                    type: string
+                    nullable: false
+                  url:
+                    type: string
+                    format: uri
+                    nullable: false
+                example:
+                - repository: bitnami
+                  package: nginx-ingress-controller
+                  version: 5.6.10
+                  url: https://charts.bitnami.com/bitnami/nginx-ingress-controller-5.6.10.tgz
+                - repository: bitnami
+                  package: mediawiki
+                  version: 6.3.6
+                  url: https://charts.bitnami.com/bitnami/mediawiki-6.3.6.tgz
+                - repository: crossplane
+                  package: crossplane
+                  version: 0.0.0-793.c9c71f8
+                  url: https://charts.crossplane.io/master/crossplane-0.0.0-793.c9c71f8.tgz
+                - repository: choerodon
+                  package: devops-service
+                  version: 0.22.0
+                  url: https://openchart.choerodon.com.cn/choerodon/c7n/charts/devops-service-0.22.0.tgz
+                - repository: t3n
+                  package: snipeit
+                  version: 2.4.0
+                  url: https://storage.googleapis.com/t3n-helm-charts/snipeit-2.4.0.tgz
+                - repository: bitnami
+                  package: osclass
+                  version: 7.0.10
+                  url: https://charts.bitnami.com/bitnami/osclass-7.0.10.tgz
+                - repository: choerodon
+                  package: asgard-service
+                  version: 0.13.0
+                  url: https://openchart.choerodon.com.cn/choerodon/c7n/charts/asgard-service-0.13.0.tgz
+                - repository: bitnami
+                  package: osclass
+                  version: 3.2.0
+                  url: https://charts.bitnami.com/bitnami/osclass-3.2.0.tgz
+                - repository: cronce
+                  package: torrentor
+                  version: 0.3.0
+                  url: https://charts.cronce.io/charts/torrentor-0.3.0.tgz
+                - repository: banzaicloud-stable
+                  package: kafka-operator
+                  version: 0.0.12
+                  url: https://kubernetes-charts.banzaicloud.com/charts/kafka-operator-0.0.12.tgz
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /helm-exporter:
+    get:
+      tags:
+      - Integrations
+      summary: Get Helm exporter dump
+      description: Get the latest version available of all charts listed in Artifact Hub.
+      operationId: getHelmExporterDump
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - name
+                  - version
+                  - repository
+                properties:
+                  name:
+                    type: string
+                    nullable: false
+                  version:
+                    type: string
+                    nullable: false
+                  repository:
+                    type: object
+                    nullable: false
+                    required:
+                    - name
+                    - url
+                    properties:
+                      name:
+                        type: string
+                        nullable: false
+                      url:
+                        type: string
+                        format: uri
+                        nullable: false
+                example:
+                - name: artifact-hub
+                  version: 1.2.0
+                  repository:
+                    name: artifact-hub
+                    url: https://artifacthub.github.io/helm-charts/
+                - name: kube-prometheus-stack
+                  version: 18.0.6
+                  repository:
+                    url: https://prometheus-community.github.io/helm-charts
+                    name: prometheus-community
+                - name: rabbitmq
+                  version: 8.22.0
+                  repository:
+                    url: https://charts.bitnami.com/bitnami
+                    name: bitnami
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /nova:
+    get:
+      tags:
+      - Integrations
+      summary: Get Nova dump
+      description: Get all charts listed in Artifact Hub.
+      operationId: getNovaDump
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - name
+                  - latest_version
+                properties:
+                  name:
+                    type: string
+                    nullable: false
+                  description:
+                    type: string
+                  home:
+                    type: string
+                  latest_version:
+                    type: string
+                    nullable: false
+                  links:
+                    type: array
+                    nullable: true
+                    items:
+                      $ref: '#/components/schemas/Link'
+                  logo:
+                    type: string
+                  maintainers:
+                    type: array
+                    nullable: true
+                    items:
+                      type: object
+                      required:
+                      - name
+                      properties:
+                        name:
+                          type: string
+                          nullable: false
+                  official:
+                    type: boolean
+                    nullable: true
+                  repository:
+                    type: object
+                    nullable: false
+                    required:
+                    - name
+                    - url
+                    properties:
+                      name:
+                        type: string
+                        nullable: false
+                      url:
+                        type: string
+                        format: uri
+                        nullable: false
+                      official:
+                        type: boolean
+                        nullable: true
+                      verified:
+                        type: boolean
+                        nullable: true
+                  versions:
+                    type: array
+                    nullable: false
+                    items:
+                      type: object
+                      nullable: false
+                      required:
+                      - pkg
+                      - app
+                      properties:
+                        pkg:
+                          type: string
+                          nullable: false
+                        app:
+                          type: string
+                        deprecated:
+                          type: boolean
+                          nullable: true
+                example:
+                - name: package1
+                  description: description
+                  home: https://home.url
+                  latest_version: 1.0.0
+                  links:
+                  - name: link1
+                    url: https://link1
+                  - name: link2
+                    url: https://link2
+                  logo: https://logo.url
+                  maintainers:
+                  - name: name1
+                  official: true
+                  repository:
+                    name: repo1
+                    url: https://repo1.com
+                    verified: true
+                  versions:
+                  - pkg: 1.0.0
+                    app: 1.0.0
+                - name: package2
+                  latest_version: 1.0.0
+                  repository:
+                    name: repo2
+                    url: https://repo2.com
+                  versions:
+                  - pkg: 1.0.0
+                    deprecated: true
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the
+        request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
+    Link:
+      type: object
+      nullable: false
+      required:
+      - url
+      - name
+      properties:
+        url:
+          type: string
+          format: uri
+          nullable: false
+          example: http://url
+        name:
+          type: string
+          nullable: false
+          example: link
+  securitySchemes:
+    ApiKeyId:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+    ApiKeySecret:
+      type: apiKey
+      in: header
+      name: X-API-KEY-SECRET

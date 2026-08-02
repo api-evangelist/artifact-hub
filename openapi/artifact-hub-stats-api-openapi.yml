@@ -1,54 +1,275 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
-  title: Artifact Hub API Keys Stats API
-  version: '1.0'
-  description: 'Artifact Hub is a CNCF web-based application that enables finding,
-
-    installing, and publishing cloud-native packages including Helm charts,
-
-    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
-
-    The HTTP API powers artifacthub.io and can be used against any self-hosted
-
-    instance.
-
-    '
+  title: Artifact Hub Stats API
+  description: Find, install and publish Cloud Native packages
+  version: 1.22.0
   contact:
-    name: Artifact Hub
-    url: https://artifacthub.io
-  license:
-    name: Apache-2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
+    name: Artifact Hub support
+    url: https://cloud-native.slack.com/channels/artifact-hub
 servers:
-- url: https://artifacthub.io
-  description: Public Artifact Hub instance
+- url: https://artifacthub.io/api/v1
+  description: Artifact Hub production API
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
+    and carried no schemas.
 tags:
 - name: Stats
-  description: Site-wide statistics
+  description: ''
 paths:
-  /api/v1/stats:
+  /stats:
     get:
       tags:
       - Stats
-      summary: Get site-wide aggregated statistics
+      summary: Get Artifact Hub stats
+      description: Get Artifact Hub stats
+      operationId: getArtifactHubStats
       responses:
         '200':
-          description: OK
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - generated_at
+                - packages
+                - snapshots
+                - repositories
+                - organizations
+                - users
+                properties:
+                  generated_at:
+                    type: integer
+                    nullable: false
+                  packages:
+                    type: object
+                    required:
+                    - total
+                    properties:
+                      total:
+                        type: integer
+                        nullable: false
+                      running_total:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                      created_monthly:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                      views_daily:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                  repositories:
+                    type: object
+                    required:
+                    - total
+                    properties:
+                      total:
+                        type: integer
+                        nullable: false
+                      running_total:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                      created_monthly:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                  snapshots:
+                    type: object
+                    required:
+                    - total
+                    properties:
+                      total:
+                        type: integer
+                        nullable: false
+                      running_total:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                      created_monthly:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                  organizations:
+                    type: object
+                    required:
+                    - total
+                    properties:
+                      total:
+                        type: integer
+                        nullable: false
+                      running_total:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                  users:
+                    type: object
+                    required:
+                    - total
+                    properties:
+                      total:
+                        type: integer
+                        nullable: false
+                      running_total:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: integer
+                        nullable: false
+                example:
+                  generated_at: 1615980004171
+                  packages:
+                    total: 969
+                    running_total:
+                    - - 1585612800000
+                      - 917
+                    - - 1585872000000
+                      - 918
+                    - - 1586736000000
+                      - 937
+                    - - 1586908800000
+                      - 938
+                    - - 1586995200000
+                      - 949
+                    - - 1587340800000
+                      - 953
+                    - - 1587427200000
+                      - 955
+                    - - 1587513600000
+                      - 969
+                    created_monthly:
+                    - - 1583020800000
+                      - 917
+                    - - 1585699200000
+                      - 52
+                    views_daily:
+                    - - 1639731010000
+                      - 800
+                    - - 1639644610000
+                      - 820
+                  snapshots:
+                    total: 3998
+                    running_total:
+                    - - 1585612800000
+                      - 3906
+                    - - 1585699200000
+                      - 3922
+                    - - 1585785600000
+                      - 3935
+                    - - 1585872000000
+                      - 3948
+                    - - 1586044800000
+                      - 3951
+                    - - 1586131200000
+                      - 3959
+                    - - 1586217600000
+                      - 3981
+                    - - 1586304000000
+                      - 3998
+                    created_monthly:
+                    - - 1583020800000
+                      - 3906
+                    - - 1585699200000
+                      - 92
+                  repositories:
+                    total: 181
+                    running_total:
+                    - - 1585612800000
+                      - 172
+                    - - 1585872000000
+                      - 173
+                    - - 1586736000000
+                      - 176
+                    - - 1586908800000
+                      - 177
+                    - - 1586995200000
+                      - 181
+                  organizations:
+                    total: 8
+                    running_total:
+                    - - 1585612800000
+                      - 3
+                    - - 1585785600000
+                      - 6
+                    - - 1585872000000
+                      - 7
+                    - - 1586217600000
+                      - 8
+                  users:
+                    total: 9
+                    running_total:
+                    - - 1584403200000
+                      - 3
+                    - - 1584489600000
+                      - 5
+                    - - 1584576000000
+                      - 6
+                    - - 1584662400000
+                      - 8
+                    - - 1584921600000
+                      - 9
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the
+        request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   securitySchemes:
-    apiKey:
+    ApiKeyId:
       type: apiKey
       in: header
       name: X-API-KEY-ID
-      description: 'API key authentication. Clients send the API key ID in the
-
-        `X-API-KEY-ID` header and the API key secret in the
-
-        `X-API-KEY-SECRET` header.
-
-        '
-    cookieAuth:
+    ApiKeySecret:
       type: apiKey
-      in: cookie
-      name: session
-      description: Session cookie obtained from /api/v1/users/login
+      in: header
+      name: X-API-KEY-SECRET

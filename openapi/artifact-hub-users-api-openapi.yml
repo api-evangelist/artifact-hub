@@ -1,138 +1,353 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
-  title: Artifact Hub API Keys Users API
-  version: '1.0'
-  description: 'Artifact Hub is a CNCF web-based application that enables finding,
-
-    installing, and publishing cloud-native packages including Helm charts,
-
-    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
-
-    The HTTP API powers artifacthub.io and can be used against any self-hosted
-
-    instance.
-
-    '
+  title: Artifact Hub Users API
+  description: Find, install and publish Cloud Native packages
+  version: 1.22.0
   contact:
-    name: Artifact Hub
-    url: https://artifacthub.io
-  license:
-    name: Apache-2.0
-    url: https://www.apache.org/licenses/LICENSE-2.0
+    name: Artifact Hub support
+    url: https://cloud-native.slack.com/channels/artifact-hub
 servers:
-- url: https://artifacthub.io
-  description: Public Artifact Hub instance
+- url: https://artifacthub.io/api/v1
+  description: Artifact Hub production API
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
+    and carried no schemas.
 tags:
 - name: Users
-  description: User accounts and sessions
+  description: ''
 paths:
-  /api/v1/users:
+  /users:
     post:
       tags:
       - Users
       summary: Register a new user
+      description: Register a new user
+      operationId: registerUser
+      requestBody:
+        description: ''
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - alias
+              - email
+              - password
+              properties:
+                alias:
+                  type: string
+                  example: jdoe
+                first_name:
+                  type: string
+                  example: John
+                last_name:
+                  type: string
+                  example: Doe
+                email:
+                  type: string
+                  format: email
+                  example: jdoe@email.com
+                password:
+                  type: string
+                  format: password
+                  example: strongP@55w0rd
       responses:
         '201':
-          description: Created
-    delete:
-      tags:
-      - Users
-      summary: Delete the authenticated user
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No Content
-  /api/v1/users/login:
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/verify-email:
     post:
       tags:
       - Users
-      summary: Authenticate a user and create a session cookie
+      summary: Verify user's email address
+      description: Verify user's email address
+      operationId: verifyEmail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - code
+              properties:
+                code:
+                  type: string
+                  format: uuid
       responses:
-        '200':
-          description: OK
+        '204':
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: Unauthorized
-  /api/v1/users/logout:
+          $ref: '#/components/responses/UnauthorizedError'
+        '410':
+          $ref: '#/components/responses/GoneError'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/profile:
     get:
       tags:
       - Users
-      summary: Log out the authenticated user
       security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No Content
-  /api/v1/users/profile:
-    get:
-      tags:
-      - Users
-      summary: Get the authenticated user's profile
-      security:
-      - cookieAuth: []
-      - apiKey: []
+      - ApiKeyId: []
+        ApiKeySecret: []
+      summary: Get user's profile
+      description: Get user's profile
+      operationId: getUserProfile
       responses:
         '200':
-          description: OK
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
     put:
       tags:
       - Users
-      summary: Update the authenticated user's profile
       security:
-      - cookieAuth: []
-      - apiKey: []
+      - ApiKeyId: []
+        ApiKeySecret: []
+      summary: Update user's profile
+      description: Update user's profile
+      operationId: updateUserProfile
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
       responses:
         '204':
-          description: No Content
-  /api/v1/users/password:
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/password:
     put:
       tags:
       - Users
-      summary: Change the authenticated user's password
       security:
-      - cookieAuth: []
+      - ApiKeyId: []
+        ApiKeySecret: []
+      summary: Update user's password
+      description: Update user's password
+      operationId: updateUserPassword
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - old
+              - new
+              properties:
+                old:
+                  type: string
+                  format: password
+                new:
+                  type: string
+                  format: password
+              example:
+                old: strongP@55w0rd
+                new: newstrongP@55w0rd
       responses:
         '204':
-          description: No Content
-  /api/v1/users/password-reset-code:
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/password-reset-code:
     post:
       tags:
       - Users
-      summary: Request a password reset code
+      summary: Register a code to reset the password
+      description: Register a code to reset the password
+      operationId: resetPasswordCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - email
+              properties:
+                email:
+                  type: string
       responses:
-        '204':
-          description: No Content
-  /api/v1/users/reset-password:
-    put:
-      tags:
-      - Users
-      summary: Complete a password reset using a code
-      responses:
-        '204':
-          description: No Content
-  /api/v1/users/verify-email:
+        '201':
+          $ref: '#/components/responses/Created'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/verify-password-reset-code:
     post:
       tags:
       - Users
-      summary: Verify a user's email address
+      summary: Verify a reset password code
+      description: Verify a reset password code
+      operationId: verifyPasswordCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - code
+              properties:
+                code:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: The request has succeeded
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '410':
+          $ref: '#/components/responses/GoneError'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /users/reset-password:
+    put:
+      tags:
+      - Users
+      summary: Reset the user's password
+      description: Reset the user's password
+      operationId: resetPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - code
+              - password
+              properties:
+                code:
+                  type: string
+                  format: uuid
+                password:
+                  type: string
       responses:
         '204':
-          description: No Content
+          $ref: '#/components/responses/NoContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
+    User:
+      type: object
+      required:
+      - alias
+      - email
+      - password_set
+      properties:
+        alias:
+          type: string
+          nullable: false
+          example: jdoe
+        first_name:
+          type: string
+          nullable: false
+          example: John
+        last_name:
+          type: string
+          nullable: false
+          example: Doe
+        email:
+          type: string
+          format: email
+          nullable: false
+          example: jdoe@email.com
+        profile_image_id:
+          type: string
+          nullable: false
+          example: 12345abcde
+        password_set:
+          type: boolean
+          nullable: false
+        tfa_enabled:
+          type: boolean
+          nullable: false
+  responses:
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the
+        request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NoContent:
+      description: The request has succeeded, no content returned
+    GoneError:
+      description: The code provided has expired
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
-    apiKey:
+    ApiKeyId:
       type: apiKey
       in: header
       name: X-API-KEY-ID
-      description: 'API key authentication. Clients send the API key ID in the
-
-        `X-API-KEY-ID` header and the API key secret in the
-
-        `X-API-KEY-SECRET` header.
-
-        '
-    cookieAuth:
+    ApiKeySecret:
       type: apiKey
-      in: cookie
-      name: session
-      description: Session cookie obtained from /api/v1/users/login
+      in: header
+      name: X-API-KEY-SECRET

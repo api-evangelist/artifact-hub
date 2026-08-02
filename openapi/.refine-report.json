@@ -1,0 +1,26 @@
+{
+  "provider": "artifact-hub",
+  "sources": [
+    "artifact-hub-openapi.yml"
+  ],
+  "outputs": [
+    "artifact-hub-availability-checks-api-openapi.yml",
+    "artifact-hub-integrations-api-openapi.yml",
+    "artifact-hub-organizations-api-openapi.yml",
+    "artifact-hub-packages-api-openapi.yml",
+    "artifact-hub-repositories-api-openapi.yml",
+    "artifact-hub-stats-api-openapi.yml",
+    "artifact-hub-subscriptions-api-openapi.yml",
+    "artifact-hub-users-api-openapi.yml",
+    "artifact-hub-webhooks-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/artifact-hub-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "apis.yml register: written (+2 apis, 10 total)"
+  ],
+  "skipped": []
+}

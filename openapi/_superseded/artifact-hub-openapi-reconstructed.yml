@@ -1,0 +1,578 @@
+openapi: 3.1.0
+info:
+  title: Artifact Hub API
+  version: "1.0"
+  description: |
+    Artifact Hub is a CNCF web-based application that enables finding,
+    installing, and publishing cloud-native packages including Helm charts,
+    OPA policies, Falco rules, OLM operators, Tekton tasks and many more.
+    The HTTP API powers artifacthub.io and can be used against any self-hosted
+    instance.
+  contact:
+    name: Artifact Hub
+    url: https://artifacthub.io
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+servers:
+  - url: https://artifacthub.io
+    description: Public Artifact Hub instance
+tags:
+  - name: Packages
+    description: Search and retrieve cloud-native packages
+  - name: Repositories
+    description: Repository management
+  - name: Users
+    description: User accounts and sessions
+  - name: Organizations
+    description: Organizations and memberships
+  - name: Subscriptions
+    description: Package event subscriptions
+  - name: Webhooks
+    description: Webhook configuration and delivery
+  - name: API Keys
+    description: API key management
+  - name: Stats
+    description: Site-wide statistics
+paths:
+  /api/v1/packages/search:
+    get:
+      tags: [Packages]
+      summary: Search packages
+      parameters:
+        - name: ts_query_web
+          in: query
+          schema: { type: string }
+        - name: ts_query
+          in: query
+          schema: { type: string }
+        - name: kind
+          in: query
+          description: Repository kind (0 helm, 1 falco, 2 opa, 3 olm, ...)
+          schema: { type: array, items: { type: integer } }
+        - name: category
+          in: query
+          schema: { type: array, items: { type: integer } }
+        - name: repo
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: org
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: user
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: license
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: capabilities
+          in: query
+          schema: { type: array, items: { type: string } }
+        - name: deprecated
+          in: query
+          schema: { type: boolean }
+        - name: operators
+          in: query
+          schema: { type: boolean }
+        - name: verified_publisher
+          in: query
+          schema: { type: boolean }
+        - name: official
+          in: query
+          schema: { type: boolean }
+        - name: cncf
+          in: query
+          schema: { type: boolean }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [relevance, stars] }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+        - name: offset
+          in: query
+          schema: { type: integer, default: 0 }
+        - name: facets
+          in: query
+          schema: { type: boolean }
+      responses:
+        "200":
+          description: Search results
+  /api/v1/packages/random:
+    get:
+      tags: [Packages]
+      summary: Get a random sample of packages
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/stats:
+    get:
+      tags: [Packages]
+      summary: Get aggregated package statistics
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/starred:
+    get:
+      tags: [Packages]
+      summary: Get the packages starred by the authenticated user
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}:
+    get:
+      tags: [Packages]
+      summary: Get the latest version of a package
+      parameters:
+        - { name: repoKind, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+        - { name: packageName, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not Found }
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/{version}:
+    get:
+      tags: [Packages]
+      summary: Get a specific version of a package
+      parameters:
+        - { name: repoKind, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+        - { name: packageName, in: path, required: true, schema: { type: string } }
+        - { name: version, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+        "404": { description: Not Found }
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/summary:
+    get:
+      tags: [Packages]
+      summary: Get a package summary
+      parameters:
+        - { name: repoKind, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+        - { name: packageName, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{repoKind}/{repoName}/{packageName}/feed/rss:
+    get:
+      tags: [Packages]
+      summary: Get an RSS feed of package changes
+      parameters:
+        - { name: repoKind, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+        - { name: packageName, in: path, required: true, schema: { type: string } }
+      responses:
+        "200":
+          description: RSS feed
+          content:
+            application/rss+xml: {}
+  /api/v1/packages/{packageID}/stars:
+    get:
+      tags: [Packages]
+      summary: Get star information for a package
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+    put:
+      tags: [Packages]
+      summary: Toggle star on a package for the authenticated user
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/packages/{packageID}/{version}/security-report:
+    get:
+      tags: [Packages]
+      summary: Get a package security report
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+        - { name: version, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{packageID}/{version}/values:
+    get:
+      tags: [Packages]
+      summary: Get default values for a Helm chart package
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+        - { name: version, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{packageID}/{version}/values-schema:
+    get:
+      tags: [Packages]
+      summary: Get the JSON schema for a Helm chart's values
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+        - { name: version, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{packageID}/{version}/templates:
+    get:
+      tags: [Packages]
+      summary: Get the rendered templates for a Helm chart
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+        - { name: version, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+  /api/v1/packages/{packageID}/changelog:
+    get:
+      tags: [Packages]
+      summary: Get the changelog for a package
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+
+  /api/v1/repositories/search:
+    get:
+      tags: [Repositories]
+      summary: Search repositories
+      parameters:
+        - { name: name, in: query, schema: { type: string } }
+        - { name: url, in: query, schema: { type: string } }
+        - { name: kind, in: query, schema: { type: array, items: { type: integer } } }
+        - { name: org, in: query, schema: { type: array, items: { type: string } } }
+        - { name: user, in: query, schema: { type: array, items: { type: string } } }
+        - { name: include_credentials, in: query, schema: { type: boolean } }
+        - { name: limit, in: query, schema: { type: integer, default: 20 } }
+        - { name: offset, in: query, schema: { type: integer, default: 0 } }
+      responses:
+        "200": { description: OK }
+  /api/v1/repositories/user:
+    post:
+      tags: [Repositories]
+      summary: Add a repository for the authenticated user
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/repositories/user/{repoName}:
+    put:
+      tags: [Repositories]
+      summary: Update a user repository
+      parameters:
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+    delete:
+      tags: [Repositories]
+      summary: Delete a user repository
+      parameters:
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/repositories/org/{orgName}:
+    post:
+      tags: [Repositories]
+      summary: Add a repository owned by the given organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/repositories/org/{orgName}/{repoName}:
+    put:
+      tags: [Repositories]
+      summary: Update an organization repository
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+    delete:
+      tags: [Repositories]
+      summary: Delete an organization repository
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+        - { name: repoName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+
+  /api/v1/users:
+    post:
+      tags: [Users]
+      summary: Register a new user
+      responses:
+        "201": { description: Created }
+    delete:
+      tags: [Users]
+      summary: Delete the authenticated user
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/login:
+    post:
+      tags: [Users]
+      summary: Authenticate a user and create a session cookie
+      responses:
+        "200": { description: OK }
+        "401": { description: Unauthorized }
+  /api/v1/users/logout:
+    get:
+      tags: [Users]
+      summary: Log out the authenticated user
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/profile:
+    get:
+      tags: [Users]
+      summary: Get the authenticated user's profile
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+    put:
+      tags: [Users]
+      summary: Update the authenticated user's profile
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/password:
+    put:
+      tags: [Users]
+      summary: Change the authenticated user's password
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/password-reset-code:
+    post:
+      tags: [Users]
+      summary: Request a password reset code
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/reset-password:
+    put:
+      tags: [Users]
+      summary: Complete a password reset using a code
+      responses:
+        "204": { description: No Content }
+  /api/v1/users/verify-email:
+    post:
+      tags: [Users]
+      summary: Verify a user's email address
+      responses:
+        "204": { description: No Content }
+
+  /api/v1/orgs:
+    post:
+      tags: [Organizations]
+      summary: Create an organization
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/orgs/user:
+    get:
+      tags: [Organizations]
+      summary: List organizations the authenticated user belongs to
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+  /api/v1/orgs/{orgName}:
+    get:
+      tags: [Organizations]
+      summary: Get organization details
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      responses:
+        "200": { description: OK }
+    put:
+      tags: [Organizations]
+      summary: Update organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+    delete:
+      tags: [Organizations]
+      summary: Delete organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/orgs/{orgName}/members:
+    get:
+      tags: [Organizations]
+      summary: List members of an organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+  /api/v1/orgs/{orgName}/member/{userAlias}:
+    post:
+      tags: [Organizations]
+      summary: Add a user as a member of an organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+        - { name: userAlias, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+    delete:
+      tags: [Organizations]
+      summary: Remove a member from an organization
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+        - { name: userAlias, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+
+  /api/v1/subscriptions:
+    get:
+      tags: [Subscriptions]
+      summary: List the authenticated user's package subscriptions
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      tags: [Subscriptions]
+      summary: Create a package subscription
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+    delete:
+      tags: [Subscriptions]
+      summary: Delete a package subscription
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/subscriptions/{packageID}:
+    get:
+      tags: [Subscriptions]
+      summary: Get the authenticated user's subscriptions for a package
+      parameters:
+        - { name: packageID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+
+  /api/v1/webhooks/user:
+    get:
+      tags: [Webhooks]
+      summary: List the authenticated user's webhooks
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      tags: [Webhooks]
+      summary: Create a webhook for the authenticated user
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/webhooks/user/{webhookID}:
+    get:
+      tags: [Webhooks]
+      summary: Get a user webhook
+      parameters:
+        - { name: webhookID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+    put:
+      tags: [Webhooks]
+      summary: Update a user webhook
+      parameters:
+        - { name: webhookID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+    delete:
+      tags: [Webhooks]
+      summary: Delete a user webhook
+      parameters:
+        - { name: webhookID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+  /api/v1/webhooks/org/{orgName}:
+    get:
+      tags: [Webhooks]
+      summary: List organization webhooks
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      tags: [Webhooks]
+      summary: Create an organization webhook
+      parameters:
+        - { name: orgName, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/webhooks/test:
+    post:
+      tags: [Webhooks]
+      summary: Trigger a test webhook delivery
+      security: [{ cookieAuth: [] }, { apiKey: [] }]
+      responses:
+        "204": { description: No Content }
+
+  /api/v1/api-keys:
+    get:
+      tags: [API Keys]
+      summary: List the authenticated user's API keys
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    post:
+      tags: [API Keys]
+      summary: Create an API key
+      security: [{ cookieAuth: [] }]
+      responses:
+        "201": { description: Created }
+  /api/v1/api-keys/{apiKeyID}:
+    get:
+      tags: [API Keys]
+      summary: Get an API key
+      parameters:
+        - { name: apiKeyID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }]
+      responses:
+        "200": { description: OK }
+    put:
+      tags: [API Keys]
+      summary: Update an API key
+      parameters:
+        - { name: apiKeyID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: No Content }
+    delete:
+      tags: [API Keys]
+      summary: Delete an API key
+      parameters:
+        - { name: apiKeyID, in: path, required: true, schema: { type: string } }
+      security: [{ cookieAuth: [] }]
+      responses:
+        "204": { description: No Content }
+
+  /api/v1/stats:
+    get:
+      tags: [Stats]
+      summary: Get site-wide aggregated statistics
+      responses:
+        "200": { description: OK }
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-KEY-ID
+      description: |
+        API key authentication. Clients send the API key ID in the
+        `X-API-KEY-ID` header and the API key secret in the
+        `X-API-KEY-SECRET` header.
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: session
+      description: Session cookie obtained from /api/v1/users/login

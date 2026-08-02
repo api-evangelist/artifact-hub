@@ -58,16 +58,6 @@ apis:
     url: https://artifacthub.io/docs/api/
   - type: GitHubRepository
     url: https://github.com/artifacthub/hub
-- aid: artifact-hub:artifact-hub-api-keys-api
-  name: Artifact Hub API Keys API
-  description: API key management
-  humanURL: https://artifacthub.io/docs/api/
-  baseURL: https://artifacthub.io/api/v1
-  tags:
-  - API Keys
-  properties:
-  - type: OpenAPI
-    url: openapi/artifact-hub-api-keys-api-openapi.yml
 - aid: artifact-hub:artifact-hub-organizations-api
   name: Artifact Hub Organizations API
   description: Organizations and memberships
@@ -138,6 +128,26 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-webhooks-api-openapi.yml
+- aid: artifact-hub:artifact-hub-availability-checks-api
+  name: Artifact Hub Availability checks API
+  description: The Availability checks API from Artifact Hub — 1 operation(s) for availability checks.
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Availability checks
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-availability-checks-api-openapi.yml
+- aid: artifact-hub:artifact-hub-integrations-api
+  name: Artifact Hub Integrations API
+  description: The Integrations API from Artifact Hub — 3 operation(s) for integrations.
+  humanURL: https://artifacthub.io/docs/api/
+  baseURL: https://artifacthub.io/api/v1
+  tags:
+  - Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/artifact-hub-integrations-api-openapi.yml
 common:
   - type: AgenticAccess
     url: agentic-access/artifact-hub-agentic-access.yml
