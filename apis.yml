@@ -149,6 +149,17 @@ apis:
   - type: OpenAPI
     url: openapi/artifact-hub-integrations-api-openapi.yml
 common:
+  - type: IssueTracker
+    url: https://github.com/artifacthub/hub/issues
+  - type: SecurityPolicy
+    url: https://github.com/artifacthub/hub/blob/master/SECURITY.md
+  - type: CodeOfConduct
+    url: https://github.com/artifacthub/hub/blob/master/code-of-conduct.md
+  - type: ContributionGuide
+    url: https://github.com/artifacthub/hub/blob/master/CONTRIBUTING.md
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/artifacthub/hub/blob/master/LICENSE
   - type: AgenticAccess
     url: agentic-access/artifact-hub-agentic-access.yml
   - type: DomainSecurity
