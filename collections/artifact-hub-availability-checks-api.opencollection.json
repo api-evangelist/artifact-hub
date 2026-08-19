@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Availability checks API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Availability checks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check the availability of a given value for the provided resource kind",
+            "type": "http"
+          },
+          "http": {
+            "method": "HEAD",
+            "url": "https://artifacthub.io/api/v1/check-availability/:resourceKind",
+            "params": [
+              {
+                "name": "resourceKind",
+                "value": "",
+                "type": "path",
+                "description": "Resource kind name"
+              },
+              {
+                "name": "v",
+                "value": "",
+                "type": "query",
+                "description": "Value to check"
+              }
+            ]
+          },
+          "docs": "Check the availability of a given value for the provided resource kind"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

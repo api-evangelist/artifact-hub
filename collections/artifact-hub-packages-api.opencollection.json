@@ -1,0 +1,2171 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Packages API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Packages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the number of packages and releases registered",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/stats"
+          },
+          "docs": "Get the number of packages and releases registered"
+        },
+        {
+          "info": {
+            "name": "Get some random packages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/random"
+          },
+          "docs": "Get some random packages"
+        },
+        {
+          "info": {
+            "name": "Search packages that meet the provided criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/search",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              },
+              {
+                "name": "facets",
+                "value": "",
+                "type": "query",
+                "description": "Whether we should get facets or not"
+              },
+              {
+                "name": "ts_query_web",
+                "value": "",
+                "type": "query",
+                "description": "Text search query (websearch format)"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query",
+                "description": "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+              },
+              {
+                "name": "user",
+                "value": "",
+                "type": "query",
+                "description": "List of aliases"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "List of organization names"
+              },
+              {
+                "name": "repo",
+                "value": "",
+                "type": "query",
+                "description": "List of repository names"
+              },
+              {
+                "name": "license",
+                "value": "",
+                "type": "query",
+                "description": "List of SPDX identifiers"
+              },
+              {
+                "name": "capabilities",
+                "value": "",
+                "type": "query",
+                "description": "List of operator capability levels"
+              },
+              {
+                "name": "deprecated",
+                "value": "",
+                "type": "query",
+                "description": "Whether to include deprecated packages or not"
+              },
+              {
+                "name": "operators",
+                "value": "",
+                "type": "query",
+                "description": "Whether to get only operators"
+              },
+              {
+                "name": "verified_publisher",
+                "value": "",
+                "type": "query",
+                "description": "Whether to get only verified publisher"
+              },
+              {
+                "name": "official",
+                "value": "",
+                "type": "query",
+                "description": "Whether to get only official repositories"
+              },
+              {
+                "name": "cncf",
+                "value": "",
+                "type": "query",
+                "description": "Whether to get only packages published by CNCF projects"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort criteria"
+              }
+            ]
+          },
+          "docs": "Search packages that meet the provided criteria"
+        },
+        {
+          "info": {
+            "name": "Get packages starred by user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/starred",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get packages starred by user"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/argo-template/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/backstage/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/bootc/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get container image details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/container/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get container image details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/coredns/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/falco/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/gatekeeper/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/headlamp/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/helm/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/helm-plugin/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/inspektor-gadget/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kagent/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kcl/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/keda-scaler/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/keptn/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/knative-client-plugin/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/krew/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kubearmor/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kubewarden/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kyverno/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/meshery/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/opa/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/olm/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/opencost/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/radius/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tbaction/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-pipeline/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-stepaction/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-task/:repoName/:packageName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/argo-template/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/backstage/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/bootc/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get container image details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/container/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get container image details"
+        },
+        {
+          "info": {
+            "name": "Get package details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/coredns/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/falco/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/gatekeeper/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/helm/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/helm-plugin/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/headlamp/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/inspektor-gadget/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kagent/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kcl/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/keda-scaler/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/keptn/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/knative-client-plugin/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/krew/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kubearmor/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kubewarden/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/kyverno/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/meshery/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/opa/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/olm/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/opencost/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/radius/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tbaction/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-pipeline/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-stepaction/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package version details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/tekton-task/:repoName/:packageName/:version",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package version details"
+        },
+        {
+          "info": {
+            "name": "Get package's changelog in markdown format",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKindParam/:repoName/:packageName/changelog.md",
+            "params": [
+              {
+                "name": "repoKindParam",
+                "value": "",
+                "type": "path",
+                "description": "Package kind name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package's changelog in markdown format"
+        },
+        {
+          "info": {
+            "name": "Get a summary of which of the organizations the user belongs to are using the package in production",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKindParam/:repoName/:packageName/production-usage",
+            "params": [
+              {
+                "name": "repoKindParam",
+                "value": "",
+                "type": "path",
+                "description": "Package kind name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get a summary of which of the organizations the user belongs to are using the package in production"
+        },
+        {
+          "info": {
+            "name": "Add organization to package's production users list",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKindParam/:repoName/:packageName/production-usage/$:orgName",
+            "params": [
+              {
+                "name": "repoKindParam",
+                "value": "",
+                "type": "path",
+                "description": "Package kind name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add organization to package's production users list"
+        },
+        {
+          "info": {
+            "name": "Delete organization from package's production usage list",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKindParam/:repoName/:packageName/production-usage/$:orgName",
+            "params": [
+              {
+                "name": "repoKindParam",
+                "value": "",
+                "type": "path",
+                "description": "Package kind name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              },
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete organization from package's production usage list"
+        },
+        {
+          "info": {
+            "name": "Get package summary details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:repoKindParam/:repoName/:packageName/summary",
+            "params": [
+              {
+                "name": "repoKindParam",
+                "value": "",
+                "type": "path",
+                "description": "Package kind name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "packageName",
+                "value": "",
+                "type": "path",
+                "description": "Package name"
+              }
+            ]
+          },
+          "docs": "Get package summary details"
+        },
+        {
+          "info": {
+            "name": "Get package stars",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/stars",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              }
+            ]
+          },
+          "docs": "Get package stars"
+        },
+        {
+          "info": {
+            "name": "Toggle package's star",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/stars",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Toggle package's star"
+        },
+        {
+          "info": {
+            "name": "Get package security report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/security-report",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package security report"
+        },
+        {
+          "info": {
+            "name": "Get chart values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/values",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get chart values"
+        },
+        {
+          "info": {
+            "name": "Get package values schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/values-schema",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get package values schema"
+        },
+        {
+          "info": {
+            "name": "Get package changelogs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/changelog",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              }
+            ]
+          },
+          "docs": "Get package changelogs"
+        },
+        {
+          "info": {
+            "name": "Get the templates for a Helm chart package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/:version/templates",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "path",
+                "description": "Package version"
+              }
+            ]
+          },
+          "docs": "Get the templates for a Helm chart package"
+        },
+        {
+          "info": {
+            "name": "Get the views of the package provided",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/packages/:packageID/views",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              }
+            ]
+          },
+          "docs": "Get the views of the package provided"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,152 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Users API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a new user"
+        },
+        {
+          "info": {
+            "name": "Verify user's email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/verify-email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify user's email address"
+        },
+        {
+          "info": {
+            "name": "Get user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/users/profile",
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's profile"
+        },
+        {
+          "info": {
+            "name": "Update user's profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/profile",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update user's profile"
+        },
+        {
+          "info": {
+            "name": "Update user's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update user's password"
+        },
+        {
+          "info": {
+            "name": "Register a code to reset the password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/password-reset-code",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Register a code to reset the password"
+        },
+        {
+          "info": {
+            "name": "Verify a reset password code",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/users/verify-password-reset-code",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify a reset password code"
+        },
+        {
+          "info": {
+            "name": "Reset the user's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/users/reset-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset the user's password"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

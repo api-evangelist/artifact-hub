@@ -1,0 +1,203 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Subscriptions API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user's subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's subscriptions"
+        },
+        {
+          "info": {
+            "name": "Add subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add subscription"
+        },
+        {
+          "info": {
+            "name": "Delete subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/subscriptions",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "query",
+                "description": "Package ID"
+              },
+              {
+                "name": "event_kind",
+                "value": "",
+                "type": "query",
+                "description": "Event kind"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete subscription"
+        },
+        {
+          "info": {
+            "name": "Get user's subscriptions for the given package",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/subscriptions/:packageID",
+            "params": [
+              {
+                "name": "packageID",
+                "value": "",
+                "type": "path",
+                "description": "Package ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's subscriptions for the given package"
+        },
+        {
+          "info": {
+            "name": "Get user's opt-out entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/subscriptions/opt-out",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's opt-out entries"
+        },
+        {
+          "info": {
+            "name": "Add opt-out entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/subscriptions/opt-out",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add opt-out entry"
+        },
+        {
+          "info": {
+            "name": "Delete opt-out entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/subscriptions/opt-out/:optOutID",
+            "params": [
+              {
+                "name": "optOutID",
+                "value": "",
+                "type": "path",
+                "description": "Opt-out entry ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete opt-out entry"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

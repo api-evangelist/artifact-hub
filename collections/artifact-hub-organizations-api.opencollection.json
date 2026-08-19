@@ -1,0 +1,334 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Organizations API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register new organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/orgs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Register new organization"
+        },
+        {
+          "info": {
+            "name": "Get organizations the user belongs to",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/user",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get organizations the user belongs to"
+        },
+        {
+          "info": {
+            "name": "Get organization profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ]
+          },
+          "docs": "Get organization profile"
+        },
+        {
+          "info": {
+            "name": "Updates organization profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates organization profile"
+        },
+        {
+          "info": {
+            "name": "Delete organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete organization"
+        },
+        {
+          "info": {
+            "name": "Get organization's authorization policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/authorization-policy",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get organization's authorization policy"
+        },
+        {
+          "info": {
+            "name": "Update organization's authorization policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/authorization-policy",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update organization's authorization policy"
+        },
+        {
+          "info": {
+            "name": "Get organization members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/members",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get organization members"
+        },
+        {
+          "info": {
+            "name": "Add a new member to the organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/member/:userAlias",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "userAlias",
+                "value": "",
+                "type": "path",
+                "description": "User alias"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add a new member to the organization"
+        },
+        {
+          "info": {
+            "name": "Delete a member from the organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/member/:userAlias",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "userAlias",
+                "value": "",
+                "type": "path",
+                "description": "User alias"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a member from the organization"
+        },
+        {
+          "info": {
+            "name": "Confirm user's membership to an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/accept-invitation",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Confirm user's membership to an organization"
+        },
+        {
+          "info": {
+            "name": "Get actions which user is allowed to perform in the provided organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/orgs/:orgName/user-allowed-actions",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get actions which user is allowed to perform in the provided organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

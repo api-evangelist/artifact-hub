@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Integrations API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Harbor replication dump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/harbor-replication"
+          },
+          "docs": "Get Harbor replication dump"
+        },
+        {
+          "info": {
+            "name": "Get Helm exporter dump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/helm-exporter"
+          },
+          "docs": "Get the latest version available of all charts listed in Artifact Hub."
+        },
+        {
+          "info": {
+            "name": "Get Nova dump",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/nova"
+          },
+          "docs": "Get all charts listed in Artifact Hub."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

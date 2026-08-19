@@ -1,0 +1,307 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Webhooks API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get user's webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/user",
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's webhooks"
+        },
+        {
+          "info": {
+            "name": "Add user's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add user's webhook"
+        },
+        {
+          "info": {
+            "name": "Get user's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get user's webhook"
+        },
+        {
+          "info": {
+            "name": "Update user's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update user's webhook"
+        },
+        {
+          "info": {
+            "name": "Delete user's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/webhooks/user/:webhookID",
+            "params": [
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete user's webhook"
+        },
+        {
+          "info": {
+            "name": "Get organization's webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get organization's webhooks"
+        },
+        {
+          "info": {
+            "name": "Add organization's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add organization's webhook"
+        },
+        {
+          "info": {
+            "name": "Get organization's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName/:webhookID",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get organization's webhook"
+        },
+        {
+          "info": {
+            "name": "Update organization's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName/:webhookID",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update organization's webhook"
+        },
+        {
+          "info": {
+            "name": "Delete organization's webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/webhooks/org/:orgName/:webhookID",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "Webhook ID"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete organization's webhook"
+        },
+        {
+          "info": {
+            "name": "Trigger webhook test",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/webhooks/test",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Trigger webhook test"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

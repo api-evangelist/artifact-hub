@@ -1,0 +1,165 @@
+{
+  "item": [
+    {
+      "id": "5c41792e-39e0-450f-b157-f05823478a77",
+      "name": "Stats",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ba20b3d8-0ac2-46d6-8629-bb757e644008",
+          "name": "Get Artifact Hub stats",
+          "request": {
+            "name": "Get Artifact Hub stats",
+            "description": {
+              "content": "Get Artifact Hub stats",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stats"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "012d9c0b-a6b4-4967-8340-b17a61b5a849",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"generated_at\": 3776,\n  \"packages\": {\n    \"total\": 4279,\n    \"running_total\": [\n      [\n        9529,\n        5663\n      ],\n      [\n        5865,\n        642\n      ]\n    ],\n    \"created_monthly\": [\n      [\n        142,\n        9753\n      ],\n      [\n        6797,\n        4700\n      ]\n    ],\n    \"views_daily\": [\n      [\n        3937,\n        5663\n      ],\n      [\n        966,\n        1613\n      ]\n    ]\n  },\n  \"snapshots\": {\n    \"total\": 342,\n    \"running_total\": [\n      [\n        1488,\n        2349\n      ],\n      [\n        1846,\n        2613\n      ]\n    ],\n    \"created_monthly\": [\n      [\n        5605,\n        3328\n      ],\n      [\n        1707,\n        6251\n      ]\n    ]\n  },\n  \"repositories\": {\n    \"total\": 4578,\n    \"running_total\": [\n      [\n        6669,\n        5303\n      ],\n      [\n        4309,\n        5072\n      ]\n    ],\n    \"created_monthly\": [\n      [\n        9495,\n        8088\n      ],\n      [\n        3356,\n        4630\n      ]\n    ]\n  },\n  \"organizations\": {\n    \"total\": 303,\n    \"running_total\": [\n      [\n        3029,\n        1655\n      ],\n      [\n        3218,\n        623\n      ]\n    ]\n  },\n  \"users\": {\n    \"total\": 4866,\n    \"running_total\": [\n      [\n        325,\n        8712\n      ],\n      [\n        8791,\n        6102\n      ]\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d93f77af-0e38-4dc8-bb13-768c5cb9ba2a",
+              "name": "The user has sent too many requests in a given amount of time",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ba989b9-04a3-47f2-937a-c679d586c075",
+              "name": "The server encountered an unexpected condition that prevented it from fulfilling the request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stats"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"error details\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://artifacthub.io/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "990f5d4f-f558-4a40-a0e4-10c8e7dfa9c6",
+    "name": "Artifact Hub Stats API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Find, install and publish Cloud Native packages\n\nContact Support:\n Name: Artifact Hub support",
+      "type": "text/plain"
+    }
+  }
+}

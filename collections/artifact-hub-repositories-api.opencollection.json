@@ -1,0 +1,379 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Artifact Hub Repositories API",
+    "version": "1.22.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search repositories that meet the provided criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://artifacthub.io/api/v1/repositories/search",
+            "params": [
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to skip before starting to collect the result set"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The number of items to return"
+              },
+              {
+                "name": "kind",
+                "value": "",
+                "type": "query",
+                "description": "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+              },
+              {
+                "name": "user",
+                "value": "",
+                "type": "query",
+                "description": "List of aliases"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "List of organization names"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Repository name"
+              },
+              {
+                "name": "url",
+                "value": "",
+                "type": "query",
+                "description": "Repository url"
+              }
+            ]
+          },
+          "docs": "Search repositories that meet the provided criteria"
+        },
+        {
+          "info": {
+            "name": "Add user's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/repositories/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add user's repository"
+        },
+        {
+          "info": {
+            "name": "Update user's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update user's repository"
+        },
+        {
+          "info": {
+            "name": "Delete user's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete user's repository"
+        },
+        {
+          "info": {
+            "name": "Transfer user's repository ownership to an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName/transfer",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "The org to transfer or from claiming the repository"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Transfer user's repository ownership to an organization"
+        },
+        {
+          "info": {
+            "name": "Claim the ownership of a given repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/user/:repoName/claim-ownership",
+            "params": [
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "The org to transfer or from claiming the repository"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Claim the ownership of a given repository"
+        },
+        {
+          "info": {
+            "name": "Add organization's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add organization's repository"
+        },
+        {
+          "info": {
+            "name": "Update organization's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update organization's repository"
+        },
+        {
+          "info": {
+            "name": "Delete organization's repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete organization's repository"
+        },
+        {
+          "info": {
+            "name": "Transfer organization's repository to a different owner",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName/transfer",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "The org to transfer or from claiming the repository"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Transfer organization's repository to a different owner"
+        },
+        {
+          "info": {
+            "name": "Claim the ownership of a given repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://artifacthub.io/api/v1/repositories/org/:orgName/:repoName/claim-ownership",
+            "params": [
+              {
+                "name": "orgName",
+                "value": "",
+                "type": "path",
+                "description": "Organization name"
+              },
+              {
+                "name": "repoName",
+                "value": "",
+                "type": "path",
+                "description": "Repository name"
+              },
+              {
+                "name": "org",
+                "value": "",
+                "type": "query",
+                "description": "The org to transfer or from claiming the repository"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "X-API-KEY-ID",
+              "value": "{{X-API-KEY-ID}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Claim the ownership of a given repository"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
