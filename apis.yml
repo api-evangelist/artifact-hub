@@ -27,6 +27,13 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/artifact-hub.png
 tags:
+  - Cloud-Native
+  - CNCF
+  - Helm Charts
+  - Package Registry
+  - Discovery
+  - Open-Source
+tags_raw:
   - Cloud Native
   - CNCF
   - Helm Charts
@@ -52,6 +59,11 @@ apis:
   - Package Search
   - Registry
   - REST API
+  - Cloud-Native
+  tags_raw:
+  - Package Search
+  - Registry
+  - REST API
   - Cloud Native
   properties:
   - type: Documentation
@@ -64,6 +76,8 @@ apis:
   humanURL: https://artifacthub.io/docs/api/
   baseURL: https://artifacthub.io/api/v1
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -104,6 +118,8 @@ apis:
   humanURL: https://artifacthub.io/docs/api/
   baseURL: https://artifacthub.io/api/v1
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
@@ -114,6 +130,8 @@ apis:
   humanURL: https://artifacthub.io/docs/api/
   baseURL: https://artifacthub.io/api/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -124,6 +142,8 @@ apis:
   humanURL: https://artifacthub.io/docs/api/
   baseURL: https://artifacthub.io/api/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
@@ -144,6 +164,8 @@ apis:
   humanURL: https://artifacthub.io/docs/api/
   baseURL: https://artifacthub.io/api/v1
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
