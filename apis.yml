@@ -12,6 +12,19 @@ description: >-
   under Apache 2.0 and governed by the CNCF.
 url: >-
   https://raw.githubusercontent.com/api-evangelist/artifact-hub/refs/heads/main/apis.yml
+deliveryModel:
+  model: self-hosted
+  license: Apache-2.0
+  open_source: true
+  commercial: false
+  callable_host: true
+  label: Self-hosted open source · you run it yourself
+  confidence: high
+  source:
+  - license
+  - openapi
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
