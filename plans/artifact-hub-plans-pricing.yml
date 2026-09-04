@@ -4,149 +4,51 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Artifact Hub
 providerId: artifact-hub
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Cloud Native
-  - CNCF
-  - Helm Charts
-  - Package Registry
-  - Discovery
-  - Open Source
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
-plans:
-  - id: artifact-hub-free
-    name: Free
-    type: freemium
-    description: Free entry tier for the Artifact Hub API surface. Intended for evaluation, prototyping,
-      and low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 1000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Artifact Hub API
-  - id: artifact-hub-pro
-    name: Professional
-    type: paid
-    description: Production tier for Artifact Hub. Provides higher quotas, priority support, and access
-      to the broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
-        type: metered
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: global
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1000
-        price: TBD
-        userMultiplied: false
-    elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
-      - name: Artifact Hub API
-  - id: artifact-hub-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Artifact Hub. Includes dedicated capacity, contractual SLAs,
-      security review, data residency options, and named technical account management.
-    entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: -1
-        timeFrame: month
-        geo: configurable
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://artifacthub.io/api/v1
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
-      - name: Contractual SLA
-      - name: Security & Compliance Review
-      - name: Dedicated Account Manager
-      - name: Custom Data Residency
-      - name: Artifact Hub API
+modified: '2026-09-04'
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://artifacthub.io/ , https://artifacthub.io/docs/topics/faq/ ,
+  https://www.cncf.io/projects/artifact-hub/ ,
+  https://github.com/artifacthub/hub/blob/master/LICENSE
+# 2026-09-04: this file previously contained a bulk-sweep SCAFFOLD (Free/Professional/
+# Enterprise tiers with invented 1,000 and 100,000 request quotas and "TBD" prices). None of
+# it was ever published by Artifact Hub. It has been replaced with the searched finding.
+plan_count: 0
+pricing_model: free
+description: >-
+  Artifact Hub HAS NO PLANS AND NO PRICING. There is no pricing page, no paid tier, no
+  enterprise tier and no contact-sales gate: artifacthub.io is a free service operated for
+  the community by the CNCF, and the software behind it is Apache-2.0 licensed and
+  self-hostable from an official Helm chart. The API is free to call, and the only
+  unauthenticated-access constraint is an undocumented rate limit (see
+  rate-limits/artifact-hub-rate-limits.yml). This is a true zero, not a gap in our research.
+plans: []
+evidence:
+- fact: No pricing or plans page exists on the site
+  url: https://artifacthub.io/
+  http_status: 200
+  note: >-
+    The application is a single-page app whose navigation exposes packages, control panel,
+    stats, docs and sign-in. No /pricing route exists; /pricing returns the same SPA shell
+    every unmatched path returns.
+- fact: Apache-2.0 licensed open source
+  url: https://github.com/artifacthub/hub/blob/master/LICENSE
+  http_status: 200
+- fact: CNCF Incubating project, operated as community infrastructure
+  url: https://www.cncf.io/projects/artifact-hub/
+  http_status: 200
+- fact: Self-hosting is the documented alternative to the hosted service, at no cost
+  url: https://artifacthub.io/docs/topics/faq/
+  http_status: 200
+  note: >-
+    "You can deploy your own Artifact Hub instance using the official Helm chart. This is
+    the recommended way of deploying your own instance."
+cost_to_operate_self_hosted:
+  note: >-
+    Running your own instance is free of licence cost but not of infrastructure cost — the
+    chart deploys the hub server, a tracker and a scanner CronJob and a PostgreSQL database.
+    See finops/artifact-hub-finops.yml for the cost-allocation framing.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Users API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Users
   description: ''
@@ -274,12 +265,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
     User:
       type: object
       required:
@@ -289,55 +274,53 @@ components:
       properties:
         alias:
           type: string
-          nullable: false
           example: jdoe
         first_name:
           type: string
-          nullable: false
           example: John
         last_name:
           type: string
-          nullable: false
           example: Doe
         email:
           type: string
           format: email
-          nullable: false
           example: jdoe@email.com
         profile_image_id:
           type: string
-          nullable: false
           example: 12345abcde
         password_set:
           type: boolean
-          nullable: false
         tfa_enabled:
           type: boolean
-          nullable: false
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   responses:
     Created:
       description: The request has succeeded and has led to the creation of a resource
+    GoneError:
+      description: The code provided has expired
+    NoContent:
+      description: The request has succeeded, no content returned
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     BadRequest:
       description: The request sent was not valid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
-    GoneError:
-      description: The code provided has expired
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
@@ -351,3 +334,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

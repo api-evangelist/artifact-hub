@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Availability checks API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Availability checks
   description: ''
@@ -61,18 +52,7 @@ components:
       - repositoryURL
       - organizationName
       - userAlias
-      description: "Resource kind name:\n  * `repositoryName` - Repository name\n  * `repositoryURL` -\
-        \ Repository URL\n  * `organizationName` - Organization name\n  * `userAlias` - User alias\n"
-  responses:
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+      description: "Resource kind name:\n  * `repositoryName` - Repository name\n  * `repositoryURL` - Repository URL\n  * `organizationName` - Organization name\n  * `userAlias` - User alias\n"
   parameters:
     ResourceKindNameParam:
       in: path
@@ -81,6 +61,15 @@ components:
         $ref: '#/components/schemas/ResourceKindName'
       required: true
       description: Resource kind name
+  responses:
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyId:
       type: apiKey
@@ -90,3 +79,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

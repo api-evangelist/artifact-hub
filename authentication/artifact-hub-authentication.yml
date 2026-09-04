@@ -1,27 +1,97 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/artifact-hub-openapi.yml
+generated: '2026-09-04'
+method: searched
+source: >-
+  openapi/_original/artifact-hub-openapi.yml (v1.23.0) components.securitySchemes and the
+  per-operation security blocks, plus https://artifacthub.io/docs/topics/authorization/ and
+  https://artifacthub.io/docs/topics/faq/ (fetched 2026-09-04)
+docs: https://artifacthub.io/docs/topics/authorization/
+reference: https://artifacthub.io/docs/api/
 summary:
   types:
   - apiKey
   api_key_in:
-  - cookie
   - header
+  paired: true
+  anonymous_read_surface: true
+description: >-
+  Artifact Hub uses a PAIRED API-KEY scheme: two headers, both required together, declared in
+  the contract as a single security requirement {ApiKeyId: [], ApiKeySecret: []}. There is no
+  OAuth 2.0 flow and no scopes on the API. Critically for an agent, there is no root-level
+  `security` block — authentication is declared per operation, and the entire read surface
+  (search, package and version detail for all 27 kinds, chart values, values schema, rendered
+  templates, Trivy security reports, changelogs, stats and the bulk integration dumps) is
+  ANONYMOUS. Credentials are needed only for account, organization, repository, subscription
+  and webhook management.
 schemes:
-- name: apiKey
+- name: ApiKeyId
   type: apiKey
   in: header
   parameter: X-API-KEY-ID
-  description: |-
-    API key authentication. Clients send the API key ID in the
-    `X-API-KEY-ID` header and the API key secret in the
-    `X-API-KEY-SECRET` header.
+  required_with: ApiKeySecret
+  description: >-
+    The API key identifier. Must be sent together with X-API-KEY-SECRET — sending one alone
+    returns 401 exactly as sending neither does.
   sources:
-  - openapi/artifact-hub-openapi.yml
-- name: cookieAuth
+  - openapi/_original/artifact-hub-openapi.yml
+- name: ApiKeySecret
   type: apiKey
-  in: cookie
-  parameter: session
-  description: Session cookie obtained from /api/v1/users/login
+  in: header
+  parameter: X-API-KEY-SECRET
+  required_with: ApiKeyId
+  description: The API key secret, paired with X-API-KEY-ID.
   sources:
-  - openapi/artifact-hub-openapi.yml
+  - openapi/_original/artifact-hub-openapi.yml
+credential_lifecycle:
+  issuance: >-
+    API keys are created in the Artifact Hub web control panel after signing in. The public
+    v1.23.0 contract exposes NO key-management operations — there is no /api-keys path — so an
+    agent cannot mint, rotate or revoke a key programmatically. This is a real onboarding
+    ceiling: a human must visit the site once.
+  rotation: not documented
+  expiry: not documented
+  revocation: control panel only
+human_sign_in:
+  note: >-
+    Distinct from API authentication. Users sign in to the web application with email and
+    password, with optional TOTP two-factor (User.tfa_enabled, recovery codes issued at
+    setup). A self-hosted deployment can additionally sign users in through an OpenID Connect
+    provider (hub.server.oauth.oidc). Custom OAuth providers are explicitly not supported.
+    None of this applies to API calls.
+authorization:
+  model: Open Policy Agent (rego) policies evaluated per organization
+  docs: https://artifacthub.io/docs/topics/authorization/
+  default: >-
+    Disabled. With authorization off, every member of an organization may perform every
+    action on it.
+  predefined_policies:
+  - id: rbac.v1
+    description: >-
+      The only predefined policy. A roles-based policy where the organization supplies a JSON
+      data file mapping roles to users and to allowed actions; the `owner` role implies the
+      action `all`.
+  custom_policies: >-
+    An organization may instead supply its own rego policy plus a JSON data file, both managed
+    through getOrganizationAuthPolicy / updateOrganizationAuthPolicy.
+  actions:
+  - all
+  - addOrganizationMember
+  - addOrganizationRepository
+  - deleteOrganization
+  - deleteOrganizationMember
+  - deleteOrganizationRepository
+  - getAuthorizationPolicy
+  - transferOrganizationRepository
+  - updateAuthorizationPolicy
+  - updateOrganization
+  - updateOrganizationRepository
+  introspection:
+    operation: getAllowedActions
+    path: GET /orgs/{orgName}/user-allowed-actions
+    note: >-
+      The permission-discovery endpoint an agent should call before attempting an
+      organization write, rather than discovering the denial as a 403.
+  scopes: none
+  scopes_note: >-
+    These action names are policy inputs, not token scopes. No OAuth scopes artifact is
+    written for this provider because the API declares no oauth2 security scheme and the docs
+    document no OAuth flow for API access.

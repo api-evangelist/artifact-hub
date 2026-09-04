@@ -1,0 +1,86 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/_original/artifact-hub-openapi.yml (v1.23.0), live response headers observed on
+  https://artifacthub.io/api/v1/packages/search 2026-09-04, and the provider docs at
+  https://artifacthub.io/docs/topics/
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Cross-cutting and domain standard conformance for the Artifact Hub API, asserted only
+  where the contract or a live response demonstrates it. Absent entries are recorded as
+  conforms:false with the reason, not omitted.
+conformance:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    https://github.com/artifacthub/hub/blob/master/docs/api/openapi.yaml declares
+    `openapi: 3.0.3` with 111 paths and 129 operations. First-party, maintained in the
+    project's own repository and served through Swagger UI at https://artifacthub.io/docs/api/
+- id: pagination
+  conforms: true
+  evidence: >-
+    components.parameters.LimitParam (integer, default 20, maximum 60) and
+    components.parameters.OffsetParam (integer, minimum 0, default 0) in the OpenAPI, plus
+    the `Pagination-Total-Count: 366` response header observed live on
+    GET https://artifacthub.io/api/v1/packages/search?limit=1&ts_query_web=nginx (2026-09-04)
+- id: spdx-license-identifiers
+  conforms: true
+  domain_standard: true
+  evidence: >-
+    components.parameters.LicensesListParam in the OpenAPI is described verbatim as "List of
+    SPDX identifiers" with example ["MIT", "Apache-2.0"], and package objects carry the
+    license as an SPDX identifier. The contract itself speaks SPDX, so a consumer that
+    already models licences as SPDX needs no mapping layer.
+- id: oci-distribution
+  conforms: true
+  domain_standard: true
+  evidence: >-
+    Artifact Hub indexes OCI-based repositories as a first-class repository kind; the
+    provider documents adding OCI Helm repositories and whole OCI registries at
+    https://artifacthub.io/docs/topics/repositories/ and the 1.23.0 changelog records "Some
+    improvements to OCI package (including signature detection)".
+- id: helm-chart-repository
+  conforms: true
+  domain_standard: true
+  evidence: >-
+    The project both consumes Helm chart repository index.yaml documents as its primary
+    repository kind (https://artifacthub.io/docs/topics/repositories/) and publishes itself
+    as one at https://artifacthub.github.io/helm-charts/index.yaml
+- id: json-schema
+  conforms: true
+  evidence: >-
+    GET /packages/{packageID}/{version}/values-schema (operationId getPackageValuesSchema)
+    returns the JSON Schema document for a Helm chart's values, which the UI renders as the
+    values schema explorer.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    components.schemas.Error is a bare object with a single `message` string, served as
+    application/json — not application/problem+json and carrying none of type/title/status/
+    detail/instance. Errors are a custom envelope.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    components.securitySchemes declares only ApiKeyId and ApiKeySecret, both type apiKey in
+    header. The self-hosted application supports OIDC for HUMAN sign-in
+    (hub.server.oauth.oidc) but the API itself has no OAuth 2.0 flow and no scopes.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header, no idempotency parameter and no replay guidance appears
+    anywhere in the 1.23.0 OpenAPI or in https://artifacthub.io/docs/
+- id: ratelimit-headers
+  conforms: false
+  evidence: >-
+    429 TooManyRequests is documented on all 129 operations, but no X-RateLimit-*,
+    RateLimit-* or Retry-After header is declared in the contract or returned on live 200
+    responses observed 2026-09-04.
+- id: json-api
+  conforms: false
+  evidence: Responses are plain JSON objects/arrays; no JSON:API document structure or media type.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    The provider ships outbound webhooks with user-supplied templates but publishes no
+    AsyncAPI document; nothing named asyncapi exists in the hub repository.

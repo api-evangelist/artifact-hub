@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Integrations API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Integrations
   description: ''
@@ -46,17 +37,13 @@ paths:
                 properties:
                   repository:
                     type: string
-                    nullable: false
                   package:
                     type: string
-                    nullable: false
                   version:
                     type: string
-                    nullable: false
                   url:
                     type: string
                     format: uri
-                    nullable: false
                 example:
                 - repository: bitnami
                   package: nginx-ingress-controller
@@ -125,24 +112,19 @@ paths:
                 properties:
                   name:
                     type: string
-                    nullable: false
                   version:
                     type: string
-                    nullable: false
                   repository:
                     type: object
-                    nullable: false
                     required:
                     - name
                     - url
                     properties:
                       name:
                         type: string
-                        nullable: false
                       url:
                         type: string
                         format: uri
-                        nullable: false
                 example:
                 - name: artifact-hub
                   version: 1.2.0
@@ -185,24 +167,24 @@ paths:
                 properties:
                   name:
                     type: string
-                    nullable: false
                   description:
                     type: string
                   home:
                     type: string
                   latest_version:
                     type: string
-                    nullable: false
                   links:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       $ref: '#/components/schemas/Link'
                   logo:
                     type: string
                   maintainers:
-                    type: array
-                    nullable: true
+                    type:
+                    - array
+                    - 'null'
                     items:
                       type: object
                       required:
@@ -210,48 +192,45 @@ paths:
                       properties:
                         name:
                           type: string
-                          nullable: false
                   official:
-                    type: boolean
-                    nullable: true
+                    type:
+                    - boolean
+                    - 'null'
                   repository:
                     type: object
-                    nullable: false
                     required:
                     - name
                     - url
                     properties:
                       name:
                         type: string
-                        nullable: false
                       url:
                         type: string
                         format: uri
-                        nullable: false
                       official:
-                        type: boolean
-                        nullable: true
+                        type:
+                        - boolean
+                        - 'null'
                       verified:
-                        type: boolean
-                        nullable: true
+                        type:
+                        - boolean
+                        - 'null'
                   versions:
                     type: array
-                    nullable: false
                     items:
                       type: object
-                      nullable: false
                       required:
                       - pkg
                       - app
                       properties:
                         pkg:
                           type: string
-                          nullable: false
                         app:
                           type: string
                         deprecated:
-                          type: boolean
-                          nullable: true
+                          type:
+                          - boolean
+                          - 'null'
                 example:
                 - name: package1
                   description: description
@@ -287,15 +266,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
   schemas:
     Error:
       type: object
@@ -305,7 +283,6 @@ components:
           example: error details
     Link:
       type: object
-      nullable: false
       required:
       - url
       - name
@@ -313,11 +290,9 @@ components:
         url:
           type: string
           format: uri
-          nullable: false
           example: http://url
         name:
           type: string
-          nullable: false
           example: link
   securitySchemes:
     ApiKeyId:
@@ -328,3 +303,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

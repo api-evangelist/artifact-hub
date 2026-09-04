@@ -14,7 +14,7 @@ created: '2026-05-04'
 # Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
 # bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
 method: generated
-modified: '2026-05-04'
+modified: '2026-09-04'
 tags:
   - Cloud Native
   - CNCF
@@ -67,27 +67,29 @@ domains:
       - Invoicing and Chargeback
       - Onboarding Workloads
       - Intersecting Disciplines
+# Corrected 2026-09-04 from the searched pricing finding (plans/artifact-hub-plans-pricing.yml,
+# plan_count: 0). The bulk sweep had modelled this as a Usage-Based billed API; it is not.
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
-  billingCurrency: USD
-  chargeCategories:
-    - Usage
-    - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
+  pricingCategory: Free
+  billingFrequency: None
+  billingCurrency: None
+  chargeCategories: []
+  chargeFrequency: None
+  note: >-
+    Artifact Hub bills nothing. artifacthub.io is a free CNCF-operated service and the
+    software is Apache-2.0. The FinOps framing below is therefore about the INTERNAL cost of
+    running a self-hosted instance (hub server, tracker and scanner CronJobs, PostgreSQL),
+    not about a supplier invoice — there is no invoice to allocate.
 focusColumns:
   ServiceName: Artifact Hub
   ServiceCategory: Developer Tools / API
   ProviderName: Artifact Hub
   PublisherName: Artifact Hub
-  InvoiceIssuerName: Artifact Hub
-  PricingCategory: Usage-Based
-  PricingUnit: request
-  BillingCurrency: USD
-  ChargeCategory: Usage
+  InvoiceIssuerName: null
+  PricingCategory: Free
+  PricingUnit: null
+  BillingCurrency: null
+  ChargeCategory: null
 meters:
   - name: api_requests
     description: Count of billable API requests
@@ -126,12 +128,16 @@ apis:
     serviceName: Artifact Hub API
     serviceCategory: API
 unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+  - name: Self-hosted infrastructure cost per 1K API requests
+    metric: infrastructure_cost / (api_requests / 1000)
+    target: null
+    note: Applies only to a self-hosted deployment; the hosted service charges nothing.
+  - name: Self-hosted infrastructure cost per tracked repository
+    metric: infrastructure_cost / tracked_repositories
+    target: null
+    note: >-
+      The tracker and scanner CronJobs are the dominant cost driver in a self-hosted
+      instance, and they scale with repositories tracked rather than with API traffic.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

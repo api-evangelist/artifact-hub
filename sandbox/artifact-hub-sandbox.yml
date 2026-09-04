@@ -1,0 +1,60 @@
+generated: '2026-09-04'
+method: searched
+source: https://artifacthub.io/docs/topics/faq/ and https://github.com/artifacthub/hub/blob/master/docs/faq.md
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Artifact Hub operates NO hosted sandbox or test-mode tenant — there is no test/live key
+  split, no test fixtures, no time simulation and no separate sandbox host. What it offers
+  instead is a genuinely useful substitute for one, and it is the shape you would expect
+  from an Apache-2.0 project: run the whole thing yourself from the official Helm chart,
+  pre-seeded with sample data and a demo account.
+hosted_sandbox: false
+test_mode: false
+key_prefixes: []
+test_clock: false
+fixtures: false
+self_hosted_sandbox:
+  available: true
+  method: Official Helm chart
+  install: helm repo add artifact-hub https://artifacthub.github.io/helm-charts && helm install artifact-hub artifact-hub/artifact-hub
+  chart: https://artifacthub.io/packages/helm/artifact-hub/artifact-hub
+  sample_data:
+    parameter: dbMigrator.loadSampleData
+    default: true
+    effect: Registers a demo user and a couple of sample repositories automatically.
+  demo_account:
+    username: demo@artifacthub.io
+    password: changeme
+    source: https://artifacthub.io/docs/topics/faq/
+    note: >-
+      Published verbatim by the provider in the FAQ ("What's the demo user for self-hosted
+      instances?"), for a locally deployed instance only. The FAQ tells operators to change
+      it from the control panel after first login. It is not a credential for artifacthub.io.
+  private_repositories:
+    parameter: hub.server.allowPrivateRepositories
+    default: false
+    note: >-
+      Private repositories are supported ONLY in self-hosted deployments, never on
+      artifacthub.io. There is no way to restrict content visibility even in your own
+      instance.
+  oidc:
+    parameter: hub.server.oauth.oidc
+    note: >-
+      A self-hosted instance can sign users in through an OpenID Connect provider. Custom
+      OAuth providers are explicitly not supported.
+production_rehearsal:
+- operation: triggerWebhookTest
+  method: POST
+  path: /webhooks/test
+  description: >-
+    The closest thing to a test facility on the hosted service: delivers a sample
+    notification to a candidate URL using the caller's own content type and template,
+    without creating a webhook.
+- operation: checkAvailability
+  method: HEAD
+  path: /check-availability/{resourceKind}
+  description: Tests whether a name is free before attempting an operation that would fail on it.
+note: >-
+  No test values, test cards, hosted test tokens or fixture triggers exist to record —
+  Artifact Hub is not a payments or transaction API and charges nothing.

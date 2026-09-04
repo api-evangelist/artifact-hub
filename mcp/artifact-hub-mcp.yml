@@ -1,0 +1,110 @@
+generated: '2026-09-04'
+method: derived
+status: candidate
+source: >-
+  Derived from openapi/_original/artifact-hub-openapi.yml (v1.23.0). Searched for a
+  first-party server on 2026-09-04: the GitHub org (artifacthub — hub, blog, homebrew-cmd,
+  scoop-cmd, helm-charts, .project), the docs site, and the web for "Artifact Hub MCP".
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Artifact Hub publishes NO Model Context Protocol server. The tools below are an API
+  Evangelist CANDIDATE list derived from real operationIds in the project's own OpenAPI —
+  they are a proposal, not a shipped agent surface, and nothing here is callable today.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: searched
+  note: >-
+    No first-party hosted endpoint and no first-party stdio package. Community servers do
+    exist (the most visible is AlexW00/artifacthub-mcp, distributed as
+    ghcr.io/alexw00/artifacthub-mcp and run over stdio via docker), but they are THIRD
+    PARTY: they are not published by the Artifact Hub maintainers, are not referenced from
+    artifacthub.io or the hub repository, and are not credited to this provider.
+third_party_servers:
+- name: artifacthub-mcp
+  owner: AlexW00 (community, not affiliated with the Artifact Hub project)
+  repo: https://github.com/AlexW00/artifacthub-mcp
+  transport: stdio
+  install: docker run -i --rm ghcr.io/alexw00/artifacthub-mcp
+  tools:
+  - helm-chart-info
+  - helm-chart-values
+  - helm-chart-values-fuzzy-search
+  - helm-chart-template
+  - helm-chart-template-fuzzy-search
+  note: >-
+    Recorded for completeness because it wraps this provider's public API. It confers no
+    agent-readiness credit on Artifact Hub.
+candidate_tools:
+- name: search_packages
+  description: Search Artifact Hub for cloud-native packages across all supported kinds.
+  rest: searchPackages
+  method: GET
+  path: /packages/search
+  auth_required: false
+- name: get_package_summary
+  description: Get the summary details of a package by repository kind, repository and name.
+  rest: getPackageSummary
+  method: GET
+  path: /packages/{repoKindParam}/{repoName}/{packageName}/summary
+  auth_required: false
+- name: get_helm_package
+  description: Get the full details of a Helm chart package.
+  rest: getHelmPackageDetails
+  method: GET
+  path: /packages/helm/{repoName}/{packageName}
+  auth_required: false
+- name: get_chart_values
+  description: Get the default values.yaml of a Helm chart version.
+  rest: getChartValues
+  method: GET
+  path: /packages/{packageID}/{version}/values
+  auth_required: false
+- name: get_values_schema
+  description: Get the JSON Schema for a Helm chart version's values.
+  rest: getPackageValuesSchema
+  method: GET
+  path: /packages/{packageID}/{version}/values-schema
+  auth_required: false
+- name: get_chart_templates
+  description: Get the rendered templates that make up a Helm chart version.
+  rest: getHelmChartTemplates
+  method: GET
+  path: /packages/{packageID}/{version}/templates
+  auth_required: false
+- name: get_security_report
+  description: Get the Trivy security report for a package version.
+  rest: getPackageSecurityReport
+  method: GET
+  path: /packages/{packageID}/{version}/security-report
+  auth_required: false
+- name: get_package_changelog
+  description: Get the changelog entries recorded for a package across versions.
+  rest: getPackageChangelog
+  method: GET
+  path: /packages/{packageID}/changelog
+  auth_required: false
+- name: search_repositories
+  description: Search the repositories registered with Artifact Hub.
+  rest: searchRepositories
+  method: GET
+  path: /repositories/search
+  auth_required: false
+- name: get_hub_stats
+  description: Get site-wide Artifact Hub statistics (package and release counts).
+  rest: getArtifactHubStats
+  method: GET
+  path: /stats
+  auth_required: false
+coverage:
+  candidate_tools: 10
+  backing_operations: 10
+  total_openapi_operations: 129
+  note: >-
+    Candidates cover the unauthenticated read surface an agent would actually want. The
+    remaining operations are account, organization, repository, subscription and webhook
+    management, which require API key credentials.

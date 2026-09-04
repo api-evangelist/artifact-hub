@@ -1,0 +1,92 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/_original/artifact-hub-openapi.yml (v1.23.0) components.responses and
+  components.schemas.Error; enriched from https://artifacthub.io/docs/topics/faq/
+provider: Artifact Hub
+providerId: artifact-hub
+format: custom-json
+media_type: application/json
+envelope:
+  shape: '{"message": "error details"}'
+  fields:
+  - name: message
+    type: string
+    required: false
+    description: Human-readable error detail. The only field in components.schemas.Error.
+  note: >-
+    NOT RFC 9457. There is no machine-readable error code, type URI or category anywhere in
+    the envelope, so a client cannot branch on anything but the HTTP status. 204 No Content,
+    201 Created and 410 Gone responses carry no body at all.
+coverage:
+  operations: 129
+  operations_declaring_4xx_or_5xx: 129
+  status_counts:
+    '400': 27
+    '401': 44
+    '403': 23
+    '404': 67
+    '410': 2
+    '429': 129
+    '500': 129
+problem_types:
+- id: BadRequest
+  status: 400
+  title: The request sent was not valid
+  body: application/json Error
+  remediation: >-
+    Check required query parameters and the request body against the OpenAPI. Common causes
+    are an out-of-range `limit` (maximum 60), a malformed uuid packageID, or an invalid
+    `sort` value (relevance | stars | last_updated).
+  operations: 27
+- id: UnauthorizedError
+  status: 401
+  title: Valid authentication credentials not provided
+  body: application/json Error
+  remediation: >-
+    Send BOTH X-API-KEY-ID and X-API-KEY-SECRET headers. Sending only one is treated the
+    same as sending neither.
+  operations: 44
+- id: Forbidden
+  status: 403
+  title: The user does not have permission to perform the requested operation
+  body: application/json Error
+  remediation: >-
+    The credentials are valid but the organization's authorization policy denies the action.
+    Call GET /orgs/{orgName}/user-allowed-actions (getAllowedActions) to see which of the
+    AuthorizerAction values the caller may perform.
+  operations: 23
+- id: NotFoundResponse
+  status: 404
+  title: The requested resource was not found
+  body: application/json Error
+  remediation: >-
+    Verify the repository kind path segment, repository name, package name and version.
+    Artifact Hub removes package versions that disappear upstream, so a version that
+    resolved yesterday can 404 today.
+  operations: 67
+- id: GoneError
+  status: 410
+  title: The code provided has expired
+  body: none
+  remediation: >-
+    Only on the password-reset flow (verifyPasswordCode, resetPassword). Request a fresh
+    code with POST /users/password-reset-code.
+  operations: 2
+- id: TooManyRequests
+  status: 429
+  title: The user has sent too many requests in a given amount of time
+  body: none
+  remediation: >-
+    Back off and retry. No Retry-After or RateLimit-* header is declared or returned, and
+    the provider deliberately does not publish the numbers, so a client must use blind
+    exponential backoff with jitter. For bulk reads use the integration dump endpoints
+    (getHarborReplicationDump, getHelmExporterDump, getNovaDump) instead of paging search —
+    the FAQ recommends exactly this.
+  operations: 129
+- id: InternalServerError
+  status: 500
+  title: The server encountered an unexpected condition that prevented it from fulfilling the request
+  body: application/json Error
+  remediation: Retry with backoff; report persistent failures at https://github.com/artifacthub/hub/issues
+  operations: 129

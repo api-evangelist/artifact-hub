@@ -1,0 +1,129 @@
+generated: '2026-09-04'
+method: derived
+source: >-
+  openapi/_original/artifact-hub-openapi.yml (v1.23.0) — components.schemas.EventKindId,
+  WebhookSummary, WebhookTest, WebhookNotification and the eleven Webhooks operations.
+  Searched for an AsyncAPI document on 2026-09-04: none exists in the artifacthub GitHub
+  org, none is served at https://artifacthub.io/asyncapi.yaml (SPA shell, 200 text/html),
+  and the docs site has no events or streaming topic.
+provider: Artifact Hub
+providerId: artifact-hub
+asyncapi_published: false
+description: >-
+  Artifact Hub ships a real outbound webhook surface — four event kinds, per-webhook
+  subscriber-authored payload TEMPLATES, an optional shared secret, delivery history and a
+  test trigger — but publishes no AsyncAPI document describing it. The catalog below is
+  derived from the REST contract, which is where the whole event model is actually declared.
+  It is unusual in one respect worth flagging for an agent: the PAYLOAD IS NOT FIXED BY THE
+  PROVIDER. Each webhook carries a Go-template string supplied by the subscriber, so the
+  body a receiver gets is whatever that subscriber wrote — there is no canonical event
+  schema to code against, which is exactly the gap an AsyncAPI document would close.
+transport: HTTPS POST to a subscriber-supplied URL
+subscription_model:
+  scopes:
+  - user webhooks (POST /webhooks/user)
+  - organization webhooks (POST /webhooks/org/{orgName})
+  package_binding: >-
+    A webhook is attached to a set of packages (Webhook.packages[]), so a subscriber is
+    notified only about the artifacts they selected — not the whole catalog.
+  also_available:
+    subscriptions: >-
+      A separate email/notification subscription surface exists for the same event kinds
+      (POST /subscriptions, event_kind query parameter) with per-repository opt-out entries
+      (POST /subscriptions/opt-out).
+events:
+- id: 0
+  name: New package release
+  description: A new version of a subscribed package has been published.
+  source: components.schemas.EventKindId enum value 0
+- id: 1
+  name: Security alerts
+  description: >-
+    A security issue was found in a subscribed package. Backed by the Trivy scanning
+    pipeline documented at https://artifacthub.io/docs/topics/security_report/ ; the 1.23.0
+    release notes record "Improve security alerts notifications".
+  source: components.schemas.EventKindId enum value 1
+- id: 2
+  name: Repository tracking errors
+  description: >-
+    Artifact Hub failed while tracking a repository the subscriber owns. Repositories are
+    processed every 30 minutes (FAQ), so this is the signal that a publisher's listing has
+    stopped updating.
+  source: components.schemas.EventKindId enum value 2
+- id: 4
+  name: Repository scanning errors
+  description: Artifact Hub failed while security-scanning a repository the subscriber owns.
+  source: components.schemas.EventKindId enum value 4
+  note: >-
+    Note the gap — the enum is 0, 1, 2, 4 with no 3. Value 3 is not exposed in the public
+    contract, so a client MUST treat the enum as sparse rather than as a range.
+delivery:
+  content_type:
+    field: content_type
+    default_example: application/json
+    note: Subscriber-chosen, so a receiver cannot assume JSON.
+  payload:
+    field: template
+    kind: Go template rendered per delivery
+    example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{ .Package.URL }}"}'
+    variables_observed:
+    - .Package.Name
+    - .Package.Version
+    - .Package.URL
+    note: >-
+      Only the variables appearing in the provider's own published example are listed. The
+      full template variable set is not enumerated in the OpenAPI or the docs, so nothing
+      further is asserted.
+  authentication:
+    field: secret
+    mechanism: >-
+      An optional shared secret stored on the webhook (WebhookSummary.secret). The contract
+      does not document how the secret reaches the receiver — no signature header, digest
+      algorithm or verification procedure is specified anywhere in the OpenAPI or the docs.
+      A receiver should not assume an HMAC signature scheme.
+  enable_disable:
+    field: active
+    type: boolean
+  history:
+    schema: WebhookNotification
+    fields: [notification_id, created_at, processed, processed_at, error]
+    access: >-
+      GET /webhooks/user/{webhookID} and GET /webhooks/org/{orgName}/{webhookID} return
+      last_notifications[], including the error string for failed deliveries. Retry policy
+      and retention are not documented.
+  test:
+    operation: triggerWebhookTest
+    method: POST
+    path: /webhooks/test
+    description: >-
+      Delivers a sample notification to a candidate URL with the caller's content type and
+      template, without creating a webhook. Requires url and event_kinds.
+operations:
+  webhooks:
+  - getUserWebhooks
+  - addUserWebhook
+  - getUserWebhookDetail
+  - updateUserWebhook
+  - deleteUserWebhook
+  - getOrganizationWebhooks
+  - addOrganizationWebhook
+  - getOrganizationWebhookDetails
+  - updateOrganizationWebhook
+  - deleteOrganizationWebhook
+  - triggerWebhookTest
+  subscriptions:
+  - getUserSubscriptions
+  - addPackageSubscription
+  - deletePackageSubscription
+  - getPackageUserSubscriptions
+  - getUserOptOutEntries
+  - addOptOutEntry
+  - deleteOptOutEntry
+other_push_surfaces:
+- name: Integration dumps
+  kind: pull, not push
+  operations: [getHarborReplicationDump, getHelmExporterDump, getNovaDump]
+  note: >-
+    Bulk catalogue dumps for Harbor replication, Helm exporter and Nova. Recorded here
+    because they are how the provider tells integrators to stay in sync without polling
+    search, but they are polled, not pushed.

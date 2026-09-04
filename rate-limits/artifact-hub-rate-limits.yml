@@ -4,90 +4,86 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Artifact Hub
 providerId: artifact-hub
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
-tags:
-  - Cloud Native
-  - CNCF
-  - Helm Charts
-  - Package Registry
-  - Discovery
-  - Open Source
-  - Rate Limiting
-  - Quotas
-  - Throttling
-description: Machine-readable rate limit definitions for the Artifact Hub API surface. Captures per-tier
-  quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to
-  be replaced with published provider limits.
+modified: '2026-09-04'
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://artifacthub.io/docs/topics/faq/ (section "API and integrations"),
+  openapi/_original/artifact-hub-openapi.yml v1.23.0, and live response headers observed on
+  https://artifacthub.io/api/v1/packages/search and /api/v1/stats on 2026-09-04
+# 2026-09-04: this file previously contained a bulk-sweep SCAFFOLD (invented free/
+# professional/enterprise tiers at 10/100/1000 rpm and X-RateLimit-* headers Artifact Hub
+# does not send). None of it was published by the provider. Replaced with the searched
+# finding: limits are enforced, and deliberately undocumented.
+limit_count: 0
+enforced: true
+numbers_published: false
+description: >-
+  Artifact Hub rate-limits its API and says so, but PUBLISHES NO NUMBERS — and says that too,
+  explicitly and on purpose. The FAQ states: "The exact numbers are not documented because
+  they are updated every now and then and vary depending on the endpoint used and the
+  current service status." So an agent gets a documented 429 with no budget, no headers and
+  no Retry-After: it must use blind exponential backoff with jitter, or avoid the problem
+  entirely by using the bulk dump endpoints the provider points at instead.
+declared_in_contract:
+  status: 429
+  response: TooManyRequests
+  description: The user has sent too many requests in a given amount of time
+  operations_declaring_429: 129
+  operations_total: 129
+  note: >-
+    Every single operation in the 1.23.0 contract declares 429. The contract is honest that
+    throttling can happen anywhere; it just never says when.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+  limit: null
+  remaining: null
+  reset: null
+  retryAfter: null
+  policy: null
+  observed:
+    date: '2026-09-04'
+    requests:
+    - url: https://artifacthub.io/api/v1/packages/search?limit=1&facets=false&ts_query_web=nginx
+      status: 200
+      headers_present: [content-type, content-length, date, cache-control, pagination-total-count, strict-transport-security, x-cache, via]
+    - url: https://artifacthub.io/api/v1/stats
+      status: 200
+      headers_present: [content-type, content-length, date, cache-control, strict-transport-security, x-cache, via]
+    finding: >-
+      No X-RateLimit-*, no RateLimit-*, no Retry-After on successful responses. No
+      rate-limit header is declared in the OpenAPI either, on the 429 response or anywhere
+      else. A client has no runtime signal of its remaining budget.
 responseCodes:
   throttled: 429
   quotaExceeded: 429
-  serviceUnavailable: 503
-limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Artifact Hub API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Artifact Hub API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Artifact Hub API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Artifact Hub API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Artifact Hub API
+  serviceUnavailable: null
+limits: []
+mitigations:
+- name: Use the integration dump endpoints for bulk reads
+  description: >-
+    The provider's own answer to "How can I get all charts listed on artifacthub.io without
+    hitting rate limits?" is to use the Harbor replication endpoint rather than paging
+    search. Three such dumps exist.
+  operations:
+  - getHarborReplicationDump
+  - getHelmExporterDump
+  - getNovaDump
+  docs: https://artifacthub.io/docs/topics/faq/
+- name: Respect the served Cache-Control
+  description: >-
+    GET /api/v1/stats is served with max-age=21600 (6 hours) and package search with
+    max-age=300 behind CloudFront. Honouring these removes most repeat traffic. No ETag or
+    Last-Modified is served, so conditional requests are not an option.
+- name: Blind exponential backoff with jitter
+  description: >-
+    Because no Retry-After is returned, a 429 carries no wait hint. Backoff must be chosen
+    by the client.
 policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+- name: Variable by endpoint and service status
+  description: >-
+    Stated by the provider: limits vary depending on the endpoint used and the current
+    service status, and are changed over time. Any number a client hard-codes is a guess
+    with an expiry date.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

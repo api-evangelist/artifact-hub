@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Webhooks API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Webhooks
   description: ''
@@ -307,62 +298,52 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
+    EventKindId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
+    WebhookSummary:
+      type: object
+      required:
+      - name
+      - url
+      - active
+      properties:
+        name:
+          type: string
+          example: webhook1
+        description:
+          type: string
+          example: description
+        url:
+          type: string
+          format: uri
+          example: http://url
+        secret:
+          type: string
+          example: 123abc
+        content_type:
+          type: string
+          example: application/json
+        template:
+          type: string
+          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{ .Package.URL }}"}'
+        active:
+          type: boolean
+        event_kinds:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventKindId'
     Error:
       type: object
       properties:
         message:
           type: string
           example: error details
-    Webhook:
-      allOf:
-      - $ref: '#/components/schemas/WebhookSummary'
-      - type: object
-        required:
-        - webhook_id
-        - packages
-        - last_notifications
-        properties:
-          webhook_id:
-            type: string
-            format: uuid
-            nullable: false
-          packages:
-            type: array
-            items:
-              $ref: '#/components/schemas/PackageSummary'
-            nullable: false
-          last_notifications:
-            type: array
-            items:
-              $ref: '#/components/schemas/WebhookNotification'
-            nullable: false
-    WebhookTest:
-      type: object
-      required:
-      - url
-      - event_kinds
-      properties:
-        url:
-          type: string
-          format: uri
-          nullable: false
-          example: http://url
-        content_type:
-          type: string
-          nullable: false
-          example: application/json
-        template:
-          type: string
-          nullable: false
-          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{
-            .Package.URL }}"}'
-        event_kinds:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventKindId'
-          nullable: false
-          example:
-          - 0
     PackageCategoryId:
       type: integer
       enum:
@@ -374,10 +355,86 @@ components:
       - 6
       - 7
       - 8
-      nullable: false
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` -\
-        \ Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` -\
-        \ Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    PackageBase:
+      type: object
+      required:
+      - package_id
+      - name
+      - normalized_name
+      - stars
+      - version
+      - ts
+      - repository
+      properties:
+        package_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: pkg1
+        normalized_name:
+          type: string
+          example: pkg1
+        logo_image_id:
+          type: string
+          example: 12345abcde
+        display_name:
+          type: string
+          example: Package 1
+        description:
+          type: string
+          example: This is a package sample
+        version:
+          type: string
+          example: 1.0.0
+        app_version:
+          type: string
+          example: 0.1.0
+        license:
+          type: string
+          example: MIT
+        deprecated:
+          type: boolean
+          example: false
+        signed:
+          type: boolean
+          example: false
+        signatures:
+          type: array
+          items:
+            type: string
+            enum:
+            - prov
+            - cosign
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        ts:
+          type: integer
+        repository:
+          $ref: '#/components/schemas/RepositorySummary'
+        security_report_summary:
+          type: object
+          properties:
+            critical:
+              type: number
+            high:
+              type: number
+            medium:
+              type: number
+            low:
+              type: number
+            unknown:
+              type: number
+        all_containers_images_whitelisted:
+          type: boolean
+          example: false
+        production_organizations_count:
+          type: number
     RepositorySummary:
       type: object
       required:
@@ -396,67 +453,79 @@ components:
           $ref: '#/components/schemas/RepositoryKind'
         name:
           type: string
-          nullable: false
           example: repo1
         display_name:
           type: string
-          nullable: false
           example: Repository 1
         url:
           type: string
           format: uri
-          nullable: false
           example: http://repourl
         verified_publisher:
           type: boolean
-          nullable: false
         official:
           type: boolean
-          nullable: false
         cncf:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         private:
           type: boolean
-          nullable: false
         scanner_disabled:
           type: boolean
-          nullable: false
           example: false
         user_alias:
           type: string
-          nullable: false
           example: jdoe
         organization_name:
           type: string
-          nullable: false
           example: org1
         organization_display_name:
           type: string
-          nullable: false
           example: Organization 1
-      nullable: false
-    PackageSummary:
+    WebhookTest:
+      type: object
+      required:
+      - url
+      - event_kinds
+      properties:
+        url:
+          type: string
+          format: uri
+          example: http://url
+        content_type:
+          type: string
+          example: application/json
+        template:
+          type: string
+          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{ .Package.URL }}"}'
+        event_kinds:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventKindId'
+          example:
+          - 0
+    WebhookSummaryWithPackages:
       allOf:
-      - $ref: '#/components/schemas/PackageBase'
+      - $ref: '#/components/schemas/WebhookSummary'
       - type: object
+        required:
+        - name
+        - url
+        - active
+        - event_kinds
+        - packages
         properties:
-          category:
-            $ref: '#/components/schemas/PackageCategoryId'
-          stars:
-            type: integer
-            nullable: false
-            example: 3
-    EventKindId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 4
-      nullable: false
-      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository\
-        \ tracking errors\n  * `4` - Repository scanning errors\n"
+          packages:
+            type: array
+            items:
+              type: object
+              required:
+              - package_id
+              properties:
+                package_id:
+                  type: string
+                  format: uuid
     WebhookNotification:
       type: object
       required:
@@ -468,20 +537,45 @@ components:
         notification_id:
           type: string
           format: uuid
-          nullable: false
         created_at:
           type: integer
-          nullable: false
         processed:
           type: boolean
-          nullable: false
         processed_at:
           type: integer
-          nullable: false
         error:
           type: string
-          nullable: false
           example: error
+    PackageSummary:
+      allOf:
+      - $ref: '#/components/schemas/PackageBase'
+      - type: object
+        properties:
+          category:
+            $ref: '#/components/schemas/PackageCategoryId'
+          stars:
+            type: integer
+            example: 3
+    Webhook:
+      allOf:
+      - $ref: '#/components/schemas/WebhookSummary'
+      - type: object
+        required:
+        - webhook_id
+        - packages
+        - last_notifications
+        properties:
+          webhook_id:
+            type: string
+            format: uuid
+          packages:
+            type: array
+            items:
+              $ref: '#/components/schemas/PackageSummary'
+          last_notifications:
+            type: array
+            items:
+              $ref: '#/components/schemas/WebhookNotification'
     RepositoryKind:
       type: integer
       enum:
@@ -513,197 +607,14 @@ components:
       - 25
       - 26
       - 27
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n\
-        \  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6`\
-        \ - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n\
-        \  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  *\
-        \ `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  *\
-        \ `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  *\
-        \ `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` -\
-        \ Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost\
-        \ plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-    WebhookSummary:
-      type: object
-      required:
-      - name
-      - url
-      - active
-      properties:
-        name:
-          type: string
-          nullable: false
-          example: webhook1
-        description:
-          type: string
-          nullable: false
-          example: description
-        url:
-          type: string
-          format: uri
-          nullable: false
-          example: http://url
-        secret:
-          type: string
-          nullable: false
-          example: 123abc
-        content_type:
-          type: string
-          nullable: false
-          example: application/json
-        template:
-          type: string
-          nullable: false
-          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{
-            .Package.URL }}"}'
-        active:
-          type: boolean
-          nullable: false
-        event_kinds:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventKindId'
-          nullable: false
-    WebhookSummaryWithPackages:
-      allOf:
-      - $ref: '#/components/schemas/WebhookSummary'
-      - type: object
-        required:
-        - name
-        - url
-        - active
-        - event_kinds
-        - packages
-        properties:
-          packages:
-            type: array
-            items:
-              type: object
-              required:
-              - package_id
-              properties:
-                package_id:
-                  type: string
-                  format: uuid
-                  nullable: false
-            nullable: false
-    PackageBase:
-      type: object
-      required:
-      - package_id
-      - name
-      - normalized_name
-      - stars
-      - version
-      - ts
-      - repository
-      properties:
-        package_id:
-          type: string
-          format: uuid
-          nullable: false
-        name:
-          type: string
-          nullable: false
-          example: pkg1
-        normalized_name:
-          type: string
-          nullable: false
-          example: pkg1
-        logo_image_id:
-          type: string
-          nullable: false
-          example: 12345abcde
-        display_name:
-          type: string
-          nullable: false
-          example: Package 1
-        description:
-          type: string
-          nullable: false
-          example: This is a package sample
-        version:
-          type: string
-          nullable: false
-          example: 1.0.0
-        app_version:
-          type: string
-          nullable: false
-          example: 0.1.0
-        license:
-          type: string
-          nullable: false
-          example: MIT
-        deprecated:
-          type: boolean
-          nullable: false
-          example: false
-        signed:
-          type: boolean
-          nullable: false
-          example: false
-        signatures:
-          type: array
-          items:
-            type: string
-            enum:
-            - prov
-            - cosign
-            nullable: false
-        official:
-          type: boolean
-          nullable: false
-        cncf:
-          type: boolean
-          nullable: true
-        ts:
-          type: integer
-          nullable: false
-        repository:
-          $ref: '#/components/schemas/RepositorySummary'
-        security_report_summary:
-          type: object
-          nullable: false
-          properties:
-            critical:
-              type: number
-              nullable: false
-            high:
-              type: number
-              nullable: false
-            medium:
-              type: number
-              nullable: false
-            low:
-              type: number
-              nullable: false
-            unknown:
-              type: number
-              nullable: false
-        all_containers_images_whitelisted:
-          type: boolean
-          nullable: false
-          example: false
-        production_organizations_count:
-          type: number
-          nullable: false
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
   responses:
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     NoContent:
       description: The request has succeeded, no content returned
-    Forbidden:
-      description: The user does not have permission to perform the requested operation
+    BadRequest:
+      description: The request sent was not valid
       content:
         application/json:
           schema:
@@ -714,18 +625,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-  requestBodies:
-    WebhookBody:
-      description: Webhook body
-      required: true
+    Forbidden:
+      description: The user does not have permission to perform the requested operation
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/WebhookSummaryWithPackages'
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
   parameters:
     OrgNameParam:
       in: path
@@ -743,6 +656,14 @@ components:
         format: uuid
       required: true
       description: Webhook ID
+  requestBodies:
+    WebhookBody:
+      description: Webhook body
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookSummaryWithPackages'
   securitySchemes:
     ApiKeyId:
       type: apiKey
@@ -752,3 +673,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

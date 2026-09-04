@@ -1,0 +1,163 @@
+generated: '2026-09-04'
+method: derived
+source: openapi/_original/artifact-hub-openapi.yml (v1.23.0) components.schemas — 56 schemas
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Entity-relationship graph derived from the Artifact Hub OpenAPI. The model is small and
+  regular: a Repository is owned by a User or an Organization, holds Packages, and a Package
+  is a typed artifact whose per-kind payload is one of 27 specialised schemas layered on a
+  shared PackageBase. Users and Organizations subscribe to Packages and hang Webhooks off
+  them.
+identifiers:
+  style: uuid for internal entities, human names for addressing
+  uuid_fields: [package_id, repository_id, webhook_id, notification_id, maintainer_id, optOutID]
+  natural_keys:
+  - Users are addressed by `alias` (jdoe), not by uuid or email.
+  - Organizations are addressed by `orgName`.
+  - Repositories are addressed by `name`, unique within an owner.
+  - >-
+    Packages are addressed EITHER by the triple (repository kind path segment, repository
+    name, package name) or by package_id uuid, depending on the operation. Detail and
+    summary reads use the triple; values, templates, security reports, stars, views and
+    changelog use the uuid. An agent must be able to hold both.
+  no_prefixes: >-
+    Identifiers carry no type prefix (no pkg_, repo_ style), so a bare uuid in a payload is
+    not self-describing.
+timestamps:
+  format: unix epoch seconds as JSON integers
+  fields: [ts, created_at, processed_at, last_tracking_ts, last_scanning_ts]
+  note: No RFC 3339 strings anywhere in the model.
+entities:
+- name: User
+  schema: User
+  key: alias
+  fields: [alias, first_name, last_name, email, profile_image_id, password_set, tfa_enabled]
+- name: Organization
+  schema: Organization (allOf OrganizationSummary)
+  key: name
+  fields: [name, display_name, description, home_url, logo_image_id, members_count, confirmed]
+- name: Member
+  schema: Member
+  key: alias
+  fields: [alias, first_name, last_name, confirmed]
+- name: Repository
+  schema: Repository (allOf RepositorySummary)
+  key: repository_id / name
+  fields: [repository_id, kind, name, display_name, url, branch, private, disabled, verified_publisher, official, cncf, scanner_disabled, digest, last_tracking_ts, last_tracking_errors, last_scanning_ts, last_scanning_errors, user_alias, organization_name]
+- name: Package
+  schema: Package (allOf PackageBase)
+  key: package_id
+  fields: [package_id, name, normalized_name, display_name, description, version, app_version, latest_version, available_versions, license, deprecated, signed, signatures, official, cncf, category, keywords, home_url, readme, links, maintainers, ts, security_report_summary, production_organizations_count, has_values_schema, has_changelog, contains_security_updates, prerelease]
+- name: Maintainer
+  schema: Maintainer
+  key: maintainer_id
+  fields: [maintainer_id, name, email]
+- name: Link
+  schema: Link
+  key: none (value object)
+  fields: [name, url]
+- name: Webhook
+  schema: Webhook (allOf WebhookSummary)
+  key: webhook_id
+  fields: [webhook_id, name, description, url, secret, content_type, template, active, event_kinds, packages, last_notifications]
+- name: WebhookNotification
+  schema: WebhookNotification
+  key: notification_id
+  fields: [notification_id, created_at, processed, processed_at, error]
+- name: AuthorizationPolicy
+  schema: AuthorizationPolicy
+  key: none (one per organization)
+  fields: [authorization_enabled, predefined_policy, custom_policy, policy_data]
+relationships:
+- from: Repository
+  to: User
+  type: belongs_to
+  via: user_alias
+  note: A repository is owned by exactly one of a user or an organization, never both.
+- from: Repository
+  to: Organization
+  type: belongs_to
+  via: organization_name
+- from: Package
+  to: Repository
+  type: belongs_to
+  via: repository ($ref RepositorySummary, embedded not referenced by id)
+- from: Package
+  to: Maintainer
+  type: has_many
+  via: maintainers[]
+- from: Package
+  to: Link
+  type: has_many
+  via: links[]
+- from: Package
+  to: PackageCategoryId
+  type: has_one
+  via: category
+- from: Repository
+  to: RepositoryKind
+  type: has_one
+  via: kind
+  note: The kind determines which of the 27 per-kind package schemas the package data conforms to.
+- from: Organization
+  to: Member
+  type: has_many
+  via: GET /orgs/{orgName}/members
+- from: Organization
+  to: AuthorizationPolicy
+  type: has_one
+  via: GET /orgs/{orgName}/authorization-policy
+- from: Webhook
+  to: Package
+  type: has_many
+  via: packages[]
+- from: Webhook
+  to: WebhookNotification
+  type: has_many
+  via: last_notifications[]
+- from: User
+  to: Webhook
+  type: has_many
+  via: GET /webhooks/user
+- from: Organization
+  to: Webhook
+  type: has_many
+  via: GET /webhooks/org/{orgName}
+- from: User
+  to: Package
+  type: has_many
+  via: subscriptions and stars (GET /subscriptions, GET /packages/starred)
+polymorphism:
+  base: PackageBase
+  discriminator_field: repository.kind (RepositoryKind integer)
+  variants: 27
+  variant_schemas: [HelmPackage, HelmPluginPackage, FalcoPackage, OPAPackage, OLMPackage, TBActionPackage, KrewPluginsPackage, TektonTaskPackage, TektonPipelinePackage, TektonStepActionPackage, KedaScalerPackage, CoreDNSPackage, KeptnIntegrationsPackage, ContainerImage, KubewardenPoliciesPackage, GatekeeperPolicy, KyvernoPolicy, KnativeClientPluginsPackage, BackstagePlugin, ArgoTemplate, KubeArmorPoliciesPackage, KCLPackage, HeadlampPluginPackage, InspektorGadgetPackage, MesheryDesign, OpencostPlugin, RadiusRecipe, BootableContainer, KagentPackage]
+  note: >-
+    The variants are NOT selected by an OpenAPI `discriminator` — there is none. Each kind
+    gets its own path segment and its own operation pair (detail and version-detail), so a
+    client picks the schema by choosing the endpoint. That is 54 of the 75 Packages
+    operations.
+findings:
+- id: repositorykind-enum-lags-its-own-description
+  severity: contract-defect
+  description: >-
+    components.schemas.RepositoryKind declares `enum: [0..27]` but its own description
+    documents 29 kinds, ending "* `28` - Kagent agents". Kagent support was added in 1.22.0
+    and the description was updated; the enum was not. A strict validator generating a client
+    from this spec will reject a legitimate kind 28 repository that the API returns. The
+    KagentPackage schema and the /packages/kagent/... operations do exist.
+  evidence: openapi/_original/artifact-hub-openapi.yml components.schemas.RepositoryKind
+- id: event-kind-enum-is-sparse
+  severity: consumer-hazard
+  description: >-
+    components.schemas.EventKindId is `enum: [0, 1, 2, 4]` — 3 is absent. Client code that
+    treats event kinds as a contiguous range will be wrong.
+  evidence: openapi/_original/artifact-hub-openapi.yml components.schemas.EventKindId
+- id: embedded-not-referenced
+  severity: note
+  description: >-
+    Package embeds a full RepositorySummary rather than a repository_id, so package payloads
+    are self-contained but denormalised; a change of repository display name is reflected
+    only on the next read of each package.
+render: null

@@ -1,0 +1,44 @@
+generated: '2026-09-04'
+method: generated
+source: >-
+  Authored by API Evangelist from openapi/_original/artifact-hub-openapi.yml (v1.23.0) and
+  the provider docs at https://artifacthub.io/docs/. Every operationId referenced was grepped
+  out of the spec — none is invented. Artifact Hub publishes no skills or AGENTS.md of its
+  own (searched the artifacthub GitHub org and docs site 2026-09-04).
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Packaged Agent Skills for the Artifact Hub API. The read surface is entirely anonymous, so
+  four of the five skills need no credentials at all — which makes Artifact Hub unusually
+  approachable for an agent working with cloud-native supply-chain data.
+skills:
+- name: artifact-hub-find-a-package
+  file: skills/artifact-hub-find-a-package.md
+  api: Artifact Hub Packages API
+  auth: none
+  description: Search the catalogue and resolve a hit to the two identifiers every follow-up call needs.
+  operations: [searchPackages, getPackageSummary, getHelmPackageDetails, getArtifactHubStats]
+- name: artifact-hub-inspect-chart-config
+  file: skills/artifact-hub-inspect-chart-config.md
+  api: Artifact Hub Packages API
+  auth: none
+  description: Read a chart's values, values JSON Schema and rendered templates before installing it.
+  operations: [getHelmPackageDetails, getChartValues, getPackageValuesSchema, getHelmChartTemplates, getPackageChangelog]
+- name: artifact-hub-check-package-security
+  file: skills/artifact-hub-check-package-security.md
+  api: Artifact Hub Packages API
+  auth: none
+  description: Screen candidates on the search-level Trivy summary, then pull the full report for finalists.
+  operations: [searchPackages, getHelmPackageDetails, getPackageSecurityReport]
+- name: artifact-hub-watch-for-releases
+  file: skills/artifact-hub-watch-for-releases.md
+  api: Artifact Hub Webhooks API
+  auth: api-key
+  description: Register and test a webhook for new releases and security alerts, with the idempotency hazard called out.
+  operations: [triggerWebhookTest, addUserWebhook, getUserWebhooks, getUserWebhookDetail, updateUserWebhook, deleteUserWebhook, addOrganizationWebhook, addPackageSubscription]
+- name: artifact-hub-mirror-the-catalog
+  file: skills/artifact-hub-mirror-the-catalog.md
+  api: Artifact Hub Integrations API
+  auth: none
+  description: Bulk-read the whole catalogue via the integration dumps, as the provider's FAQ recommends.
+  operations: [getHarborReplicationDump, getHelmExporterDump, getNovaDump, getArtifactHubStats]

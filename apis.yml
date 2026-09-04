@@ -55,7 +55,7 @@ tags_raw:
   - Discovery
   - Open Source
 created: '2026-03-16'
-modified: '2026-04-19'
+modified: '2026-09-04'
 specificationVersion: '0.23'
 type: Index
 apis:
@@ -96,6 +96,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-organizations-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-organizations-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-packages-api
   name: Artifact Hub Packages API
   description: Search and retrieve cloud-native packages
@@ -106,6 +108,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-packages-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-packages-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-repositories-api
   name: Artifact Hub Repositories API
   description: Repository management
@@ -116,6 +120,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-repositories-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-repositories-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-stats-api
   name: Artifact Hub Stats API
   description: Site-wide statistics
@@ -126,6 +132,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-stats-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-stats-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-subscriptions-api
   name: Artifact Hub Subscriptions API
   description: Package event subscriptions
@@ -138,6 +146,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-subscriptions-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-subscriptions-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-users-api
   name: Artifact Hub Users API
   description: User accounts and sessions
@@ -150,6 +160,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-users-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-users-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-webhooks-api
   name: Artifact Hub Webhooks API
   description: Webhook configuration and delivery
@@ -162,6 +174,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-webhooks-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-webhooks-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-availability-checks-api
   name: Artifact Hub Availability checks API
   description: The Availability checks API from Artifact Hub — 1 operation(s) for availability checks.
@@ -172,6 +186,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-availability-checks-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-availability-checks-api-overlay.yaml
 - aid: artifact-hub:artifact-hub-integrations-api
   name: Artifact Hub Integrations API
   description: The Integrations API from Artifact Hub — 3 operation(s) for integrations.
@@ -184,7 +200,11 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/artifact-hub-integrations-api-openapi.yml
+  - type: Overlay
+    url: overlays/artifact-hub-integrations-api-overlay.yaml
 common:
+  - type: Website
+    url: https://artifacthub.io/
   - type: IssueTracker
     url: https://github.com/artifacthub/hub/issues
   - type: SecurityPolicy
@@ -284,8 +304,80 @@ common:
         description: >-
           Artifact Hub is an official CNCF incubating project integrated into
           the Cloud Native Computing Foundation's ecosystem.
-  - type: LlmsText
-    url: https://artifacthub.io/llms.txt
+  - type: LLMsTxt
+    url: llms/artifact-hub-llms.txt
+    title: llms.txt for Artifact Hub
+  - type: Packages
+    url: packages/artifact-hub-packages.yml
+    title: Distribution packages (Helm chart, ah CLI, container images, widget)
+  - type: CLI
+    url: cli/artifact-hub-cli.yml
+    title: ah command line tool
+  - type: Components
+    url: components/artifact-hub-components.yml
+    title: Embeddable Artifact Hub widget
+  - type: Conventions
+    url: conventions/artifact-hub-conventions.yml
+    title: API conventions, idempotency and reversibility
+  - type: ErrorCatalog
+    url: errors/artifact-hub-problem-types.yml
+    title: Error catalog
+  - type: DataModel
+    url: data-model/artifact-hub-data-model.yml
+    title: Entity relationship model
+  - type: Conformance
+    url: conformance/artifact-hub-conformance.yml
+    title: Standards conformance
+  - type: Lifecycle
+    url: lifecycle/artifact-hub-lifecycle.yml
+    title: Versioning, releases and deprecation posture
+  - type: ChangeLog
+    url: changelog/artifact-hub-changelog.yml
+    title: Release changelog
+  - type: Sandbox
+    url: sandbox/artifact-hub-sandbox.yml
+    title: Self-hosted sandbox and rehearsal operations
+  - type: Plans
+    url: plans/artifact-hub-plans-pricing.yml
+    title: Plans and pricing (free, no tiers)
+  - type: RateLimits
+    url: rate-limits/artifact-hub-rate-limits.yml
+    title: Rate limits
+  - type: FinOps
+    url: finops/artifact-hub-finops.yml
+    title: FinOps framework mapping
+  - type: Webhooks
+    url: asyncapi/artifact-hub-webhooks.yml
+    title: Webhook and event catalog
+  - type: AgentSkill
+    url: skills/_index.yml
+    title: Packaged Agent Skills
+  - type: X-MCPServerCandidate
+    url: mcp/artifact-hub-mcp.yml
+    title: Candidate MCP tool list (no first-party server published)
+  - type: VulnerabilityDisclosure
+    url: security/artifact-hub-vulnerability-disclosure.yml
+    title: Vulnerability disclosure policy
+  - type: Security
+    url: security/artifact-hub-vulnerability-disclosure.yml
+    title: Security policy and contact
+  - type: APIReference
+    url: https://artifacthub.io/docs/api/
+    title: Artifact Hub API reference
+  - type: Blog
+    url: https://artifacthub.github.io/blog/
+    title: Artifact Hub Blog
+  - type: Roadmap
+    url: https://github.com/artifacthub/hub/blob/master/ROADMAP.md
+    title: Artifact Hub Roadmap
+  - type: PrivacyPolicy
+    url: https://www.linuxfoundation.org/legal/privacy-policy
+    title: Linux Foundation Privacy Policy
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-04'
+  status: enriched
+  artifacts_added: 30
+  pass: local-v3

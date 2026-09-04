@@ -1,0 +1,82 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://github.com/artifacthub/hub/releases,
+  https://artifacthub.github.io/helm-charts/index.yaml (artifacthub.io/changes annotations),
+  https://artifacthub.io/docs/topics/faq/,
+  https://github.com/artifacthub/hub/blob/master/ROADMAP.md,
+  openapi/_original/artifact-hub-openapi.yml
+provider: Artifact Hub
+providerId: artifact-hub
+versioning:
+  api_version: v1
+  style: URI path prefix (/api/v1)
+  product_versioning: >-
+    Semantic-versioned project releases (v1.23.0). The OpenAPI's info.version tracks the
+    application release, not the API contract version — 1.22.0 and 1.23.0 describe the same
+    129 operations.
+  current_version: 1.23.0
+  current_version_released: '2026-07-07'
+  contract: https://github.com/artifacthub/hub/blob/master/docs/api/openapi.yaml
+  note: >-
+    There has never been a v2. The /api/v1 prefix has been stable across every release, and
+    a diff of the 1.22.0 and 1.23.0 specs shows zero operations added or removed.
+release_cadence:
+  observed:
+  - version: 1.23.0
+    date: '2026-07-07'
+  - version: 1.22.0
+    date: '2025-10-21'
+  - version: 1.21.0
+    date: '2025-04-24'
+  - version: 1.20.0
+    date: '2024-10-11'
+  - version: 1.19.0
+    date: '2024-06-27'
+  - version: 1.18.0
+    date: '2024-04-18'
+  note: >-
+    Roughly two minor releases a year historically, slowing to one: 8.5 months between
+    1.21.0 and 1.22.0 and 8.5 months again between 1.22.0 and 1.23.0.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: 0
+  note: >-
+    No operation in the 1.23.0 contract carries `deprecated: true`, and the project
+    publishes no API deprecation or sunset policy — searched the docs, the README, ROADMAP.md
+    and GOVERNANCE.md. `deprecated` DOES appear in the API, but as a search filter over
+    LISTED PACKAGES (components.parameters.DeprecatedParam, "Whether to include deprecated
+    packages or not") and as a Tekton package annotation added in 1.23.0 — that is a
+    property of third-party artifacts in the catalog, not of Artifact Hub's own endpoints.
+    No Deprecation pointer is emitted in apis.yml for this reason.
+status_page:
+  published: false
+  probed: '2026-09-04'
+  evidence: >-
+    status.artifacthub.io does not resolve (DNS NXDOMAIN), no status/uptime link appears in
+    the docs, the README or the site footer, and no third-party status host is referenced.
+    No StatusPage pointer is emitted.
+sla:
+  published: false
+  note: >-
+    artifacthub.io is a free CNCF-operated service with no service-level agreement. The
+    only availability commitment of any kind is the operational note in the FAQ that
+    repositories are processed every 30 minutes and changes are visible within 5 minutes of
+    processing.
+support:
+  issues: https://github.com/artifacthub/hub/issues
+  slack: https://cloud-native.slack.com/channels/artifact-hub
+  security: cncf-artifacthub-maintainers@lists.cncf.io
+governance:
+  foundation: Cloud Native Computing Foundation
+  maturity: Incubating
+  governance_doc: https://github.com/artifacthub/hub/blob/master/GOVERNANCE.md
+  license: Apache-2.0
+  project_page: https://www.cncf.io/projects/artifact-hub/
+  roadmap: https://github.com/artifacthub/hub/blob/master/ROADMAP.md
+  end_of_life_risk: >-
+    Low for consumers of the software (Apache-2.0, self-hostable from an official Helm
+    chart, distribution point declared in SECURITY-INSIGHTS.yml). The hosted artifacthub.io
+    service carries no contractual commitment.

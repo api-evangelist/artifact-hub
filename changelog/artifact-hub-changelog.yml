@@ -1,0 +1,92 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://github.com/artifacthub/hub/releases and the machine-readable
+  `artifacthub.io/changes` annotations on each chart version in
+  https://artifacthub.github.io/helm-charts/index.yaml
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Artifact Hub publishes no CHANGELOG.md and its GitHub release bodies are one-line pointers.
+  The real, dated, STRUCTURED changelog is the `artifacthub.io/changes` annotation the
+  project attaches to every published version of its own Helm chart — each entry is typed
+  (added / changed / fixed / removed / security) and rendered at
+  https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog. That is
+  the same annotation format Artifact Hub asks its publishers to use, so the project eats
+  its own dog food.
+scheme: semver
+current_version: 1.23.0
+current_version_date: '2026-07-07'
+formats:
+- type: structured-annotation
+  url: https://artifacthub.io/packages/helm/artifact-hub/artifact-hub?modal=changelog
+  machine_readable: true
+  note: artifacthub.io/changes annotation, kind + description per entry
+- type: release-list
+  url: https://github.com/artifacthub/hub/releases
+  machine_readable: true
+  note: GitHub Releases API; bodies link back to the chart changelog
+breaking_change_marker: false
+breaking_change_note: >-
+  The change kinds are added/changed/fixed/removed/security. There is no `breaking` kind and
+  no API-versioning signal, so a consumer cannot tell from the changelog whether an entry
+  affects the REST contract. In practice the 1.22.0 -> 1.23.0 diff added and removed zero
+  operations.
+entries:
+- version: 1.23.0
+  date: '2026-07-07'
+  counts: {added: 8, changed: 8, fixed: 6}
+  breaking: false
+  highlights:
+  - added: Code viewer for large code blocks
+  - added: Support for mermaid charts in README files
+  - added: Support for markdown in MOTD banner
+  - added: Deprecated annotation in Tekton packages
+  - changed: Some improvements to OCI package (including signature detection)
+  - changed: Improve security alerts notifications
+  - changed: Update FAQ
+  - fixed: Do not strip underscores from changes descriptions
+- version: 1.22.0
+  date: '2025-10-21'
+  counts: {added: 4, changed: 8, fixed: 2}
+  breaking: false
+  highlights:
+  - added: Support for kagent.dev agents
+  - added: FAQ section to the documentation
+  - changed: Set user agent header in outgoing requests
+  - changed: Upgrade chart postgresql dependency
+- version: 1.21.0
+  date: '2025-04-24'
+  counts: {added: 3, changed: 10, fixed: 5, security: 1}
+  breaking: false
+  highlights:
+  - added: Support for Bootable containers images
+  - added: Deletion protection experimental feature
+  - added: Include packages stars in nova dump
+  - fixed: Policy data format in API docs
+  - security: Add frame-ancestors directive to CSP
+- version: 1.20.0
+  date: '2024-10-11'
+  counts: {added: 4, changed: 7, fixed: 6, security: 1}
+  breaking: false
+  highlights:
+  - added: Support for Radius recipes
+  - changed: Update db migration script to support pg_partman 5
+  - security: Remove user sessions when password is updated
+- version: 1.19.0
+  date: '2024-06-27'
+  counts: {added: 3, changed: 8, fixed: 5}
+  breaking: false
+  highlights:
+  - added: Support for OpenCost plugins
+  - added: 'ah lint now supports git versioning in Tekton packages'
+  - changed: Update homepage for Incubation promotion
+- version: 1.18.0
+  date: '2024-04-18'
+  counts: {added: 7, changed: 6, fixed: 2, removed: 1}
+  breaking: false
+  highlights:
+  - added: Support for Inspektor Gadget gadgets
+  - added: Support for Tekton StepActions
+  - added: Support for Meshery Designs
+  - removed: Official badge from control panel repository card

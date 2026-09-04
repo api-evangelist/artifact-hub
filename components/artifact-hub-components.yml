@@ -1,0 +1,70 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://artifacthub.io/docs/topics/embedding_artifacts/,
+  https://github.com/artifacthub/hub/tree/master/widget, and a live probe of
+  https://artifacthub.io/artifacthub-widget.js (2026-09-04)
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Artifact Hub ships one client-side embeddable surface: a drop-in web widget that renders a
+  package card, or a group of package cards matching a search, inside any third-party page.
+  It is a genuine no-API-key integration path — the widget calls the public read API itself
+  — and it is distinct from an SDK.
+families:
+- name: Artifact Hub widget
+  kind: embeddable web component
+  loader: https://artifacthub.io/artifacthub-widget.js
+  loader_probed:
+    date: '2026-09-04'
+    status: 200
+    content_type: text/javascript
+    bytes: 580713
+  versioned: false
+  version_note: >-
+    The published embed code loads the loader from a bare, unversioned URL, so consumers
+    always float to the current build with no way to pin.
+  implementation: React 19 rendered into a shadow root (react-shadow + styled-components), built with Vite
+  source: https://github.com/artifacthub/hub/tree/master/widget
+  auth_required: false
+  components:
+  - name: artifacthub-widget (single artifact)
+    selector: div.artifacthub-widget
+    description: Renders one Artifact Hub package as a card, configured entirely through data-* attributes.
+    attributes:
+    - name: data-url
+      description: Full artifacthub.io URL of the package to embed
+      example: https://artifacthub.io/packages/helm/artifact-hub/artifact-hub
+    - name: data-theme
+      description: light or dark
+      example: light
+    - name: data-header
+      description: Show the widget header
+      example: 'true'
+    - name: data-stars
+      description: Show the package star count
+      example: 'true'
+    - name: data-responsive
+      description: Make the card fill its container
+      example: 'false'
+    fallback: >-
+      The documented embed code nests a <blockquote> inside the div so the block degrades to
+      a readable link when JavaScript is unavailable.
+    docs: https://artifacthub.io/docs/topics/embedding_artifacts/
+    demo: https://jsfiddle.net/r0ox4c9a/
+  - name: artifacthub-widget group
+    description: >-
+      Renders a group of packages selected by any Artifact Hub search — by kind, by
+      publishing organization, by CNCF membership and so on. The embed code is generated
+      from the widget configurator on the search results view rather than the package view.
+    docs: https://artifacthub.io/docs/topics/embedding_artifacts/
+    demo: https://jsfiddle.net/7nvkcfqb/
+  generation: >-
+    The provider does not expect hand-authored embed code: the HTML is produced by a widget
+    configurator in the Artifact Hub UI (package view -> the three-dot menu -> "Embed
+    widget", or the equivalent control on search results), with a copy-to-clipboard button.
+hosted_surfaces: []
+note: >-
+  No embedded dashboard, hosted checkout, or element library beyond the widget. The web
+  application itself (web/) is not published as a component library — its package.json is
+  marked private.

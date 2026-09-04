@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Packages API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Packages
   description: ''
@@ -39,10 +30,8 @@ paths:
                 properties:
                   packages:
                     type: integer
-                    nullable: false
                   releases:
                     type: integer
-                    nullable: false
         '429':
           $ref: '#/components/responses/TooManyRequests'
         '500':
@@ -107,12 +96,10 @@ paths:
                 properties:
                   packages:
                     type: array
-                    nullable: false
                     items:
                       $ref: '#/components/schemas/PackageSummary'
                   facets:
                     type: array
-                    nullable: false
                     items:
                       $ref: '#/components/schemas/Facets'
               examples:
@@ -124,8 +111,7 @@ paths:
                       normalized_name: artifact-hub
                       logo_image_id: 0f5488e2-da57-486b-a20f-bfe746ed3e23
                       stars: 2
-                      description: Artifact Hub is a web-based application that enables finding, installing,
-                        and publishing Cloud Native packages.
+                      description: Artifact Hub is a web-based application that enables finding, installing, and publishing Cloud Native packages.
                       version: 0.1.0
                       app_version: 0.1.0
                       deprecated: false
@@ -1682,10 +1668,8 @@ paths:
     get:
       tags:
       - Packages
-      summary: Get a summary of which of the organizations the user belongs to are using the package in
-        production
-      description: Get a summary of which of the organizations the user belongs to are using the package
-        in production
+      summary: Get a summary of which of the organizations the user belongs to are using the package in production
+      description: Get a summary of which of the organizations the user belongs to are using the package in production
       operationId: getProductionUsage
       parameters:
       - $ref: '#/components/parameters/RepoKindParam'
@@ -1802,10 +1786,8 @@ paths:
                 properties:
                   stars:
                     type: integer
-                    nullable: false
                   starred_by_user:
                     type: boolean
-                    nullable: false
         '429':
           $ref: '#/components/responses/TooManyRequests'
         '500':
@@ -1848,7 +1830,6 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
-                nullable: false
         '404':
           $ref: '#/components/responses/NotFoundResponse'
         '429':
@@ -1872,7 +1853,6 @@ paths:
             application/yaml:
               schema:
                 type: string
-                nullable: false
                 example: "# Values\nglobal:\n  image: \"\"\n"
         '429':
           $ref: '#/components/responses/TooManyRequests'
@@ -1898,7 +1878,6 @@ paths:
               schema:
                 type: object
                 additionalProperties: true
-                nullable: false
         '429':
           $ref: '#/components/responses/TooManyRequests'
         '404':
@@ -1931,10 +1910,8 @@ paths:
                   properties:
                     version:
                       type: string
-                      nullable: false
                     ts:
                       type: integer
-                      nullable: false
                     changes:
                       type: array
                       items:
@@ -1944,7 +1921,6 @@ paths:
                         properties:
                           description:
                             type: string
-                            nullable: false
                           kind:
                             $ref: '#/components/schemas/ChangelogItemKind'
                           links:
@@ -1957,19 +1933,13 @@ paths:
                               properties:
                                 name:
                                   type: string
-                                  nullable: false
                                 url:
                                   type: string
                                   format: uri
-                                  nullable: false
-                            nullable: false
-                      nullable: false
                     contains_security_updates:
                       type: boolean
-                      nullable: false
                     prerelease:
                       type: boolean
-                      nullable: false
         '429':
           $ref: '#/components/responses/TooManyRequests'
         '404':
@@ -2007,14 +1977,11 @@ paths:
                       properties:
                         name:
                           type: string
-                          nullable: false
                         data:
                           type: string
                           format: byte
-                          nullable: false
                   values:
                     type: object
-                    nullable: false
                     additionalProperties: true
         '400':
           $ref: '#/components/responses/BadRequest'
@@ -2040,7 +2007,6 @@ paths:
             application/json:
               schema:
                 type: object
-                nullable: false
                 additionalProperties: true
                 example:
                   1.0.1:
@@ -2056,235 +2022,227 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
+  parameters:
+    OperatorsParam:
+      in: query
+      name: operators
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only operators
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        default: 20
+        maximum: 60
+      required: false
+      description: The number of items to return
+    VersionParam:
+      in: path
+      name: version
+      schema:
+        type: string
+        example: 1.0.0
+      required: true
+      description: Package version
+    LicensesListParam:
+      in: query
+      name: license
+      schema:
+        type: array
+        items:
           type: string
-          example: error details
-    MesheryDesign:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              design:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'name: sample'
-    FalcoPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              rules:
-                oneOf:
-                - type: array
-                  items:
-                    type: object
-                    nullable: false
-                    properties:
-                      Name:
-                        type: string
-                      Raw:
-                        type: string
-                        example: "- macro: text\n  condition: (evt.num < 0)\n"
-                - type: object
-                  nullable: false
-                  additionalProperties: true
-    KedaScalerPackage:
-      $ref: '#/components/schemas/Package'
-    KagentPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          sign_key:
-            type: object
-            nullable: false
-            properties:
-              fingerprint:
-                type: string
-                nullable: false
-                example: '0011223344'
-              url:
-                type: string
-                format: uri
-                example: https://key.url
-          crds:
-            type: array
-            nullable: false
-            items:
-              type: object
-              required:
-              - kind
-              - name
-              - version
-              - description
-              - displayName
-              properties:
-                kind:
-                  type: string
-                  nullable: false
-                name:
-                  type: string
-                  nullable: false
-                version:
-                  type: string
-                  nullable: false
-                description:
-                  type: string
-                  nullable: false
-                displayName:
-                  type: string
-                  nullable: false
-          crds_examples:
-            type: array
-            nullable: false
-            items:
-              type: object
-              additionalProperties: true
-          data:
-            type: object
-            nullable: false
-            properties:
-              apiVersion:
-                type: string
-                example: v2
-                nullable: false
-              type:
-                type: string
-                example: application
-                nullable: false
-              kubeVersion:
-                type: string
-                example: '>=1.16.0-0'
-                nullable: false
-              dependencies:
-                type: array
-                items:
-                  type: object
-                  nullable: false
-                  required:
-                  - name
-                  - version
-                  - repository
-                  properties:
-                    name:
-                      type: string
-                      nullable: false
-                      example: mysql
-                    version:
-                      type: string
-                      nullable: false
-                      example: 1.6.4
-                    repository:
-                      type: string
-                      nullable: false
-                      example: http://repo.url
-    PackageCategoryId:
-      type: integer
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      nullable: false
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` -\
-        \ Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` -\
-        \ Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
-    RepositorySummary:
-      type: object
-      required:
-      - repository_id
-      - kind
-      - name
-      - url
-      - verified_publisher
-      - official
-      - scanner_disabled
-      properties:
-        repository_id:
+        example:
+        - MIT
+        - Apache-2.0
+      required: false
+      description: List of SPDX identifiers
+    OrgsListParam:
+      in: query
+      name: org
+      schema:
+        type: array
+        items:
           type: string
-          format: uuid
-        kind:
+        example:
+        - org1
+        - org2
+      required: false
+      description: List of organization names
+    FacetsParam:
+      in: query
+      name: facets
+      schema:
+        type: boolean
+        default: false
+      required: true
+      description: Whether we should get facets or not
+    PackageNameParam:
+      in: path
+      name: packageName
+      schema:
+        type: string
+        example: pkg1
+      required: true
+      description: Package name
+    SortParam:
+      in: query
+      name: sort
+      schema:
+        type: string
+        enum:
+        - relevance
+        - stars
+        - last_updated
+        example: relevance
+      required: false
+      description: Sort criteria
+    OrgNameParam:
+      in: path
+      name: orgName
+      schema:
+        type: string
+        example: org1
+      required: true
+      description: Organization name
+    PackageIDParam:
+      in: path
+      name: packageID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Package ID
+    OffsetParam:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      required: false
+      description: The number of items to skip before starting to collect the result set
+    PackageCategoryListParam:
+      in: query
+      name: category
+      schema:
+        type: array
+        items:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+      required: false
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    CNCFParam:
+      in: query
+      name: cncf
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only packages published by CNCF projects
+    RepoNameParam:
+      in: path
+      name: repoName
+      schema:
+        type: string
+        example: repoName
+      required: true
+      description: Repository name
+    TSQueryWebParam:
+      in: query
+      name: ts_query_web
+      schema:
+        type: string
+        example: database
+      required: false
+      description: Text search query (websearch format)
+    OfficialParam:
+      in: query
+      name: official
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only official repositories
+    RepoKindParam:
+      in: path
+      name: repoKindParam
+      schema:
+        $ref: '#/components/schemas/RepositoryKindParam'
+      required: true
+      description: Package kind name
+    RepositoryKindsListParam:
+      in: query
+      name: kind
+      schema:
+        type: array
+        items:
           $ref: '#/components/schemas/RepositoryKind'
-        name:
+      required: false
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+    DeprecatedParam:
+      in: query
+      name: deprecated
+      schema:
+        type: boolean
+        default: false
+      required: false
+      description: Whether to include deprecated packages or not
+    RepositoriesListParam:
+      in: query
+      name: repo
+      schema:
+        type: array
+        items:
           type: string
-          nullable: false
-          example: repo1
-        display_name:
+        example:
+        - repo1
+        - repo2
+      required: false
+      description: List of repository names
+    CapabilitiesListParam:
+      in: query
+      name: capabilities
+      schema:
+        type: array
+        items:
           type: string
-          nullable: false
-          example: Repository 1
-        url:
+        example:
+        - basic install
+        - seamless upgrades
+        - full lifecycle
+        - deep insights
+        - auto pilot
+      required: false
+      description: List of operator capability levels
+    VerifiedPublisherParam:
+      in: query
+      name: verified_publisher
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only verified publisher
+    UsersListParam:
+      in: query
+      name: user
+      schema:
+        type: array
+        items:
           type: string
-          format: uri
-          nullable: false
-          example: http://repourl
-        verified_publisher:
-          type: boolean
-          nullable: false
-        official:
-          type: boolean
-          nullable: false
-        cncf:
-          type: boolean
-          nullable: true
-        private:
-          type: boolean
-          nullable: false
-        scanner_disabled:
-          type: boolean
-          nullable: false
-          example: false
-        user_alias:
-          type: string
-          nullable: false
-          example: jdoe
-        organization_name:
-          type: string
-          nullable: false
-          example: org1
-        organization_display_name:
-          type: string
-          nullable: false
-          example: Organization 1
-      nullable: false
-    ContainerImage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              platforms:
-                type: array
-                items:
-                  type: string
-                  nullable: false
-                  example: darwin/amd64
-              alternative_locations:
-                type: array
-                items:
-                  type: string
-                  nullable: false
-                  example: public.ecr.aws/artifacthub/ah
+        example:
+        - user1
+        - user2
+      required: false
+      description: List of aliases
+  schemas:
     TektonStepActionPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
@@ -2303,13 +2261,11 @@ components:
                 example: 'apiVersion: tekton.dev/v1beta1'
               examples:
                 type: object
-                nullable: false
                 additionalProperties: true
               platforms:
                 type: array
                 items:
                   type: string
-                  nullable: false
                   example: darwin/amd64
     KyvernoPolicy:
       allOf:
@@ -2318,18 +2274,13 @@ components:
         properties:
           relative_path:
             type: string
-            nullable: false
             example: /general/allowedrepos
           data:
             type: object
-            nullable: false
             properties:
               policy:
                 type: string
-                nullable: false
-                example: "apiVersion: kyverno.io/v1 kind: ClusterPolicy metadata:\n  name: add-certificates-volume\n\
-                  \  annotations:\n    policies.kyverno.io/title: Add Certificates as a Volume\n    policies.kyverno.io/category:\
-                  \ Sample\n    policies.kyverno.io/subject: Pod,Volume"
+                example: "apiVersion: kyverno.io/v1 kind: ClusterPolicy metadata:\n  name: add-certificates-volume\n  annotations:\n    policies.kyverno.io/title: Add Certificates as a Volume\n    policies.kyverno.io/category: Sample\n    policies.kyverno.io/subject: Pod,Volume"
               kyverno/subject:
                 type: string
                 example: Pod, Volume
@@ -2342,6 +2293,205 @@ components:
               kyverno/category:
                 type: string
                 example: OpenShift
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
+    InspektorGadgetPackage:
+      $ref: '#/components/schemas/Package'
+    KrewPluginsPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+              manifestRaw:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'apiVersion: krew.googlecontainertools.github.com/v1alpha2'
+    PackageCategoryId:
+      type: integer
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    Facets:
+      type: object
+      required:
+      - filter_key
+      - title
+      - options
+      properties:
+        filter_key:
+          type: string
+        title:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - name
+            - total
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              total:
+                type: integer
+              filter_key:
+                type: string
+      example:
+        title: Publisher
+        filter_key: publisher
+        options:
+        - id: f41e7480-8d5c-40d3-9ba6-65ac0da8fc9c
+          name: Helm
+          total: 292
+          filter_key: org
+        - id: b771c9a8-0076-444c-ad5e-927abe14173d
+          name: Artifact Hub
+          total: 1
+          filter_key: org
+        - id: a70u69a8-0326-324c-fd3e-0iu87e14173d
+          name: user1
+          total: 3
+          filter_key: user
+    ContainerImage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+              alternative_locations:
+                type: array
+                items:
+                  type: string
+                  example: public.ecr.aws/artifacthub/ah
+    HeadlampPluginPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              headlamp/plugin/archive-url:
+                type: string
+                example: https://headlamp.dev/sample-plugin-url
+              headlamp/plugin/distro-compat:
+                type: string
+                example: in-cluster,web,docker-desktop
+              headlamp/plugin/version-compat:
+                type: string
+                example: '>=1.2.3'
+              headlamp/plugin/archive-checksum:
+                type: string
+                example: sha256:123456...
+    PackageBase:
+      type: object
+      required:
+      - package_id
+      - name
+      - normalized_name
+      - stars
+      - version
+      - ts
+      - repository
+      properties:
+        package_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: pkg1
+        normalized_name:
+          type: string
+          example: pkg1
+        logo_image_id:
+          type: string
+          example: 12345abcde
+        display_name:
+          type: string
+          example: Package 1
+        description:
+          type: string
+          example: This is a package sample
+        version:
+          type: string
+          example: 1.0.0
+        app_version:
+          type: string
+          example: 0.1.0
+        license:
+          type: string
+          example: MIT
+        deprecated:
+          type: boolean
+          example: false
+        signed:
+          type: boolean
+          example: false
+        signatures:
+          type: array
+          items:
+            type: string
+            enum:
+            - prov
+            - cosign
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        ts:
+          type: integer
+        repository:
+          $ref: '#/components/schemas/RepositorySummary'
+        security_report_summary:
+          type: object
+          properties:
+            critical:
+              type: number
+            high:
+              type: number
+            medium:
+              type: number
+            low:
+              type: number
+            unknown:
+              type: number
+        all_containers_images_whitelisted:
+          type: boolean
+          example: false
+        production_organizations_count:
+          type: number
     KeptnIntegrationsPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
@@ -2349,7 +2499,6 @@ components:
         properties:
           data:
             type: object
-            nullable: false
             properties:
               keptn/version:
                 type: string
@@ -2357,6 +2506,96 @@ components:
               keptn/kind:
                 type: string
                 example: service,sli-provider
+    OPAPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              policies:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  policy1: "- macro: text\n  condition: (evt.num < 0)\n"
+    TBActionPackage:
+      $ref: '#/components/schemas/Package'
+    RadiusRecipe:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              recipe:
+                type: object
+                additionalProperties: true
+    ProductionUsageOrganization:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: org1
+        display_name:
+          type: string
+          example: Organization 1
+        home_url:
+          type: string
+          format: uri
+          example: http://url
+        logo_image_id:
+          type: string
+          example: 12345abcde
+        used_in_production:
+          type: boolean
+    MesheryDesign:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              design:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'name: sample'
+    KubewardenPoliciesPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              kubewarden/resources:
+                type: string
+                example: Pod
+              kubewarden/mutation:
+                type: string
+                example: 'true'
+    BootableContainer:
+      $ref: '#/components/schemas/Package'
+    ArgoTemplate:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              template:
+                type: string
+                example: "apiVersion: argoproj.io/v1alpha1 kind: WorkflowTemplate metadata:\n  annotations:\n    workflows.argoproj.io/description: This is a basic catalog example that simply\n      prints \"hello argo!\".\n    workflows.argoproj.io/maintainer: '@alexec'\n    workflows.argoproj.io/tags: example\n    workflows.argoproj.io/version: '>= 2.9.0'\n  name: hello-world"
+              argo/version:
+                type: string
+                example: 1.5.0
     RepositoryKindParam:
       type: string
       enum:
@@ -2450,277 +2689,129 @@ components:
         * `kagent` - Kagent agents
 
         '
-    TektonTaskPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              pipelines.minVersion:
-                type: string
-                example: 2.0.0
-              manifestRaw:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'apiVersion: tekton.dev/v1beta1'
-              examples:
-                type: object
-                nullable: false
-                additionalProperties: true
-              platforms:
-                type: array
-                items:
-                  type: string
-                  nullable: false
-                  example: darwin/amd64
-    OpencostPlugin:
-      $ref: '#/components/schemas/Package'
-    CoreDNSPackage:
-      $ref: '#/components/schemas/Package'
-    Facets:
+    RepositorySummary:
       type: object
       required:
-      - filter_key
-      - title
-      - options
-      properties:
-        filter_key:
-          type: string
-          nullable: false
-        title:
-          type: string
-          nullable: false
-        options:
-          type: array
-          nullable: false
-          items:
-            type: object
-            required:
-            - id
-            - name
-            - total
-            properties:
-              id:
-                type: string
-                nullable: false
-              name:
-                type: string
-                nullable: false
-              total:
-                type: integer
-                nullable: false
-              filter_key:
-                type: string
-                nullable: false
-      example:
-        title: Publisher
-        filter_key: publisher
-        options:
-        - id: f41e7480-8d5c-40d3-9ba6-65ac0da8fc9c
-          name: Helm
-          total: 292
-          filter_key: org
-        - id: b771c9a8-0076-444c-ad5e-927abe14173d
-          name: Artifact Hub
-          total: 1
-          filter_key: org
-        - id: a70u69a8-0326-324c-fd3e-0iu87e14173d
-          name: user1
-          total: 3
-          filter_key: user
-    RadiusRecipe:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              recipe:
-                type: object
-                nullable: false
-                additionalProperties: true
-    KubeArmorPoliciesPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              policies:
-                type: object
-                additionalProperties:
-                  type: string
-                example:
-                  system/ksc-misconfig-service.yaml: 'apiVersion: security.kubearmor.com/v1
-
-                    kind: KubeArmorPolicy
-
-                    '
-    KCLPackage:
-      $ref: '#/components/schemas/Package'
-    PackageSummary:
-      allOf:
-      - $ref: '#/components/schemas/PackageBase'
-      - type: object
-        properties:
-          category:
-            $ref: '#/components/schemas/PackageCategoryId'
-          stars:
-            type: integer
-            nullable: false
-            example: 3
-    OPAPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              policies:
-                type: object
-                additionalProperties:
-                  type: string
-                example:
-                  policy1: "- macro: text\n  condition: (evt.num < 0)\n"
-    Link:
-      type: object
-      nullable: false
-      required:
-      - url
+      - repository_id
+      - kind
       - name
+      - url
+      - verified_publisher
+      - official
+      - scanner_disabled
       properties:
+        repository_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/RepositoryKind'
+        name:
+          type: string
+          example: repo1
+        display_name:
+          type: string
+          example: Repository 1
         url:
           type: string
           format: uri
-          nullable: false
-          example: http://url
-        name:
-          type: string
-          nullable: false
-          example: link
-    Maintainer:
-      type: object
-      nullable: false
-      required:
-      - name
-      - email
-      properties:
-        maintainer_id:
-          type: string
-          format: uuid
-          nullable: false
-        name:
-          type: string
-          nullable: false
-          example: maintainer1
-        email:
-          type: string
-          nullable: false
-          example: maintainer@email.com
-    ProductionUsageOrganization:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          nullable: false
-          example: org1
-        display_name:
-          type: string
-          nullable: false
-          example: Organization 1
-        home_url:
-          type: string
-          format: uri
-          nullable: false
-          example: http://url
-        logo_image_id:
-          type: string
-          nullable: false
-          example: 12345abcde
-        used_in_production:
+          example: http://repourl
+        verified_publisher:
           type: boolean
-          nullable: false
-    KrewPluginsPackage:
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        private:
+          type: boolean
+        scanner_disabled:
+          type: boolean
+          example: false
+        user_alias:
+          type: string
+          example: jdoe
+        organization_name:
+          type: string
+          example: org1
+        organization_display_name:
+          type: string
+          example: Organization 1
+    KagentPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
         properties:
+          sign_key:
+            type: object
+            properties:
+              fingerprint:
+                type: string
+                example: '0011223344'
+              url:
+                type: string
+                format: uri
+                example: https://key.url
+          crds:
+            type: array
+            items:
+              type: object
+              required:
+              - kind
+              - name
+              - version
+              - description
+              - displayName
+              properties:
+                kind:
+                  type: string
+                name:
+                  type: string
+                version:
+                  type: string
+                description:
+                  type: string
+                displayName:
+                  type: string
+          crds_examples:
+            type: array
+            items:
+              type: object
+              additionalProperties: true
           data:
             type: object
-            nullable: false
             properties:
-              platforms:
-                type: array
-                items:
-                  type: string
-                  nullable: false
-                  example: darwin/amd64
-              manifestRaw:
+              apiVersion:
                 type: string
-                additionalProperties:
-                  type: string
-                example: 'apiVersion: krew.googlecontainertools.github.com/v1alpha2'
-    GatekeeperPolicy:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          relative_path:
-            type: string
-            nullable: false
-            example: /general/allowedrepos
-          data:
-            type: object
-            nullable: false
-            properties:
-              template:
+                example: v2
+              type:
                 type: string
-                nullable: false
-                example: "apiVersion: templates.gatekeeper.sh/v1 kind: ConstraintTemplate metadata:\n\
-                  \  name: k8sallowedrepos\n  annotations:\n    metadata.gatekeeper.sh/title: \"Kubernetes\
-                  \ Allowed Repositories\"\n    description: >-\n      Requires container images to begin\
-                  \ with a string from the specified list."
-              examples:
+                example: application
+              kubeVersion:
+                type: string
+                example: '>=1.16.0-0'
+              dependencies:
                 type: array
-                nullable: false
                 items:
                   type: object
-                  nullable: false
+                  required:
+                  - name
+                  - version
+                  - repository
                   properties:
                     name:
                       type: string
-                      nullable: false
-                    cases:
-                      type: array
-                      nullable: false
-                      items:
-                        type: object
-                        nullable: false
-                        properties:
-                          name:
-                            type: string
-                            nullable: false
-                          path:
-                            type: string
-                            nullable: false
-                          content:
-                            type: string
-                            nullable: false
-                example:
-                - name: memory-ratio-only
-                  cases:
-                  - name: constraint
-                    path: samples/container-must-meet-ratio/constraint.yaml
-                    content: 'apiVersion: constraints.gatekeeper.sh/v1beta1'
+                      example: mysql
+                    version:
+                      type: string
+                      example: 1.6.4
+                    repository:
+                      type: string
+                      example: http://repo.url
+    HelmPluginPackage:
+      $ref: '#/components/schemas/Package'
+    KCLPackage:
+      $ref: '#/components/schemas/Package'
     Package:
       allOf:
       - $ref: '#/components/schemas/PackageBase'
@@ -2739,22 +2830,18 @@ components:
             $ref: '#/components/schemas/RepositorySummary'
           is_operator:
             type: boolean
-            nullable: false
             example: false
           latest_version:
             type: string
-            nullable: false
             example: 2.0.0
           logo_url:
             type: string
             format: uri
-            nullable: false
             example: http://logo
           category:
             $ref: '#/components/schemas/PackageCategoryId'
           keywords:
             type: array
-            nullable: false
             items:
               type: string
             example:
@@ -2763,20 +2850,16 @@ components:
           home_url:
             type: string
             format: uri
-            nullable: false
             example: http://home
           readme:
             type: string
-            nullable: false
             example: '###Readme'
           links:
             type: array
-            nullable: false
             items:
               $ref: '#/components/schemas/Link'
           available_versions:
             type: array
-            nullable: false
             items:
               type: object
               required:
@@ -2787,92 +2870,69 @@ components:
               properties:
                 version:
                   type: string
-                  nullable: false
                   example: 1.0.0
                 contains_security_updates:
                   type: boolean
-                  nullable: false
                 prerelease:
                   type: boolean
-                  nullable: false
                 ts:
                   type: integer
-                  nullable: false
                   example: 1618431211
           maintainers:
             type: array
-            nullable: false
             items:
               $ref: '#/components/schemas/Maintainer'
           default_channel:
             type: string
-            nullable: false
             example: stable
           channels:
             type: array
-            nullable: false
             items:
               type: object
-              nullable: false
               properties:
                 name:
                   type: string
-                  nullable: false
                   example: stable
                 version:
                   type: string
-                  nullable: false
                   example: 2.0.0
           provider:
             type: string
-            nullable: false
             example: Provider 1
           containers_images:
             type: array
             items:
               type: object
-              nullable: false
               required:
               - image
               properties:
                 image:
                   type: string
-                  nullable: false
                   example: url.io/name/operator:v0.2.0
                 name:
                   type: string
-                  nullable: false
                 whitelisted:
                   type: boolean
-                  nullable: false
                   example: false
           ts:
             type: integer
-            nullable: false
             example: 1552082346
           capabilities:
             type: string
-            nullable: false
             example: seamless upgrades
           security_report_created_at:
             type: integer
-            nullable: false
           has_values_schema:
             type: boolean
-            nullable: false
           has_changelog:
             type: boolean
-            nullable: false
           content_url:
             type: string
             format: uri
-            nullable: false
           contains_security_updates:
             type: boolean
-            nullable: false
           prerelease:
             type: boolean
-            nullable: false
           recommendations:
             type: array
             items:
@@ -2882,133 +2942,104 @@ components:
                   type: string
                   format: uri
                   example: https://artifacthub.io/packages/helm/artifact-hub/artifact-hub
-                  nullable: false
-            nullable: false
           stats:
             type: object
-            nullable: false
             required:
             - subscriptions
             - webhooks
             properties:
               subscriptions:
                 type: integer
-                nullable: false
               webhooks:
                 type: integer
-                nullable: false
-    HelmPackage:
+    KnativeClientPluginsPackage:
+      $ref: '#/components/schemas/Package'
+    KubeArmorPoliciesPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
         properties:
-          sign_key:
-            type: object
-            nullable: false
-            properties:
-              fingerprint:
-                type: string
-                nullable: false
-                example: '0011223344'
-              url:
-                type: string
-                format: uri
-                example: https://key.url
-          crds:
-            type: array
-            nullable: false
-            items:
-              type: object
-              required:
-              - kind
-              - name
-              - version
-              - description
-              - displayName
-              properties:
-                kind:
-                  type: string
-                  nullable: false
-                name:
-                  type: string
-                  nullable: false
-                version:
-                  type: string
-                  nullable: false
-                description:
-                  type: string
-                  nullable: false
-                displayName:
-                  type: string
-                  nullable: false
-          crds_examples:
-            type: array
-            nullable: false
-            items:
-              type: object
-              additionalProperties: true
           data:
             type: object
-            nullable: false
             properties:
-              apiVersion:
+              policies:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  system/ksc-misconfig-service.yaml: 'apiVersion: security.kubearmor.com/v1
+
+                    kind: KubeArmorPolicy
+
+                    '
+    GatekeeperPolicy:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          relative_path:
+            type: string
+            example: /general/allowedrepos
+          data:
+            type: object
+            properties:
+              template:
                 type: string
-                example: v2
-                nullable: false
-              type:
-                type: string
-                example: application
-                nullable: false
-              kubeVersion:
-                type: string
-                example: '>=1.16.0-0'
-                nullable: false
-              dependencies:
+                example: "apiVersion: templates.gatekeeper.sh/v1 kind: ConstraintTemplate metadata:\n  name: k8sallowedrepos\n  annotations:\n    metadata.gatekeeper.sh/title: \"Kubernetes Allowed Repositories\"\n    description: >-\n      Requires container images to begin with a string from the specified list."
+              examples:
                 type: array
                 items:
                   type: object
-                  nullable: false
-                  required:
-                  - name
-                  - version
-                  - repository
                   properties:
                     name:
                       type: string
-                      nullable: false
-                      example: mysql
-                    version:
-                      type: string
-                      nullable: false
-                      example: 1.6.4
-                    repository:
-                      type: string
-                      nullable: false
-                      example: http://repo.url
-    HeadlampPluginPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              headlamp/plugin/archive-url:
-                type: string
-                example: https://headlamp.dev/sample-plugin-url
-              headlamp/plugin/distro-compat:
-                type: string
-                example: in-cluster,web,docker-desktop
-              headlamp/plugin/version-compat:
-                type: string
-                example: '>=1.2.3'
-              headlamp/plugin/archive-checksum:
-                type: string
-                example: sha256:123456...
-    InspektorGadgetPackage:
+                    cases:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          path:
+                            type: string
+                          content:
+                            type: string
+                example:
+                - name: memory-ratio-only
+                  cases:
+                  - name: constraint
+                    path: samples/container-must-meet-ratio/constraint.yaml
+                    content: 'apiVersion: constraints.gatekeeper.sh/v1beta1'
+    KedaScalerPackage:
       $ref: '#/components/schemas/Package'
-    TektonPipelinePackage:
+    ChangelogItemKind:
+      type: string
+      enum:
+      - added
+      - changed
+      - deprecated
+      - removed
+      - fixed
+      - security
+      description: "Types of changes:\n  * `added` - New features\n  * `changed` - Changes in existing functionality\n  * `deprecated` - Soon-to-be removed features\n  * `removed` - Removed features\n  * `fixed` - Any bug fixed\n  * `security` - In case of vulnerabilities\n"
+    BackstagePlugin:
+      $ref: '#/components/schemas/Package'
+    Maintainer:
+      type: object
+      required:
+      - name
+      - email
+      properties:
+        maintainer_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: maintainer1
+        email:
+          type: string
+          example: maintainer@email.com
+    TektonTaskPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
@@ -3024,35 +3055,14 @@ components:
                 additionalProperties:
                   type: string
                 example: 'apiVersion: tekton.dev/v1beta1'
-              tasks:
-                type: object
-                required:
-                - name
-                properties:
-                  name:
-                    type: string
-                    nullable: false
-                    example: task
-                  run_after:
-                    type: array
-                    nullable: false
-                    items:
-                      type: string
-                    example:
-                    - task1
-                    - task2
               examples:
                 type: object
-                nullable: false
                 additionalProperties: true
               platforms:
                 type: array
                 items:
                   type: string
-                  nullable: false
                   example: darwin/amd64
-    TBActionPackage:
-      $ref: '#/components/schemas/Package'
     OLMPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
@@ -3060,10 +3070,8 @@ components:
         properties:
           crds:
             type: array
-            nullable: false
             items:
               type: object
-              nullable: false
               required:
               - kind
               - name
@@ -3073,22 +3081,16 @@ components:
               properties:
                 kind:
                   type: string
-                  nullable: false
                 name:
                   type: string
-                  nullable: false
                 version:
                   type: string
-                  nullable: false
                 description:
                   type: string
-                  nullable: false
                 displayName:
                   type: string
-                  nullable: false
           crds_examples:
             type: array
-            nullable: false
             items:
               type: object
               additionalProperties: true
@@ -3099,10 +3101,8 @@ components:
             properties:
               isGlobalOperator:
                 type: boolean
-                nullable: false
               customResourcesDefinitions:
                 type: array
-                nullable: false
                 items:
                   type: object
                   required:
@@ -3114,24 +3114,136 @@ components:
                   properties:
                     kind:
                       type: string
-                      nullable: false
                     name:
                       type: string
-                      nullable: false
                     version:
                       type: string
-                      nullable: false
                     description:
                       type: string
-                      nullable: false
                     displayName:
                       type: string
-                      nullable: false
               customResourcesDefinitionsExamples:
                 type: string
-                nullable: false
-                example: "[{\"apiVersion\": v1alpha\n, \"kind\": CustomResource\n, \"spec\": {\n  \"replicas\"\
-                  : 1\n  }\n}}]"
+                example: "[{\"apiVersion\": v1alpha\n, \"kind\": CustomResource\n, \"spec\": {\n  \"replicas\": 1\n  }\n}}]"
+    FalcoPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              rules:
+                oneOf:
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      Name:
+                        type: string
+                      Raw:
+                        type: string
+                        example: "- macro: text\n  condition: (evt.num < 0)\n"
+                - type: object
+                  additionalProperties: true
+    HelmPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          sign_key:
+            type: object
+            properties:
+              fingerprint:
+                type: string
+                example: '0011223344'
+              url:
+                type: string
+                format: uri
+                example: https://key.url
+          crds:
+            type: array
+            items:
+              type: object
+              required:
+              - kind
+              - name
+              - version
+              - description
+              - displayName
+              properties:
+                kind:
+                  type: string
+                name:
+                  type: string
+                version:
+                  type: string
+                description:
+                  type: string
+                displayName:
+                  type: string
+          crds_examples:
+            type: array
+            items:
+              type: object
+              additionalProperties: true
+          data:
+            type: object
+            properties:
+              apiVersion:
+                type: string
+                example: v2
+              type:
+                type: string
+                example: application
+              kubeVersion:
+                type: string
+                example: '>=1.16.0-0'
+              dependencies:
+                type: array
+                items:
+                  type: object
+                  required:
+                  - name
+                  - version
+                  - repository
+                  properties:
+                    name:
+                      type: string
+                      example: mysql
+                    version:
+                      type: string
+                      example: 1.6.4
+                    repository:
+                      type: string
+                      example: http://repo.url
+    PackageSummary:
+      allOf:
+      - $ref: '#/components/schemas/PackageBase'
+      - type: object
+        properties:
+          category:
+            $ref: '#/components/schemas/PackageCategoryId'
+          stars:
+            type: integer
+            example: 3
+    Link:
+      type: object
+      required:
+      - url
+      - name
+      properties:
+        url:
+          type: string
+          format: uri
+          example: http://url
+        name:
+          type: string
+          example: link
+    OpencostPlugin:
+      $ref: '#/components/schemas/Package'
+    CoreDNSPackage:
+      $ref: '#/components/schemas/Package'
     RepositoryKind:
       type: integer
       enum:
@@ -3163,419 +3275,53 @@ components:
       - 25
       - 26
       - 27
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n\
-        \  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6`\
-        \ - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n\
-        \  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  *\
-        \ `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  *\
-        \ `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  *\
-        \ `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` -\
-        \ Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost\
-        \ plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-    KnativeClientPluginsPackage:
-      $ref: '#/components/schemas/Package'
-    KubewardenPoliciesPackage:
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+    TektonPipelinePackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
         properties:
           data:
             type: object
-            nullable: false
             properties:
-              kubewarden/resources:
+              pipelines.minVersion:
                 type: string
-                example: Pod
-              kubewarden/mutation:
+                example: 2.0.0
+              manifestRaw:
                 type: string
-                example: 'true'
-    BootableContainer:
-      $ref: '#/components/schemas/Package'
-    BackstagePlugin:
-      $ref: '#/components/schemas/Package'
-    HelmPluginPackage:
-      $ref: '#/components/schemas/Package'
-    ArgoTemplate:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            nullable: false
-            properties:
-              template:
-                type: string
-                nullable: false
-                example: "apiVersion: argoproj.io/v1alpha1 kind: WorkflowTemplate metadata:\n  annotations:\n\
-                  \    workflows.argoproj.io/description: This is a basic catalog example that simply\n\
-                  \      prints \"hello argo!\".\n    workflows.argoproj.io/maintainer: '@alexec'\n  \
-                  \  workflows.argoproj.io/tags: example\n    workflows.argoproj.io/version: '>= 2.9.0'\n\
-                  \  name: hello-world"
-              argo/version:
-                type: string
-                example: 1.5.0
-    ChangelogItemKind:
-      type: string
-      enum:
-      - added
-      - changed
-      - deprecated
-      - removed
-      - fixed
-      - security
-      nullable: false
-      description: "Types of changes:\n  * `added` - New features\n  * `changed` - Changes in existing\
-        \ functionality\n  * `deprecated` - Soon-to-be removed features\n  * `removed` - Removed features\n\
-        \  * `fixed` - Any bug fixed\n  * `security` - In case of vulnerabilities\n"
-    PackageBase:
-      type: object
-      required:
-      - package_id
-      - name
-      - normalized_name
-      - stars
-      - version
-      - ts
-      - repository
-      properties:
-        package_id:
-          type: string
-          format: uuid
-          nullable: false
-        name:
-          type: string
-          nullable: false
-          example: pkg1
-        normalized_name:
-          type: string
-          nullable: false
-          example: pkg1
-        logo_image_id:
-          type: string
-          nullable: false
-          example: 12345abcde
-        display_name:
-          type: string
-          nullable: false
-          example: Package 1
-        description:
-          type: string
-          nullable: false
-          example: This is a package sample
-        version:
-          type: string
-          nullable: false
-          example: 1.0.0
-        app_version:
-          type: string
-          nullable: false
-          example: 0.1.0
-        license:
-          type: string
-          nullable: false
-          example: MIT
-        deprecated:
-          type: boolean
-          nullable: false
-          example: false
-        signed:
-          type: boolean
-          nullable: false
-          example: false
-        signatures:
-          type: array
-          items:
-            type: string
-            enum:
-            - prov
-            - cosign
-            nullable: false
-        official:
-          type: boolean
-          nullable: false
-        cncf:
-          type: boolean
-          nullable: true
-        ts:
-          type: integer
-          nullable: false
-        repository:
-          $ref: '#/components/schemas/RepositorySummary'
-        security_report_summary:
-          type: object
-          nullable: false
-          properties:
-            critical:
-              type: number
-              nullable: false
-            high:
-              type: number
-              nullable: false
-            medium:
-              type: number
-              nullable: false
-            low:
-              type: number
-              nullable: false
-            unknown:
-              type: number
-              nullable: false
-        all_containers_images_whitelisted:
-          type: boolean
-          nullable: false
-          example: false
-        production_organizations_count:
-          type: number
-          nullable: false
-  parameters:
-    PackageNameParam:
-      in: path
-      name: packageName
-      schema:
-        type: string
-        example: pkg1
-      required: true
-      description: Package name
-    OperatorsParam:
-      in: query
-      name: operators
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only operators
-    RepositoriesListParam:
-      in: query
-      name: repo
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - repo1
-        - repo2
-      required: false
-      description: List of repository names
-    LimitParam:
-      in: query
-      name: limit
-      schema:
-        type: integer
-        default: 20
-        maximum: 60
-      required: false
-      description: The number of items to return
-    RepoKindParam:
-      in: path
-      name: repoKindParam
-      schema:
-        $ref: '#/components/schemas/RepositoryKindParam'
-      required: true
-      description: Package kind name
-    DeprecatedParam:
-      in: query
-      name: deprecated
-      schema:
-        type: boolean
-        default: false
-      required: false
-      description: Whether to include deprecated packages or not
-    PackageIDParam:
-      in: path
-      name: packageID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Package ID
-    OrgsListParam:
-      in: query
-      name: org
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - org1
-        - org2
-      required: false
-      description: List of organization names
-    TSQueryWebParam:
-      in: query
-      name: ts_query_web
-      schema:
-        type: string
-        example: database
-      required: false
-      description: Text search query (websearch format)
-    SortParam:
-      in: query
-      name: sort
-      schema:
-        type: string
-        enum:
-        - relevance
-        - stars
-        - last_updated
-        example: relevance
-      required: false
-      description: Sort criteria
-    VersionParam:
-      in: path
-      name: version
-      schema:
-        type: string
-        example: 1.0.0
-      required: true
-      description: Package version
-    CNCFParam:
-      in: query
-      name: cncf
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only packages published by CNCF projects
-    OffsetParam:
-      in: query
-      name: offset
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      required: false
-      description: The number of items to skip before starting to collect the result set
-    LicensesListParam:
-      in: query
-      name: license
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - MIT
-        - Apache-2.0
-      required: false
-      description: List of SPDX identifiers
-    OrgNameParam:
-      in: path
-      name: orgName
-      schema:
-        type: string
-        example: org1
-      required: true
-      description: Organization name
-    VerifiedPublisherParam:
-      in: query
-      name: verified_publisher
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only verified publisher
-    FacetsParam:
-      in: query
-      name: facets
-      schema:
-        type: boolean
-        default: false
-      required: true
-      description: Whether we should get facets or not
-    RepositoryKindsListParam:
-      in: query
-      name: kind
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/RepositoryKind'
-      required: false
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n\
-        \  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6`\
-        \ - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n\
-        \  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  *\
-        \ `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  *\
-        \ `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  *\
-        \ `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` -\
-        \ Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost\
-        \ plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-    OfficialParam:
-      in: query
-      name: official
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only official repositories
-    RepoNameParam:
-      in: path
-      name: repoName
-      schema:
-        type: string
-        example: repoName
-      required: true
-      description: Repository name
-    PackageCategoryListParam:
-      in: query
-      name: category
-      schema:
-        type: array
-        items:
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-      required: false
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` -\
-        \ Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` -\
-        \ Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
-    UsersListParam:
-      in: query
-      name: user
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - user1
-        - user2
-      required: false
-      description: List of aliases
-    CapabilitiesListParam:
-      in: query
-      name: capabilities
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - basic install
-        - seamless upgrades
-        - full lifecycle
-        - deep insights
-        - auto pilot
-      required: false
-      description: List of operator capability levels
+                additionalProperties:
+                  type: string
+                example: 'apiVersion: tekton.dev/v1beta1'
+              tasks:
+                type: object
+                required:
+                - name
+                properties:
+                  name:
+                    type: string
+                    example: task
+                  run_after:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - task1
+                    - task2
+              examples:
+                type: object
+                additionalProperties: true
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
   responses:
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     NoContent:
       description: The request has succeeded, no content returned
-    Forbidden:
-      description: The user does not have permission to perform the requested operation
+    BadRequest:
+      description: The request sent was not valid
       content:
         application/json:
           schema:
@@ -3586,14 +3332,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The user does not have permission to perform the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFoundResponse:
       description: The requested resource was not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
   securitySchemes:
     ApiKeyId:
       type: apiKey
@@ -3603,3 +3359,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

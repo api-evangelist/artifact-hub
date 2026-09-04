@@ -1,0 +1,210 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  openapi/_original/artifact-hub-openapi.yml (v1.23.0), live responses from
+  https://artifacthub.io/api/v1/packages/search observed 2026-09-04, and the provider docs
+  at https://artifacthub.io/docs/topics/faq/ and /docs/topics/authorization/
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Cross-cutting runtime semantics for the Artifact Hub REST API — what an agent needs to
+  know before it calls, beyond the operation list.
+base_url: https://artifacthub.io/api/v1
+authentication:
+  style: paired API-key headers
+  headers:
+  - X-API-KEY-ID
+  - X-API-KEY-SECRET
+  note: >-
+    Both headers must be sent together; the OpenAPI declares them as a single security
+    requirement {ApiKeyId: [], ApiKeySecret: []}. There is no root-level `security` block,
+    so authentication is per-operation: the entire read surface (search, package details,
+    values, values-schema, templates, security reports, changelog, stats, integration dumps)
+    is anonymous, and only account/organization/repository/subscription/webhook management
+    requires keys. Keys are issued from the web control panel, not through the public API.
+  cross_reference: authentication/artifact-hub-authentication.yml
+authorization:
+  model: Open Policy Agent (rego) policies, per organization
+  docs: https://artifacthub.io/docs/topics/authorization/
+  predefined_policy: rbac.v1
+  actions:
+  - all
+  - addOrganizationMember
+  - addOrganizationRepository
+  - deleteOrganization
+  - deleteOrganizationMember
+  - deleteOrganizationRepository
+  - getAuthorizationPolicy
+  - transferOrganizationRepository
+  - updateAuthorizationPolicy
+  - updateOrganization
+  - updateOrganizationRepository
+  introspection: GET /orgs/{orgName}/user-allowed-actions (getAllowedActions)
+  note: >-
+    Organization-scoped only. Disabled by default, in which case every member may perform
+    every action. This is the closest thing the API has to scopes; it is not OAuth and the
+    action names are not tokens.
+pagination:
+  style: limit/offset
+  params:
+    limit: integer, default 20, maximum 60
+    offset: integer, minimum 0, default 0
+  response_header: Pagination-Total-Count
+  evidence: >-
+    components.parameters.LimitParam / OffsetParam in the contract; header observed live as
+    `pagination-total-count: 366` on
+    GET /api/v1/packages/search?limit=1&facets=false&ts_query_web=nginx (2026-09-04)
+  bulk_alternative: >-
+    For whole-catalog reads the provider explicitly recommends the integration dump
+    endpoints over paging: GET /harbor-replication (getHarborReplicationDump),
+    /helm-exporter, /nova — see https://artifacthub.io/docs/topics/faq/
+  cursor: false
+filtering:
+  free_text:
+  - ts_query_web (websearch syntax)
+  - ts_query (boolean expression syntax, e.g. "(automation | configuration)")
+  facets: FacetsParam (boolean, required on search) toggles aggregation counts in the response
+  repeatable_filters:
+  - repo
+  - org
+  - user
+  - kind
+  - category
+  - license
+  - capabilities
+  booleans:
+  - deprecated
+  - operators
+  - verified_publisher
+  - cncf
+  - official
+  sort: relevance | stars | last_updated
+versioning:
+  in_path: /api/v1
+  cross_reference: lifecycle/artifact-hub-lifecycle.yml
+error_envelope:
+  media_type: application/json
+  shape: '{"message": "..."}'
+  rfc9457: false
+  cross_reference: errors/artifact-hub-problem-types.yml
+request_id:
+  published: false
+  note: >-
+    No X-Request-Id, correlation-id or trace header is declared in the contract or returned
+    on live responses. Diagnosing a failed call means quoting the URL and timestamp on a
+    GitHub issue. Note the project DOES set a User-Agent on its own OUTGOING repository
+    fetches (1.22.0 changelog), which is the reverse direction.
+rate_limit_signaling:
+  documented_status: 429 on all 129 operations
+  headers: []
+  retry_after: false
+  numbers_published: false
+  cross_reference: rate-limits/artifact-hub-rate-limits.yml
+caching:
+  observed:
+  - endpoint: GET /api/v1/stats
+    header: 'cache-control: max-age=21600'
+  - endpoint: GET /api/v1/packages/search
+    header: 'cache-control: max-age=300'
+  cdn: Amazon CloudFront (x-cache Hit/Miss from cloudfront)
+  etag: false
+  note: >-
+    Cache-Control is served but no ETag or Last-Modified, so conditional requests are not
+    available. An agent polling search cannot avoid re-transferring the body.
+idempotency:
+  coverage: none
+  mechanism: null
+  scope: []
+  note: >-
+    No Idempotency-Key header, no client-supplied request identifier and no replay guidance
+    exists in the 1.23.0 contract or anywhere in the documentation. Some writes are
+    naturally safe to repeat because they are PUT/DELETE on a named resource
+    (updateUserRepository, deleteUserWebhook), but the API offers no mechanism, so a retried
+    POST — addUserRepository, addOrganization, addPackageSubscription, addUserWebhook — can
+    duplicate or fail on a uniqueness conflict. PUT /packages/{packageID}/stars
+    (togglePackageStar) is the worst case: it is a TOGGLE, so replaying it flips the state
+    back rather than converging.
+dry_run_mode:
+  available: partial
+  note: >-
+    Two genuine rehearsal surfaces exist. POST /webhooks/test (triggerWebhookTest) delivers
+    a sample notification to a candidate URL with the caller's template, without creating a
+    webhook. HEAD /check-availability/{resourceKind} (checkAvailability) tests whether a
+    name is free before an operation that would fail on it. There is no general dry-run
+    parameter on the rest of the write surface.
+reversibility:
+  grade: documented
+  note: >-
+    Graded `documented`, not `verified`: reversal PATHS exist and are named below, but the
+    provider states NO time window for any of them anywhere in the documentation, so an
+    agent cannot know how long it has. No window is asserted here because none is published.
+  write_surfaces:
+  - operation: togglePackageStar
+    reversal: togglePackageStar
+    window: null
+    reversible: true
+    note: Same operation flips the star back; fully reversible, and for the same reason not idempotent.
+  - operation: addPackageSubscription
+    reversal: deletePackageSubscription
+    window: null
+    reversible: true
+  - operation: addOptOutEntry
+    reversal: deleteOptOutEntry
+    window: null
+    reversible: true
+  - operation: addUserWebhook / addOrganizationWebhook
+    reversal: deleteUserWebhook / deleteOrganizationWebhook
+    window: null
+    reversible: true
+    note: Deleting a webhook does not recall notifications already delivered.
+  - operation: addUserRepository / addOrganizationRepository
+    reversal: deleteUserRepository / deleteOrganizationRepository
+    window: null
+    reversible: partial
+    note: >-
+      The repository registration can be removed, but stars, view counts and subscriptions
+      accumulated against its packages are not restored if it is re-added. A 1.21.0
+      "deletion protection experimental feature" exists for repositories but is not
+      documented in the API contract.
+  - operation: transferRepositoryOwnershipToOrganization / transferRepositoryOwnership
+    reversal: transfer back with the same operation
+    window: null
+    reversible: true
+    note: Requires the new owner's credentials to reverse; the original owner cannot undo it alone.
+  - operation: addProductionUsage
+    reversal: deleteProductionUsage
+    window: null
+    reversible: true
+  - operation: addOrganizationMember
+    reversal: deleteOrganizationMember
+    window: null
+    reversible: true
+  - operation: deleteOrganization
+    reversal: null
+    window: null
+    reversible: false
+    note: >-
+      IRREVERSIBLE. No restore, undelete or trash operation exists for organizations. Same
+      for DELETE /users (account deletion) in the self-hosted control panel.
+  - operation: updateOrganizationAuthPolicy
+    reversal: updateOrganizationAuthPolicy
+    window: null
+    reversible: true
+    note: >-
+      Policy is replaced wholesale; the previous rego and data file are not versioned by the
+      API, so a caller must save the output of getOrganizationAuthPolicy first to be able to
+      roll back.
+  - operation: resetPassword / updateUserPassword
+    reversal: null
+    window: null
+    reversible: false
+    note: >-
+      IRREVERSIBLE and destructive to sessions — since 1.20.0 updating a password removes
+      all of the user's sessions.
+metadata_and_expansion:
+  sparse_fieldsets: false
+  expansion: false
+  note: >-
+    Responses are fixed shapes. The summary/detail split is expressed as separate operations
+    (getPackageSummary vs the per-kind detail operations, PackageSummary vs Package schemas)
+    rather than as a fields or expand parameter.

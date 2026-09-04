@@ -1,0 +1,67 @@
+generated: '2026-09-04'
+method: probed
+source: live HTTPS probes of every host this record knows
+provider: Artifact Hub
+providerId: artifact-hub
+description: >-
+  Well-known discovery probe. artifacthub.io is a single-page React application served from
+  CloudFront with a CATCH-ALL ROUTE: every unmatched path — including every /.well-known/*
+  path — returns HTTP 200 with the identical 6,767-byte SPA shell (content-type
+  text/html), not a document. A 200 here is therefore NOT evidence of a served document, and
+  every path below is recorded as a MISS. No WellKnown or SecurityTxt pointer is emitted in
+  apis.yml as a result. The provider does publish a vulnerability-reporting process, but it
+  lives in SECURITY.md and SECURITY-INSIGHTS.yml in the GitHub repository, not at
+  /.well-known/security.txt — see security/artifact-hub-vulnerability-disclosure.yml.
+hosts:
+- host: artifacthub.io
+  role: registrable domain, website, API baseURL host, OpenAPI servers[] host, docs host
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell, not a security.txt.
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell, not JSON metadata.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell, not JSON metadata.
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell, not an RFC 9727 catalog.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell, not a plugin manifest.
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    served: false
+    note: >-
+      SPA catch-all — 200 text/html, 6767-byte app shell. Does NOT parse as a JSON object
+      and carries none of the AgentCard fields. No A2A artifact written.
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    served: false
+    note: SPA catch-all — 200 text/html, 6767-byte app shell. Legacy pre-0.3 path, also a miss.
+  - path: /robots.txt
+    status: 200
+    file: null
+    served: false
+    note: >-
+      SPA catch-all — even /robots.txt returns the app shell. This is the control probe that
+      proves the 200s above are the catch-all and not real documents.
+hosts_not_resolvable:
+- host: www.artifacthub.io
+  note: DNS NXDOMAIN on 2026-09-04 — no www host exists, so nothing was probed there.
+- host: status.artifacthub.io
+  note: DNS NXDOMAIN on 2026-09-04 — the project runs no branded status page.

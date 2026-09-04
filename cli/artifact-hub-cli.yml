@@ -1,0 +1,55 @@
+generated: '2026-09-04'
+method: searched
+source: >-
+  https://artifacthub.io/docs/topics/cli/ and
+  https://github.com/artifacthub/hub/blob/master/docs/cli.md
+provider: Artifact Hub
+providerId: artifact-hub
+name: ah
+official: true
+description: >-
+  `ah` is the first-party Artifact Hub command line tool. Its purpose is PUBLISHER-SIDE
+  validation, not API consumption: it lints a package's Artifact Hub metadata so a
+  maintainer can catch listing errors in CI before pushing a repository. It does not wrap
+  the REST API and is not a substitute for a client SDK.
+language: Go
+license: Apache-2.0
+source: https://github.com/artifacthub/hub/tree/master/cmd/ah
+version: 1.23.0
+install:
+- method: homebrew
+  command: brew install artifacthub/cmd/ah
+  tap: https://github.com/artifacthub/homebrew-cmd
+  version_available: 1.22.0
+  note: The tap formula is one release behind the project — see packages/artifact-hub-packages.yml
+- method: scoop
+  command: scoop bucket add artifacthub https://github.com/artifacthub/scoop-cmd.git && scoop install artifacthub/ah
+  bucket: https://github.com/artifacthub/scoop-cmd
+  version_available: 1.23.0
+- method: binary
+  command: null
+  url: https://github.com/artifacthub/hub/releases
+  note: Pre-compiled binaries for macOS, Linux and Windows (amd64 and arm64), built by GoReleaser.
+- method: docker
+  command: docker run --rm -i artifacthub/ah:v1.23.0
+  url: https://hub.docker.com/r/artifacthub/ah/tags
+- method: source
+  command: git clone https://github.com/artifacthub/hub && cd hub/cmd/ah && go install
+  requires: Go toolchain
+commands:
+- name: lint
+  description: >-
+    Check that packages in a repository are ready to be listed on Artifact Hub. Supports
+    the repository kinds Artifact Hub indexes, including git-versioned Tekton packages
+    (added in 1.19.0). Errors are sorted to the end of the output so a CI log ends on the
+    problems.
+  ci_integration: >-
+    The project's own .github/workflows/ci.yml runs ah lint; the docs link that job as the
+    worked example of adding the linter to a GitHub Actions workflow.
+- name: help
+  description: Lists the available subcommands and options. The docs defer to `ah help` rather than enumerating flags.
+note: >-
+  The published documentation deliberately does not enumerate the full flag surface — it
+  says "please run `ah help` for more information about the different subcommands and the
+  options available". Nothing beyond `lint` and `help` is documented, so nothing further is
+  asserted here.

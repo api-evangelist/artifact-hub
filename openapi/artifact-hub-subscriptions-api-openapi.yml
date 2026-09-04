@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Artifact Hub Subscriptions API
   description: Find, install and publish Cloud Native packages
@@ -9,15 +9,6 @@ info:
 servers:
 - url: https://artifacthub.io/api/v1
   description: Artifact Hub production API
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document
-    and carried no schemas.
 tags:
 - name: Subscriptions
   description: ''
@@ -59,18 +50,14 @@ paths:
                     package_id:
                       type: string
                       format: uuid
-                      nullable: false
                     name:
                       type: string
-                      nullable: false
                       example: pkg1
                     normalized_name:
                       type: string
-                      nullable: false
                       example: pkg1
                     logo_image_id:
                       type: string
-                      nullable: false
                       example: 12345abcde
                     repository:
                       $ref: '#/components/schemas/RepositorySummary'
@@ -78,7 +65,6 @@ paths:
                       type: array
                       items:
                         $ref: '#/components/schemas/EventKindId'
-                      nullable: false
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '429':
@@ -193,7 +179,6 @@ paths:
                     opt_out_id:
                       type: string
                       format: uuid
-                      nullable: false
                     repository:
                       $ref: '#/components/schemas/RepositorySummary'
                     event_kind:
@@ -246,7 +231,65 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    OptOutIDParam:
+      in: path
+      name: optOutID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Opt-out entry ID
+    PackageIDParam:
+      in: path
+      name: packageID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Package ID
+    PackageIDQueryParam:
+      in: query
+      name: packageID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Package ID
+    OffsetParam:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      required: false
+      description: The number of items to skip before starting to collect the result set
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        default: 20
+        maximum: 60
+      required: false
+      description: The number of items to return
+    EventKindParam:
+      in: query
+      name: event_kind
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventKindId'
+      description: Event kind
   schemas:
+    EventKindId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     Error:
       type: object
       properties:
@@ -284,15 +327,7 @@ components:
       - 25
       - 26
       - 27
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n\
-        \  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6`\
-        \ - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n\
-        \  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  *\
-        \ `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  *\
-        \ `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  *\
-        \ `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` -\
-        \ Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost\
-        \ plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
     RepositorySummary:
       type: object
       required:
@@ -311,107 +346,39 @@ components:
           $ref: '#/components/schemas/RepositoryKind'
         name:
           type: string
-          nullable: false
           example: repo1
         display_name:
           type: string
-          nullable: false
           example: Repository 1
         url:
           type: string
           format: uri
-          nullable: false
           example: http://repourl
         verified_publisher:
           type: boolean
-          nullable: false
         official:
           type: boolean
-          nullable: false
         cncf:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         private:
           type: boolean
-          nullable: false
         scanner_disabled:
           type: boolean
-          nullable: false
           example: false
         user_alias:
           type: string
-          nullable: false
           example: jdoe
         organization_name:
           type: string
-          nullable: false
           example: org1
         organization_display_name:
           type: string
-          nullable: false
           example: Organization 1
-      nullable: false
-    EventKindId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 4
-      nullable: false
-      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository\
-        \ tracking errors\n  * `4` - Repository scanning errors\n"
-  parameters:
-    PackageIDParam:
-      in: path
-      name: packageID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Package ID
-    PackageIDQueryParam:
-      in: query
-      name: packageID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Package ID
-    EventKindParam:
-      in: query
-      name: event_kind
-      required: true
-      schema:
-        $ref: '#/components/schemas/EventKindId'
-      description: Event kind
-    LimitParam:
-      in: query
-      name: limit
-      schema:
-        type: integer
-        default: 20
-        maximum: 60
-      required: false
-      description: The number of items to return
-    OptOutIDParam:
-      in: path
-      name: optOutID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Opt-out entry ID
-    OffsetParam:
-      in: query
-      name: offset
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      required: false
-      description: The number of items to skip before starting to collect the result set
   responses:
+    NoContent:
+      description: The request has succeeded, no content returned
     Created:
       description: The request has succeeded and has led to the creation of a resource
     BadRequest:
@@ -422,17 +389,14 @@ components:
             $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the
-        request
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
@@ -479,3 +443,11 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
+x-evidence:
+  source: https://artifacthub.io/docs/api/openapi.yaml
+  source_title: Artifact Hub
+  source_version: 1.22.0
+  harvested: '2026-08-01'
+  harvest_status: HTTP 200
+  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
+  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

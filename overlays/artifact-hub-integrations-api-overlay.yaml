@@ -1,0 +1,57 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Artifact Hub Integrations API
+  version: 1.0.0
+extends: artifact-hub-integrations-api-openapi.yml
+x-provenance:
+  generated: '2026-09-04'
+  method: generated
+  source: Enhancements this repository applies over https://github.com/artifacthub/hub/blob/master/docs/api/openapi.yaml
+    (v1.23.0). The original is never mutated; it is preserved verbatim at openapi/_original/artifact-hub-openapi.yml.
+actions:
+- target: $.info
+  description: Record the upstream contract this document was split from, and the provenance of the split.
+  update:
+    x-origin:
+    - format: openapi
+      version: 3.0.3
+      url: https://github.com/artifacthub/hub/blob/master/docs/api/openapi.yaml
+      note: First-party contract, maintained in the Artifact Hub repository and served through Swagger
+        UI at https://artifacthub.io/docs/api/
+    x-api-evangelist:
+      provider: Artifact Hub
+      providerId: artifact-hub
+      derived-from: openapi/_original/artifact-hub-openapi.yml
+      upstream-version: 1.23.0
+      note: One document per tag, carrying only the components that tag references.
+- target: $.info
+  description: Add the license the upstream document omits. Artifact Hub is Apache-2.0; the contract itself
+    declares no info.license.
+  update:
+    license:
+      name: Apache-2.0
+      identifier: Apache-2.0
+      url: https://github.com/artifacthub/hub/blob/master/LICENSE
+- target: $.servers
+  description: Replace the upstream relative server ("/api/v1"), which is not resolvable outside the site,
+    with the absolute production host.
+  update:
+  - url: https://artifacthub.io/api/v1
+    description: Artifact Hub production API
+- target: $.tags[?(@.name=='Integrations')]
+  description: Fill the empty tag description carried over from the upstream contract.
+  update:
+    description: Bulk catalogue dumps for Harbor replication, Helm exporter and Nova. The provider’s documented
+      answer to reading the whole catalogue without hitting the rate limit.
+- target: $.info
+  description: Cross-reference the repository artifacts that describe runtime behaviour the contract does
+    not state.
+  update:
+    x-artifacts:
+      conventions: conventions/artifact-hub-conventions.yml
+      errors: errors/artifact-hub-problem-types.yml
+      rate-limits: rate-limits/artifact-hub-rate-limits.yml
+      authentication: authentication/artifact-hub-authentication.yml
+      lifecycle: lifecycle/artifact-hub-lifecycle.yml
+      data-model: data-model/artifact-hub-data-model.yml
+      conformance: conformance/artifact-hub-conformance.yml
