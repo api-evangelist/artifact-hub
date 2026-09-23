@@ -2,13 +2,12 @@ openapi: 3.2.0
 info:
   title: Artifact Hub Packages API
   description: Find, install and publish Cloud Native packages
-  version: 1.22.0
+  version: 1.23.0
   contact:
     name: Artifact Hub support
     url: https://cloud-native.slack.com/channels/artifact-hub
 servers:
-- url: https://artifacthub.io/api/v1
-  description: Artifact Hub production API
+- url: /api/v1
 tags:
 - name: Packages
   description: ''
@@ -18,7 +17,6 @@ paths:
       tags:
       - Packages
       summary: Get the number of packages and releases registered
-      description: Get the number of packages and releases registered
       operationId: getPackageStats
       responses:
         '200':
@@ -41,7 +39,6 @@ paths:
       tags:
       - Packages
       summary: Get some random packages
-      description: Get some random packages
       operationId: getRandomPackages
       responses:
         '200':
@@ -61,7 +58,6 @@ paths:
       tags:
       - Packages
       summary: Search packages that meet the provided criteria
-      description: Search packages that meet the provided criteria
       operationId: searchPackages
       parameters:
       - $ref: '#/components/parameters/OffsetParam'
@@ -213,7 +209,6 @@ paths:
       - ApiKeyId: []
         ApiKeySecret: []
       summary: Get packages starred by user
-      description: Get packages starred by user
       operationId: getStarredPackagesByUser
       parameters:
       - $ref: '#/components/parameters/OffsetParam'
@@ -243,7 +238,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getArgoTemplatesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -266,7 +260,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getBackstagePluginsDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -289,7 +282,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getBootableContainersDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -312,7 +304,6 @@ paths:
       tags:
       - Packages
       summary: Get container image details
-      description: Get container image details
       operationId: getContainerImageDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -335,7 +326,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getCoreDNSPluginDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -358,7 +348,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getFalcoRulesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -381,7 +370,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getGatekeeperPoliciesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -404,7 +392,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getHeadlampPluginDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -427,7 +414,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getHelmPackageDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -450,7 +436,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getHelmPluginDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -473,7 +458,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getInspektorGadgetDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -496,7 +480,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKagentPackageDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -519,7 +502,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKCLPackageDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -542,7 +524,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKedaScalerDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -565,7 +546,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKeptnIntegrationsDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -588,7 +568,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKnativeClientPluginIntegrationsDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -611,7 +590,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKubectlPluginDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -634,7 +612,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKubeArmorPoliciesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -657,7 +634,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKubewardenPoliciesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -680,7 +656,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getKyvernoPoliciesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -703,7 +678,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getMesheryDesignsDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -726,7 +700,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getOPAPoliciesDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -749,7 +722,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getOLMOperatorDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -772,7 +744,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getOpencostPluginDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -795,7 +766,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getRadiusRecipeDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -818,7 +788,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getTinkerbellActionsDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -841,7 +810,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getTektonPipelineDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -864,7 +832,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getTektonStepActionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -887,7 +854,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getTektonTaskDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -910,7 +876,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getArgoTemplatesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -934,7 +899,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getBackstagePluginsVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -958,7 +922,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getBootableContainersVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -982,7 +945,6 @@ paths:
       tags:
       - Packages
       summary: Get container image details
-      description: Get container image details
       operationId: getContainerImageVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1006,7 +968,6 @@ paths:
       tags:
       - Packages
       summary: Get package details
-      description: Get package details
       operationId: getCoreDNSPluginVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1030,7 +991,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getFalcoRulesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1054,7 +1014,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getGatekeeperPoliciesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1078,7 +1037,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getHelmPackageVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1102,7 +1060,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getHelmPluginVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1126,7 +1083,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getHeadlampVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1150,7 +1106,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getInspektorGadgetVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1174,7 +1129,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKagentVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1198,7 +1152,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKCLVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1222,7 +1175,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKedaScalerVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1246,7 +1198,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKeptnIntegrationsVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1270,7 +1221,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKnativeClientPluginsVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1294,7 +1244,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKubectlPluginVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1318,7 +1267,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKubeArmorPoliciesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1342,7 +1290,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKubewardenPoliciesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1366,7 +1313,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getKyvernoPoliciesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1390,7 +1336,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getMesheryDesignVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1414,7 +1359,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getOPAPoliciesVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1438,7 +1382,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getOLMOperatorVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1462,7 +1405,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getOpencostPluginVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1486,7 +1428,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getRadiusRecipeVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1510,7 +1451,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getTinkerbellActionsVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1534,7 +1474,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getTektonPipelineVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1558,7 +1497,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getTektonStepActionVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1582,7 +1520,6 @@ paths:
       tags:
       - Packages
       summary: Get package version details
-      description: Get package version details
       operationId: getTektonTaskVersionDetails
       parameters:
       - $ref: '#/components/parameters/RepoNameParam'
@@ -1606,7 +1543,6 @@ paths:
       tags:
       - Packages
       summary: Get package's changelog in markdown format
-      description: Get package's changelog in markdown format
       operationId: generateChangelogMD
       parameters:
       - $ref: '#/components/parameters/RepoKindParam'
@@ -1668,7 +1604,7 @@ paths:
     get:
       tags:
       - Packages
-      summary: Get a summary of which of the organizations the user belongs to are using the package in production
+      summary: Get a summary of which of the organizations the user belongs to are using the…
       description: Get a summary of which of the organizations the user belongs to are using the package in production
       operationId: getProductionUsage
       parameters:
@@ -1698,7 +1634,6 @@ paths:
       - ApiKeyId: []
         ApiKeySecret: []
       summary: Add organization to package's production users list
-      description: Add organization to package's production users list
       operationId: addProductionUsage
       parameters:
       - $ref: '#/components/parameters/RepoKindParam'
@@ -1725,7 +1660,6 @@ paths:
       - ApiKeyId: []
         ApiKeySecret: []
       summary: Delete organization from package's production usage list
-      description: Delete organization from package's production usage list
       operationId: deleteProductionUsage
       parameters:
       - $ref: '#/components/parameters/RepoKindParam'
@@ -1748,7 +1682,6 @@ paths:
       tags:
       - Packages
       summary: Get package summary details
-      description: Get package summary details
       operationId: getPackageSummary
       parameters:
       - $ref: '#/components/parameters/RepoKindParam'
@@ -1772,7 +1705,6 @@ paths:
       tags:
       - Packages
       summary: Get package stars
-      description: Get package stars
       operationId: getPackageStars
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1799,7 +1731,6 @@ paths:
       - ApiKeyId: []
         ApiKeySecret: []
       summary: Toggle package's star
-      description: Toggle package's star
       operationId: togglePackageStar
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1817,7 +1748,6 @@ paths:
       tags:
       - Packages
       summary: Get package security report
-      description: Get package security report
       operationId: getPackageSecurityReport
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1841,7 +1771,6 @@ paths:
       tags:
       - Packages
       summary: Get chart values
-      description: Get chart values
       operationId: getChartValues
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1865,7 +1794,6 @@ paths:
       tags:
       - Packages
       summary: Get package values schema
-      description: Get package values schema
       operationId: getPackageValuesSchema
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1889,7 +1817,6 @@ paths:
       tags:
       - Packages
       summary: Get package changelogs
-      description: Get package changelogs
       operationId: getPackageChangelog
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1951,7 +1878,6 @@ paths:
       tags:
       - Packages
       summary: Get the templates for a Helm chart package
-      description: Get the templates for a Helm chart package
       operationId: getHelmChartTemplates
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -1996,7 +1922,6 @@ paths:
       tags:
       - Packages
       summary: Get the views of the package provided
-      description: Get the views of the package provided
       operationId: getPackageViews
       parameters:
       - $ref: '#/components/parameters/PackageIDParam'
@@ -2022,722 +1947,8 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    OperatorsParam:
-      in: query
-      name: operators
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only operators
-    LimitParam:
-      in: query
-      name: limit
-      schema:
-        type: integer
-        default: 20
-        maximum: 60
-      required: false
-      description: The number of items to return
-    VersionParam:
-      in: path
-      name: version
-      schema:
-        type: string
-        example: 1.0.0
-      required: true
-      description: Package version
-    LicensesListParam:
-      in: query
-      name: license
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - MIT
-        - Apache-2.0
-      required: false
-      description: List of SPDX identifiers
-    OrgsListParam:
-      in: query
-      name: org
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - org1
-        - org2
-      required: false
-      description: List of organization names
-    FacetsParam:
-      in: query
-      name: facets
-      schema:
-        type: boolean
-        default: false
-      required: true
-      description: Whether we should get facets or not
-    PackageNameParam:
-      in: path
-      name: packageName
-      schema:
-        type: string
-        example: pkg1
-      required: true
-      description: Package name
-    SortParam:
-      in: query
-      name: sort
-      schema:
-        type: string
-        enum:
-        - relevance
-        - stars
-        - last_updated
-        example: relevance
-      required: false
-      description: Sort criteria
-    OrgNameParam:
-      in: path
-      name: orgName
-      schema:
-        type: string
-        example: org1
-      required: true
-      description: Organization name
-    PackageIDParam:
-      in: path
-      name: packageID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Package ID
-    OffsetParam:
-      in: query
-      name: offset
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      required: false
-      description: The number of items to skip before starting to collect the result set
-    PackageCategoryListParam:
-      in: query
-      name: category
-      schema:
-        type: array
-        items:
-          type: integer
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          - 5
-          - 6
-          - 7
-          - 8
-      required: false
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
-    CNCFParam:
-      in: query
-      name: cncf
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only packages published by CNCF projects
-    RepoNameParam:
-      in: path
-      name: repoName
-      schema:
-        type: string
-        example: repoName
-      required: true
-      description: Repository name
-    TSQueryWebParam:
-      in: query
-      name: ts_query_web
-      schema:
-        type: string
-        example: database
-      required: false
-      description: Text search query (websearch format)
-    OfficialParam:
-      in: query
-      name: official
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only official repositories
-    RepoKindParam:
-      in: path
-      name: repoKindParam
-      schema:
-        $ref: '#/components/schemas/RepositoryKindParam'
-      required: true
-      description: Package kind name
-    RepositoryKindsListParam:
-      in: query
-      name: kind
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/RepositoryKind'
-      required: false
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-    DeprecatedParam:
-      in: query
-      name: deprecated
-      schema:
-        type: boolean
-        default: false
-      required: false
-      description: Whether to include deprecated packages or not
-    RepositoriesListParam:
-      in: query
-      name: repo
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - repo1
-        - repo2
-      required: false
-      description: List of repository names
-    CapabilitiesListParam:
-      in: query
-      name: capabilities
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - basic install
-        - seamless upgrades
-        - full lifecycle
-        - deep insights
-        - auto pilot
-      required: false
-      description: List of operator capability levels
-    VerifiedPublisherParam:
-      in: query
-      name: verified_publisher
-      schema:
-        type: boolean
-      required: false
-      description: Whether to get only verified publisher
-    UsersListParam:
-      in: query
-      name: user
-      schema:
-        type: array
-        items:
-          type: string
-        example:
-        - user1
-        - user2
-      required: false
-      description: List of aliases
   schemas:
-    TektonStepActionPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              pipelines.minVersion:
-                type: string
-                example: 2.0.0
-              manifestRaw:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'apiVersion: tekton.dev/v1beta1'
-              examples:
-                type: object
-                additionalProperties: true
-              platforms:
-                type: array
-                items:
-                  type: string
-                  example: darwin/amd64
-    KyvernoPolicy:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          relative_path:
-            type: string
-            example: /general/allowedrepos
-          data:
-            type: object
-            properties:
-              policy:
-                type: string
-                example: "apiVersion: kyverno.io/v1 kind: ClusterPolicy metadata:\n  name: add-certificates-volume\n  annotations:\n    policies.kyverno.io/title: Add Certificates as a Volume\n    policies.kyverno.io/category: Sample\n    policies.kyverno.io/subject: Pod,Volume"
-              kyverno/subject:
-                type: string
-                example: Pod, Volume
-              kyverno/version:
-                type: string
-                example: 1.5.0
-              kyverno/kubernetesVersion:
-                type: string
-                example: '1.21'
-              kyverno/category:
-                type: string
-                example: OpenShift
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
-    InspektorGadgetPackage:
-      $ref: '#/components/schemas/Package'
-    KrewPluginsPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              platforms:
-                type: array
-                items:
-                  type: string
-                  example: darwin/amd64
-              manifestRaw:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'apiVersion: krew.googlecontainertools.github.com/v1alpha2'
-    PackageCategoryId:
-      type: integer
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
-    Facets:
-      type: object
-      required:
-      - filter_key
-      - title
-      - options
-      properties:
-        filter_key:
-          type: string
-        title:
-          type: string
-        options:
-          type: array
-          items:
-            type: object
-            required:
-            - id
-            - name
-            - total
-            properties:
-              id:
-                type: string
-              name:
-                type: string
-              total:
-                type: integer
-              filter_key:
-                type: string
-      example:
-        title: Publisher
-        filter_key: publisher
-        options:
-        - id: f41e7480-8d5c-40d3-9ba6-65ac0da8fc9c
-          name: Helm
-          total: 292
-          filter_key: org
-        - id: b771c9a8-0076-444c-ad5e-927abe14173d
-          name: Artifact Hub
-          total: 1
-          filter_key: org
-        - id: a70u69a8-0326-324c-fd3e-0iu87e14173d
-          name: user1
-          total: 3
-          filter_key: user
-    ContainerImage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              platforms:
-                type: array
-                items:
-                  type: string
-                  example: darwin/amd64
-              alternative_locations:
-                type: array
-                items:
-                  type: string
-                  example: public.ecr.aws/artifacthub/ah
-    HeadlampPluginPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              headlamp/plugin/archive-url:
-                type: string
-                example: https://headlamp.dev/sample-plugin-url
-              headlamp/plugin/distro-compat:
-                type: string
-                example: in-cluster,web,docker-desktop
-              headlamp/plugin/version-compat:
-                type: string
-                example: '>=1.2.3'
-              headlamp/plugin/archive-checksum:
-                type: string
-                example: sha256:123456...
-    PackageBase:
-      type: object
-      required:
-      - package_id
-      - name
-      - normalized_name
-      - stars
-      - version
-      - ts
-      - repository
-      properties:
-        package_id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          example: pkg1
-        normalized_name:
-          type: string
-          example: pkg1
-        logo_image_id:
-          type: string
-          example: 12345abcde
-        display_name:
-          type: string
-          example: Package 1
-        description:
-          type: string
-          example: This is a package sample
-        version:
-          type: string
-          example: 1.0.0
-        app_version:
-          type: string
-          example: 0.1.0
-        license:
-          type: string
-          example: MIT
-        deprecated:
-          type: boolean
-          example: false
-        signed:
-          type: boolean
-          example: false
-        signatures:
-          type: array
-          items:
-            type: string
-            enum:
-            - prov
-            - cosign
-        official:
-          type: boolean
-        cncf:
-          type:
-          - boolean
-          - 'null'
-        ts:
-          type: integer
-        repository:
-          $ref: '#/components/schemas/RepositorySummary'
-        security_report_summary:
-          type: object
-          properties:
-            critical:
-              type: number
-            high:
-              type: number
-            medium:
-              type: number
-            low:
-              type: number
-            unknown:
-              type: number
-        all_containers_images_whitelisted:
-          type: boolean
-          example: false
-        production_organizations_count:
-          type: number
-    KeptnIntegrationsPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              keptn/version:
-                type: string
-                example: 0.1.0
-              keptn/kind:
-                type: string
-                example: service,sli-provider
-    OPAPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              policies:
-                type: object
-                additionalProperties:
-                  type: string
-                example:
-                  policy1: "- macro: text\n  condition: (evt.num < 0)\n"
-    TBActionPackage:
-      $ref: '#/components/schemas/Package'
-    RadiusRecipe:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              recipe:
-                type: object
-                additionalProperties: true
-    ProductionUsageOrganization:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: org1
-        display_name:
-          type: string
-          example: Organization 1
-        home_url:
-          type: string
-          format: uri
-          example: http://url
-        logo_image_id:
-          type: string
-          example: 12345abcde
-        used_in_production:
-          type: boolean
-    MesheryDesign:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              design:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'name: sample'
-    KubewardenPoliciesPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              kubewarden/resources:
-                type: string
-                example: Pod
-              kubewarden/mutation:
-                type: string
-                example: 'true'
-    BootableContainer:
-      $ref: '#/components/schemas/Package'
-    ArgoTemplate:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              template:
-                type: string
-                example: "apiVersion: argoproj.io/v1alpha1 kind: WorkflowTemplate metadata:\n  annotations:\n    workflows.argoproj.io/description: This is a basic catalog example that simply\n      prints \"hello argo!\".\n    workflows.argoproj.io/maintainer: '@alexec'\n    workflows.argoproj.io/tags: example\n    workflows.argoproj.io/version: '>= 2.9.0'\n  name: hello-world"
-              argo/version:
-                type: string
-                example: 1.5.0
-    RepositoryKindParam:
-      type: string
-      enum:
-      - helm
-      - opa
-      - falco
-      - olm
-      - tbaction
-      - krew
-      - helm-plugin
-      - tekton-task
-      - keda-scaler
-      - coredns
-      - keptn
-      - tekton-pipeline
-      - container
-      - kubewarden
-      - gatekeeper
-      - kyverno
-      - knative-client-plugin
-      - backstage
-      - argo-template
-      - kubearmor
-      - kcl
-      - headlamp
-      - inspektor-gadget
-      - tekton-stepaction
-      - meshery
-      - opencost
-      - radius
-      - bootc
-      - kagent
-      description: 'Repository kind name:
-
-        * `helm` - Helm charts
-
-        * `falco` - Falco rules
-
-        * `opa` - OPA policies
-
-        * `olm` - OLM operators
-
-        * `tbaction` - Tinkerbell actions
-
-        * `krew` - Krew kubectl plugins
-
-        * `helm-plugin` - Helm plugins
-
-        * `tekton` - Tekton tasks
-
-        * `keda-scaler` - KEDA scalers
-
-        * `coredns` - Core DNS plugins
-
-        * `keptn` - Keptn integrations
-
-        * `tekton-pipeline` - Tekton pipelines
-
-        * `container` - Container images
-
-        * `kubewarden` - Kubewarden policies
-
-        * `gatekeeper` - Gatekeeper policies
-
-        * `kyverno` - Kyverno policies
-
-        * `knative-client-plugin` - Knative client plugins
-
-        * `backstage` - Backstage plugins
-
-        * `argo-template` - Argo templates
-
-        * `kubearmor` - KubeArmor policies
-
-        * `kcl` - KCL packages
-
-        * `headlamp` - Headlamp plugins
-
-        * `inspektor-gadget` - Inspektor gadgets
-
-        * `tekton-stepaction` - Tekton stepactions
-
-        * `meshery` - Meshery designs
-
-        * `opencost` - Opencost plugins
-
-        * `radius` - Radius recipes
-
-        * `bootc` - Bootable containers
-
-        * `kagent` - Kagent agents
-
-        '
-    RepositorySummary:
-      type: object
-      required:
-      - repository_id
-      - kind
-      - name
-      - url
-      - verified_publisher
-      - official
-      - scanner_disabled
-      properties:
-        repository_id:
-          type: string
-          format: uuid
-        kind:
-          $ref: '#/components/schemas/RepositoryKind'
-        name:
-          type: string
-          example: repo1
-        display_name:
-          type: string
-          example: Repository 1
-        url:
-          type: string
-          format: uri
-          example: http://repourl
-        verified_publisher:
-          type: boolean
-        official:
-          type: boolean
-        cncf:
-          type:
-          - boolean
-          - 'null'
-        private:
-          type: boolean
-        scanner_disabled:
-          type: boolean
-          example: false
-        user_alias:
-          type: string
-          example: jdoe
-        organization_name:
-          type: string
-          example: org1
-        organization_display_name:
-          type: string
-          example: Organization 1
-    KagentPackage:
+    HelmPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
@@ -2808,10 +2019,56 @@ components:
                     repository:
                       type: string
                       example: http://repo.url
-    HelmPluginPackage:
-      $ref: '#/components/schemas/Package'
-    KCLPackage:
-      $ref: '#/components/schemas/Package'
+    KyvernoPolicy:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          relative_path:
+            type: string
+            example: /general/allowedrepos
+          data:
+            type: object
+            properties:
+              policy:
+                type: string
+                example: "apiVersion: kyverno.io/v1 kind: ClusterPolicy metadata:\n  name: add-certificates-volume\n  annotations:\n    policies.kyverno.io/title: Add Certificates as a Volume\n    policies.kyverno.io/category: Sample\n    policies.kyverno.io/subject: Pod,Volume"
+              kyverno/subject:
+                type: string
+                example: Pod, Volume
+              kyverno/version:
+                type: string
+                example: 1.5.0
+              kyverno/kubernetesVersion:
+                type: string
+                example: '1.21'
+              kyverno/category:
+                type: string
+                example: OpenShift
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
+    ContainerImage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+              alternative_locations:
+                type: array
+                items:
+                  type: string
+                  example: public.ecr.aws/artifacthub/ah
     Package:
       allOf:
       - $ref: '#/components/schemas/PackageBase'
@@ -2952,9 +2209,7 @@ components:
                 type: integer
               webhooks:
                 type: integer
-    KnativeClientPluginsPackage:
-      $ref: '#/components/schemas/Package'
-    KubeArmorPoliciesPackage:
+    RadiusRecipe:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
@@ -2962,107 +2217,112 @@ components:
           data:
             type: object
             properties:
-              policies:
-                type: object
-                additionalProperties:
-                  type: string
-                example:
-                  system/ksc-misconfig-service.yaml: 'apiVersion: security.kubearmor.com/v1
-
-                    kind: KubeArmorPolicy
-
-                    '
-    GatekeeperPolicy:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          relative_path:
-            type: string
-            example: /general/allowedrepos
-          data:
-            type: object
-            properties:
-              template:
-                type: string
-                example: "apiVersion: templates.gatekeeper.sh/v1 kind: ConstraintTemplate metadata:\n  name: k8sallowedrepos\n  annotations:\n    metadata.gatekeeper.sh/title: \"Kubernetes Allowed Repositories\"\n    description: >-\n      Requires container images to begin with a string from the specified list."
-              examples:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    cases:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          name:
-                            type: string
-                          path:
-                            type: string
-                          content:
-                            type: string
-                example:
-                - name: memory-ratio-only
-                  cases:
-                  - name: constraint
-                    path: samples/container-must-meet-ratio/constraint.yaml
-                    content: 'apiVersion: constraints.gatekeeper.sh/v1beta1'
-    KedaScalerPackage:
-      $ref: '#/components/schemas/Package'
-    ChangelogItemKind:
-      type: string
-      enum:
-      - added
-      - changed
-      - deprecated
-      - removed
-      - fixed
-      - security
-      description: "Types of changes:\n  * `added` - New features\n  * `changed` - Changes in existing functionality\n  * `deprecated` - Soon-to-be removed features\n  * `removed` - Removed features\n  * `fixed` - Any bug fixed\n  * `security` - In case of vulnerabilities\n"
-    BackstagePlugin:
-      $ref: '#/components/schemas/Package'
-    Maintainer:
-      type: object
-      required:
-      - name
-      - email
-      properties:
-        maintainer_id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          example: maintainer1
-        email:
-          type: string
-          example: maintainer@email.com
-    TektonTaskPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              pipelines.minVersion:
-                type: string
-                example: 2.0.0
-              manifestRaw:
-                type: string
-                additionalProperties:
-                  type: string
-                example: 'apiVersion: tekton.dev/v1beta1'
-              examples:
+              recipe:
                 type: object
                 additionalProperties: true
-              platforms:
-                type: array
-                items:
-                  type: string
-                  example: darwin/amd64
+    RepositoryKindParam:
+      type: string
+      enum:
+      - helm
+      - opa
+      - falco
+      - olm
+      - tbaction
+      - krew
+      - helm-plugin
+      - tekton-task
+      - keda-scaler
+      - coredns
+      - keptn
+      - tekton-pipeline
+      - container
+      - kubewarden
+      - gatekeeper
+      - kyverno
+      - knative-client-plugin
+      - backstage
+      - argo-template
+      - kubearmor
+      - kcl
+      - headlamp
+      - inspektor-gadget
+      - tekton-stepaction
+      - meshery
+      - opencost
+      - radius
+      - bootc
+      - kagent
+      description: 'Repository kind name:
+
+        * `helm` - Helm charts
+
+        * `falco` - Falco rules
+
+        * `opa` - OPA policies
+
+        * `olm` - OLM operators
+
+        * `tbaction` - Tinkerbell actions
+
+        * `krew` - Krew kubectl plugins
+
+        * `helm-plugin` - Helm plugins
+
+        * `tekton` - Tekton tasks
+
+        * `keda-scaler` - KEDA scalers
+
+        * `coredns` - Core DNS plugins
+
+        * `keptn` - Keptn integrations
+
+        * `tekton-pipeline` - Tekton pipelines
+
+        * `container` - Container images
+
+        * `kubewarden` - Kubewarden policies
+
+        * `gatekeeper` - Gatekeeper policies
+
+        * `kyverno` - Kyverno policies
+
+        * `knative-client-plugin` - Knative client plugins
+
+        * `backstage` - Backstage plugins
+
+        * `argo-template` - Argo templates
+
+        * `kubearmor` - KubeArmor policies
+
+        * `kcl` - KCL packages
+
+        * `headlamp` - Headlamp plugins
+
+        * `inspektor-gadget` - Inspektor gadgets
+
+        * `tekton-stepaction` - Tekton stepactions
+
+        * `meshery` - Meshery designs
+
+        * `opencost` - Opencost plugins
+
+        * `radius` - Radius recipes
+
+        * `bootc` - Bootable containers
+
+        * `kagent` - Kagent agents
+
+        '
+    PackageSummary:
+      allOf:
+      - $ref: '#/components/schemas/PackageBase'
+      - type: object
+        properties:
+          category:
+            $ref: '#/components/schemas/PackageCategoryId'
+          stars:
+            type: integer
+            example: 3
     OLMPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
@@ -3125,28 +2385,7 @@ components:
               customResourcesDefinitionsExamples:
                 type: string
                 example: "[{\"apiVersion\": v1alpha\n, \"kind\": CustomResource\n, \"spec\": {\n  \"replicas\": 1\n  }\n}}]"
-    FalcoPackage:
-      allOf:
-      - $ref: '#/components/schemas/Package'
-      - type: object
-        properties:
-          data:
-            type: object
-            properties:
-              rules:
-                oneOf:
-                - type: array
-                  items:
-                    type: object
-                    properties:
-                      Name:
-                        type: string
-                      Raw:
-                        type: string
-                        example: "- macro: text\n  condition: (evt.num < 0)\n"
-                - type: object
-                  additionalProperties: true
-    HelmPackage:
+    KagentPackage:
       allOf:
       - $ref: '#/components/schemas/Package'
       - type: object
@@ -3217,16 +2456,144 @@ components:
                     repository:
                       type: string
                       example: http://repo.url
-    PackageSummary:
+    KubewardenPoliciesPackage:
       allOf:
-      - $ref: '#/components/schemas/PackageBase'
+      - $ref: '#/components/schemas/Package'
       - type: object
         properties:
-          category:
-            $ref: '#/components/schemas/PackageCategoryId'
-          stars:
-            type: integer
-            example: 3
+          data:
+            type: object
+            properties:
+              kubewarden/resources:
+                type: string
+                example: Pod
+              kubewarden/mutation:
+                type: string
+                example: 'true'
+    FalcoPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              rules:
+                oneOf:
+                - type: array
+                  items:
+                    type: object
+                    properties:
+                      Name:
+                        type: string
+                      Raw:
+                        type: string
+                        example: "- macro: text\n  condition: (evt.num < 0)\n"
+                - type: object
+                  additionalProperties: true
+    KubeArmorPoliciesPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              policies:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  system/ksc-misconfig-service.yaml: 'apiVersion: security.kubearmor.com/v1
+
+                    kind: KubeArmorPolicy
+
+                    '
+    TektonStepActionPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              pipelines.minVersion:
+                type: string
+                example: 2.0.0
+              manifestRaw:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'apiVersion: tekton.dev/v1beta1'
+              examples:
+                type: object
+                additionalProperties: true
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+    Maintainer:
+      type: object
+      required:
+      - name
+      - email
+      properties:
+        maintainer_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: maintainer1
+        email:
+          type: string
+          example: maintainer@email.com
+    ChangelogItemKind:
+      type: string
+      enum:
+      - added
+      - changed
+      - deprecated
+      - removed
+      - fixed
+      - security
+      description: "Types of changes:\n  * `added` - New features\n  * `changed` - Changes in existing functionality\n  * `deprecated` - Soon-to-be removed features\n  * `removed` - Removed features\n  * `fixed` - Any bug fixed\n  * `security` - In case of vulnerabilities\n"
+    HeadlampPluginPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              headlamp/plugin/archive-url:
+                type: string
+                example: https://headlamp.dev/sample-plugin-url
+              headlamp/plugin/distro-compat:
+                type: string
+                example: in-cluster,web,docker-desktop
+              headlamp/plugin/version-compat:
+                type: string
+                example: '>=1.2.3'
+              headlamp/plugin/archive-checksum:
+                type: string
+                example: sha256:123456...
+    ArgoTemplate:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              template:
+                type: string
+                example: "apiVersion: argoproj.io/v1alpha1 kind: WorkflowTemplate metadata:\n  annotations:\n    workflows.argoproj.io/description: This is a basic catalog example that simply\n      prints \"hello argo!\".\n    workflows.argoproj.io/maintainer: '@alexec'\n    workflows.argoproj.io/tags: example\n    workflows.argoproj.io/version: '>= 2.9.0'\n  name: hello-world"
+              argo/version:
+                type: string
+                example: 1.5.0
+    OpencostPlugin:
+      $ref: '#/components/schemas/Package'
     Link:
       type: object
       required:
@@ -3240,9 +2607,178 @@ components:
         name:
           type: string
           example: link
-    OpencostPlugin:
+    KCLPackage:
       $ref: '#/components/schemas/Package'
-    CoreDNSPackage:
+    RepositorySummary:
+      type: object
+      required:
+      - repository_id
+      - kind
+      - name
+      - url
+      - verified_publisher
+      - official
+      - scanner_disabled
+      properties:
+        repository_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/RepositoryKind'
+        name:
+          type: string
+          example: repo1
+        display_name:
+          type: string
+          example: Repository 1
+        url:
+          type: string
+          format: uri
+          example: http://repourl
+        verified_publisher:
+          type: boolean
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        private:
+          type: boolean
+        scanner_disabled:
+          type: boolean
+          example: false
+        user_alias:
+          type: string
+          example: jdoe
+        organization_name:
+          type: string
+          example: org1
+        organization_display_name:
+          type: string
+          example: Organization 1
+    InspektorGadgetPackage:
+      $ref: '#/components/schemas/Package'
+    GatekeeperPolicy:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          relative_path:
+            type: string
+            example: /general/allowedrepos
+          data:
+            type: object
+            properties:
+              template:
+                type: string
+                example: "apiVersion: templates.gatekeeper.sh/v1 kind: ConstraintTemplate metadata:\n  name: k8sallowedrepos\n  annotations:\n    metadata.gatekeeper.sh/title: \"Kubernetes Allowed Repositories\"\n    description: >-\n      Requires container images to begin with a string from the specified list."
+              examples:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    cases:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          path:
+                            type: string
+                          content:
+                            type: string
+                example:
+                - name: memory-ratio-only
+                  cases:
+                  - name: constraint
+                    path: samples/container-must-meet-ratio/constraint.yaml
+                    content: 'apiVersion: constraints.gatekeeper.sh/v1beta1'
+    PackageBase:
+      type: object
+      required:
+      - package_id
+      - name
+      - normalized_name
+      - stars
+      - version
+      - ts
+      - repository
+      properties:
+        package_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: pkg1
+        normalized_name:
+          type: string
+          example: pkg1
+        logo_image_id:
+          type: string
+          example: 12345abcde
+        display_name:
+          type: string
+          example: Package 1
+        description:
+          type: string
+          example: This is a package sample
+        version:
+          type: string
+          example: 1.0.0
+        app_version:
+          type: string
+          example: 0.1.0
+        license:
+          type: string
+          example: MIT
+        deprecated:
+          type: boolean
+          example: false
+        signed:
+          type: boolean
+          example: false
+        signatures:
+          type: array
+          items:
+            type: string
+            enum:
+            - prov
+            - cosign
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        ts:
+          type: integer
+        repository:
+          $ref: '#/components/schemas/RepositorySummary'
+        security_report_summary:
+          type: object
+          properties:
+            critical:
+              type: number
+            high:
+              type: number
+            medium:
+              type: number
+            low:
+              type: number
+            unknown:
+              type: number
+        all_containers_images_whitelisted:
+          type: boolean
+          example: false
+        production_organizations_count:
+          type: number
+    BootableContainer:
+      $ref: '#/components/schemas/Package'
+    BackstagePlugin:
       $ref: '#/components/schemas/Package'
     RepositoryKind:
       type: integer
@@ -3276,6 +2812,36 @@ components:
       - 26
       - 27
       description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+    KedaScalerPackage:
+      $ref: '#/components/schemas/Package'
+    OPAPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              policies:
+                type: object
+                additionalProperties:
+                  type: string
+                example:
+                  policy1: "- macro: text\n  condition: (evt.num < 0)\n"
+    KeptnIntegrationsPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              keptn/version:
+                type: string
+                example: 0.1.0
+              keptn/kind:
+                type: string
+                example: service,sli-provider
     TektonPipelinePackage:
       allOf:
       - $ref: '#/components/schemas/Package'
@@ -3315,25 +2881,384 @@ components:
                 items:
                   type: string
                   example: darwin/amd64
+    TektonTaskPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              pipelines.minVersion:
+                type: string
+                example: 2.0.0
+              manifestRaw:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'apiVersion: tekton.dev/v1beta1'
+              examples:
+                type: object
+                additionalProperties: true
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+    TBActionPackage:
+      $ref: '#/components/schemas/Package'
+    MesheryDesign:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              design:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'name: sample'
+    HelmPluginPackage:
+      $ref: '#/components/schemas/Package'
+    Facets:
+      type: object
+      required:
+      - filter_key
+      - title
+      - options
+      properties:
+        filter_key:
+          type: string
+        title:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - name
+            - total
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              total:
+                type: integer
+              filter_key:
+                type: string
+      example:
+        title: Publisher
+        filter_key: publisher
+        options:
+        - id: f41e7480-8d5c-40d3-9ba6-65ac0da8fc9c
+          name: Helm
+          total: 292
+          filter_key: org
+        - id: b771c9a8-0076-444c-ad5e-927abe14173d
+          name: Artifact Hub
+          total: 1
+          filter_key: org
+        - id: a70u69a8-0326-324c-fd3e-0iu87e14173d
+          name: user1
+          total: 3
+          filter_key: user
+    KnativeClientPluginsPackage:
+      $ref: '#/components/schemas/Package'
+    PackageCategoryId:
+      type: integer
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    ProductionUsageOrganization:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: org1
+        display_name:
+          type: string
+          example: Organization 1
+        home_url:
+          type: string
+          format: uri
+          example: http://url
+        logo_image_id:
+          type: string
+          example: 12345abcde
+        used_in_production:
+          type: boolean
+    CoreDNSPackage:
+      $ref: '#/components/schemas/Package'
+    KrewPluginsPackage:
+      allOf:
+      - $ref: '#/components/schemas/Package'
+      - type: object
+        properties:
+          data:
+            type: object
+            properties:
+              platforms:
+                type: array
+                items:
+                  type: string
+                  example: darwin/amd64
+              manifestRaw:
+                type: string
+                additionalProperties:
+                  type: string
+                example: 'apiVersion: krew.googlecontainertools.github.com/v1alpha2'
+  parameters:
+    OfficialParam:
+      in: query
+      name: official
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only official repositories
+    CapabilitiesListParam:
+      in: query
+      name: capabilities
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - basic install
+        - seamless upgrades
+        - full lifecycle
+        - deep insights
+        - auto pilot
+      required: false
+      description: List of operator capability levels
+    FacetsParam:
+      in: query
+      name: facets
+      schema:
+        type: boolean
+        default: false
+      required: true
+      description: Whether we should get facets or not
+    DeprecatedParam:
+      in: query
+      name: deprecated
+      schema:
+        type: boolean
+        default: false
+      required: false
+      description: Whether to include deprecated packages or not
+    UsersListParam:
+      in: query
+      name: user
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - user1
+        - user2
+      required: false
+      description: List of aliases
+    LicensesListParam:
+      in: query
+      name: license
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - MIT
+        - Apache-2.0
+      required: false
+      description: List of SPDX identifiers
+    OperatorsParam:
+      in: query
+      name: operators
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only operators
+    OffsetParam:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      required: false
+      description: The number of items to skip before starting to collect the result set
+    SortParam:
+      in: query
+      name: sort
+      schema:
+        type: string
+        enum:
+        - relevance
+        - stars
+        - last_updated
+        example: relevance
+      required: false
+      description: Sort criteria
+    VersionParam:
+      in: path
+      name: version
+      schema:
+        type: string
+        example: 1.0.0
+      required: true
+      description: Package version
+    CNCFParam:
+      in: query
+      name: cncf
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only packages published by CNCF projects
+    PackageNameParam:
+      in: path
+      name: packageName
+      schema:
+        type: string
+        example: pkg1
+      required: true
+      description: Package name
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        default: 20
+        maximum: 60
+      required: false
+      description: The number of items to return
+    PackageCategoryListParam:
+      in: query
+      name: category
+      schema:
+        type: array
+        items:
+          type: integer
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+      required: false
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    RepoNameParam:
+      in: path
+      name: repoName
+      schema:
+        type: string
+        example: repoName
+      required: true
+      description: Repository name
+    OrgNameParam:
+      in: path
+      name: orgName
+      schema:
+        type: string
+        example: org1
+      required: true
+      description: Organization name
+    RepoKindParam:
+      in: path
+      name: repoKindParam
+      schema:
+        $ref: '#/components/schemas/RepositoryKindParam'
+      required: true
+      description: Package kind name
+    TSQueryWebParam:
+      in: query
+      name: ts_query_web
+      schema:
+        type: string
+        example: database
+      required: false
+      description: Text search query (websearch format)
+    PackageIDParam:
+      in: path
+      name: packageID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Package ID
+    RepositoriesListParam:
+      in: query
+      name: repo
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - repo1
+        - repo2
+      required: false
+      description: List of repository names
+    OrgsListParam:
+      in: query
+      name: org
+      schema:
+        type: array
+        items:
+          type: string
+        example:
+        - org1
+        - org2
+      required: false
+      description: List of organization names
+    RepositoryKindsListParam:
+      in: query
+      name: kind
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/RepositoryKind'
+      required: false
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+    VerifiedPublisherParam:
+      in: query
+      name: verified_publisher
+      schema:
+        type: boolean
+      required: false
+      description: Whether to get only verified publisher
   responses:
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
     NoContent:
       description: The request has succeeded, no content returned
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     UnauthorizedError:
       description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     Forbidden:
       description: The user does not have permission to perform the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFoundResponse:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -3344,8 +3269,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFoundResponse:
-      description: The requested resource was not found
+    BadRequest:
+      description: The request sent was not valid
       content:
         application/json:
           schema:
@@ -3359,11 +3284,3 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.

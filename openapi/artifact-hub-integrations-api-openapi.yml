@@ -2,13 +2,12 @@ openapi: 3.2.0
 info:
   title: Artifact Hub Integrations API
   description: Find, install and publish Cloud Native packages
-  version: 1.22.0
+  version: 1.23.0
   contact:
     name: Artifact Hub support
     url: https://cloud-native.slack.com/channels/artifact-hub
 servers:
-- url: https://artifacthub.io/api/v1
-  description: Artifact Hub production API
+- url: /api/v1
 tags:
 - name: Integrations
   description: ''
@@ -18,7 +17,6 @@ paths:
       tags:
       - Integrations
       summary: Get Harbor replication dump
-      description: Get Harbor replication dump
       operationId: getHarborReplicationDump
       responses:
         '200':
@@ -266,21 +264,15 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
     Link:
       type: object
       required:
@@ -294,6 +286,12 @@ components:
         name:
           type: string
           example: link
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   securitySchemes:
     ApiKeyId:
       type: apiKey
@@ -303,11 +301,3 @@ components:
       type: apiKey
       in: header
       name: X-API-KEY-SECRET
-x-evidence:
-  source: https://artifacthub.io/docs/api/openapi.yaml
-  source_title: Artifact Hub
-  source_version: 1.22.0
-  harvested: '2026-08-01'
-  harvest_status: HTTP 200
-  server_verified: https://artifacthub.io/api/v1/stats -> HTTP 200 (2026-08-01)
-  note: Harvested from the provider. Replaces a reconstructed spec that shared no paths with this document and carried no schemas.
