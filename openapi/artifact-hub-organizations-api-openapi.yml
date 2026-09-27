@@ -319,80 +319,42 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    UserAliasParam:
+      in: path
+      name: userAlias
+      schema:
+        type: string
+        example: alias
+      required: true
+      description: User alias
+    OrgNameParam:
+      in: path
+      name: orgName
+      schema:
+        type: string
+        example: org1
+      required: true
+      description: Organization name
+    LimitParam:
+      in: query
+      name: limit
+      schema:
+        type: integer
+        default: 20
+        maximum: 60
+      required: false
+      description: The number of items to return
+    OffsetParam:
+      in: query
+      name: offset
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+      required: false
+      description: The number of items to skip before starting to collect the result set
   schemas:
-    AuthorizationPolicy:
-      type: object
-      required:
-      - authorization_enabled
-      properties:
-        authorization_enabled:
-          type: boolean
-        predefined_policy:
-          type: string
-          example: rbac.v1
-        custom_policy:
-          type: string
-          example: "package artifacthub.authz\n\n# By default, deny requests\ndefault allow = false\n\n# Allow the action if the user is allowed to perform it\nallow {\n  # If user's role is owner\n  data.roles.owner.users[_] == input.user\n}\nallow {\n  # If user's role is allowed to perform this action\n  allowed_actions[_] == input.action\n}\n\n# Get user allowed actions\nallowed_actions[action] {\n  user_roles[_] == \"owner\"\n  action := \"all\"\n}\nallowed_actions[action] {\n  action := data.roles[role].allowed_actions[_]\n  user_roles[_] == role\n}\n\n# Get user roles\nuser_roles[role] {\n  data.roles[role].users[_] == input.user\n}\n"
-        policy_data:
-          type: string
-          example: "{\n  \"roles\": {\n    \"owner\": {\n      \"users\": [\"user1\"]\n    },\n    \"customRole1\": {\n      \"users\": [\"member1\", \"member2\"],\n      \"allowed_actions\": [\"addOrganizationMember\", \"addOrganizationRepository\"]\n    }\n  }\n}\n"
-    Organization:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationSummary'
-      - type: object
-        required:
-        - members_count
-        - confirmed
-        properties:
-          members_count:
-            type: integer
-          confirmed:
-            type: boolean
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
-    OrganizationSummary:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: org1
-        display_name:
-          type: string
-          example: Organization 1
-        description:
-          type: string
-          example: description
-        home_url:
-          type: string
-          format: uri
-          example: http://url
-        logo_image_id:
-          type: string
-          example: 12345abcde
-    Member:
-      type: object
-      required:
-      - alias
-      - confirmed
-      properties:
-        alias:
-          type: string
-          example: jdoe
-        first_name:
-          type: string
-          example: John
-        last_name:
-          type: string
-          example: Doe
-        confirmed:
-          type: boolean
-          example: true
     AuthorizerAction:
       type: string
       enum:
@@ -432,72 +394,110 @@ components:
         * `updateOrganizationRepository` - Update repository from organization
 
         '
+    Member:
+      type: object
+      required:
+      - alias
+      - confirmed
+      properties:
+        alias:
+          type: string
+          example: jdoe
+        first_name:
+          type: string
+          example: John
+        last_name:
+          type: string
+          example: Doe
+        confirmed:
+          type: boolean
+          example: true
+    AuthorizationPolicy:
+      type: object
+      required:
+      - authorization_enabled
+      properties:
+        authorization_enabled:
+          type: boolean
+        predefined_policy:
+          type: string
+          example: rbac.v1
+        custom_policy:
+          type: string
+          example: "package artifacthub.authz\n\n# By default, deny requests\ndefault allow = false\n\n# Allow the action if the user is allowed to perform it\nallow {\n  # If user's role is owner\n  data.roles.owner.users[_] == input.user\n}\nallow {\n  # If user's role is allowed to perform this action\n  allowed_actions[_] == input.action\n}\n\n# Get user allowed actions\nallowed_actions[action] {\n  user_roles[_] == \"owner\"\n  action := \"all\"\n}\nallowed_actions[action] {\n  action := data.roles[role].allowed_actions[_]\n  user_roles[_] == role\n}\n\n# Get user roles\nuser_roles[role] {\n  data.roles[role].users[_] == input.user\n}\n"
+        policy_data:
+          type: string
+          example: "{\n  \"roles\": {\n    \"owner\": {\n      \"users\": [\"user1\"]\n    },\n    \"customRole1\": {\n      \"users\": [\"member1\", \"member2\"],\n      \"allowed_actions\": [\"addOrganizationMember\", \"addOrganizationRepository\"]\n    }\n  }\n}\n"
+    OrganizationSummary:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: org1
+        display_name:
+          type: string
+          example: Organization 1
+        description:
+          type: string
+          example: description
+        home_url:
+          type: string
+          format: uri
+          example: http://url
+        logo_image_id:
+          type: string
+          example: 12345abcde
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationSummary'
+      - type: object
+        required:
+        - members_count
+        - confirmed
+        properties:
+          members_count:
+            type: integer
+          confirmed:
+            type: boolean
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   responses:
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
     Forbidden:
       description: The user does not have permission to perform the requested operation
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    OffsetParam:
-      in: query
-      name: offset
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-      required: false
-      description: The number of items to skip before starting to collect the result set
-    LimitParam:
-      in: query
-      name: limit
-      schema:
-        type: integer
-        default: 20
-        maximum: 60
-      required: false
-      description: The number of items to return
-    UserAliasParam:
-      in: path
-      name: userAlias
-      schema:
-        type: string
-        example: alias
-      required: true
-      description: User alias
-    OrgNameParam:
-      in: path
-      name: orgName
-      schema:
-        type: string
-        example: org1
-      required: true
-      description: Organization name
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NoContent:
+      description: The request has succeeded, no content returned
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
   securitySchemes:
     ApiKeyId:
       type: apiKey

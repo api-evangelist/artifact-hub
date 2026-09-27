@@ -256,20 +256,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
     GoneError:
       description: The code provided has expired
     BadRequest:
@@ -278,17 +264,25 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+    NoContent:
+      description: The request has succeeded, no content returned
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
     User:
       type: object
       required:
@@ -316,6 +310,12 @@ components:
           type: boolean
         tfa_enabled:
           type: boolean
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   securitySchemes:
     ApiKeyId:
       type: apiKey

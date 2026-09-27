@@ -46,7 +46,7 @@ tags:
   - Helm Charts
   - Package Registry
   - Discovery
-  - Open-Source
+  - Open Source
 tags_raw:
   - Cloud Native
   - CNCF
@@ -54,6 +54,7 @@ tags_raw:
   - Package Registry
   - Discovery
   - Open Source
+  - Open-Source
 created: '2026-03-16'
 modified: '2026-09-04'
 specificationVersion: '0.23'

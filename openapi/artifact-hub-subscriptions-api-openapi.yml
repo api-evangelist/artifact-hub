@@ -223,78 +223,40 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
+  requestBodies:
+    SubscriptionBody:
+      description: Subscription request body
+      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+            type: object
+            properties:
+              package_id:
+                type: string
+                format: uuid
+              event_kind:
+                $ref: '#/components/schemas/EventKindId'
+            required:
+            - package_id
+            - event_kind
+    OptOutBody:
+      description: Opt-out entry request body
+      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
+            type: object
+            properties:
+              repository_id:
+                type: string
+                format: uuid
+              event_kind:
+                $ref: '#/components/schemas/EventKindId'
+            required:
+            - repository_id
+            - event_kind
   schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
-    RepositoryKind:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      - 9
-      - 10
-      - 11
-      - 12
-      - 13
-      - 14
-      - 15
-      - 16
-      - 17
-      - 18
-      - 19
-      - 20
-      - 21
-      - 22
-      - 23
-      - 24
-      - 25
-      - 26
-      - 27
-      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-    EventKindId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 4
-      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     RepositorySummary:
       type: object
       required:
@@ -343,49 +305,60 @@ components:
         organization_display_name:
           type: string
           example: Organization 1
-  requestBodies:
-    SubscriptionBody:
-      description: Subscription request body
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              package_id:
-                type: string
-                format: uuid
-              event_kind:
-                $ref: '#/components/schemas/EventKindId'
-            required:
-            - package_id
-            - event_kind
-    OptOutBody:
-      description: Opt-out entry request body
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              repository_id:
-                type: string
-                format: uuid
-              event_kind:
-                $ref: '#/components/schemas/EventKindId'
-            required:
-            - repository_id
-            - event_kind
+    RepositoryKind:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
+    EventKindId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   parameters:
-    OffsetParam:
+    EventKindParam:
       in: query
-      name: offset
+      name: event_kind
+      required: true
       schema:
-        type: integer
-        minimum: 0
-        default: 0
-      required: false
-      description: The number of items to skip before starting to collect the result set
+        $ref: '#/components/schemas/EventKindId'
+      description: Event kind
     PackageIDParam:
       in: path
       name: packageID
@@ -394,6 +367,14 @@ components:
         format: uuid
       required: true
       description: Package ID
+    OptOutIDParam:
+      in: path
+      name: optOutID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Opt-out entry ID
     LimitParam:
       in: query
       name: limit
@@ -403,21 +384,15 @@ components:
         maximum: 60
       required: false
       description: The number of items to return
-    OptOutIDParam:
-      in: path
-      name: optOutID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Opt-out entry ID
-    EventKindParam:
+    OffsetParam:
       in: query
-      name: event_kind
-      required: true
+      name: offset
       schema:
-        $ref: '#/components/schemas/EventKindId'
-      description: Event kind
+        type: integer
+        minimum: 0
+        default: 0
+      required: false
+      description: The number of items to skip before starting to collect the result set
     PackageIDQueryParam:
       in: query
       name: packageID
@@ -426,6 +401,31 @@ components:
         format: uuid
       required: true
       description: Package ID
+  responses:
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+    NoContent:
+      description: The request has succeeded, no content returned
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     ApiKeyId:
       type: apiKey

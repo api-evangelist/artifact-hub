@@ -36,6 +36,21 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  schemas:
+    ResourceKindName:
+      type: string
+      enum:
+      - repositoryName
+      - repositoryURL
+      - organizationName
+      - userAlias
+      description: "Resource kind name:\n  * `repositoryName` - Repository name\n  * `repositoryURL` - Repository URL\n  * `organizationName` - Organization name\n  * `userAlias` - User alias\n"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   parameters:
     ResourceKindNameParam:
       in: path
@@ -45,29 +60,14 @@ components:
       required: true
       description: Resource kind name
   responses:
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
-    ResourceKindName:
-      type: string
-      enum:
-      - repositoryName
-      - repositoryURL
-      - organizationName
-      - userAlias
-      description: "Resource kind name:\n  * `repositoryName` - Repository name\n  * `repositoryURL` - Repository URL\n  * `organizationName` - Organization name\n  * `userAlias` - User alias\n"
   securitySchemes:
     ApiKeyId:
       type: apiKey
