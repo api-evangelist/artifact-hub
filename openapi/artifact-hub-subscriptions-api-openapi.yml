@@ -223,39 +223,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  requestBodies:
-    SubscriptionBody:
-      description: Subscription request body
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              package_id:
-                type: string
-                format: uuid
-              event_kind:
-                $ref: '#/components/schemas/EventKindId'
-            required:
-            - package_id
-            - event_kind
-    OptOutBody:
-      description: Opt-out entry request body
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              repository_id:
-                type: string
-                format: uuid
-              event_kind:
-                $ref: '#/components/schemas/EventKindId'
-            required:
-            - repository_id
-            - event_kind
   schemas:
     RepositorySummary:
       type: object
@@ -305,6 +272,12 @@ components:
         organization_display_name:
           type: string
           example: Organization 1
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
     RepositoryKind:
       type: integer
       enum:
@@ -345,28 +318,7 @@ components:
       - 2
       - 4
       description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
   parameters:
-    EventKindParam:
-      in: query
-      name: event_kind
-      required: true
-      schema:
-        $ref: '#/components/schemas/EventKindId'
-      description: Event kind
-    PackageIDParam:
-      in: path
-      name: packageID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Package ID
     OptOutIDParam:
       in: path
       name: optOutID
@@ -375,15 +327,21 @@ components:
         format: uuid
       required: true
       description: Opt-out entry ID
-    LimitParam:
+    EventKindParam:
       in: query
-      name: limit
+      name: event_kind
+      required: true
       schema:
-        type: integer
-        default: 20
-        maximum: 60
-      required: false
-      description: The number of items to return
+        $ref: '#/components/schemas/EventKindId'
+      description: Event kind
+    PackageIDQueryParam:
+      in: query
+      name: packageID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Package ID
     OffsetParam:
       in: query
       name: offset
@@ -393,8 +351,17 @@ components:
         default: 0
       required: false
       description: The number of items to skip before starting to collect the result set
-    PackageIDQueryParam:
+    LimitParam:
       in: query
+      name: limit
+      schema:
+        type: integer
+        default: 20
+        maximum: 60
+      required: false
+      description: The number of items to return
+    PackageIDParam:
+      in: path
       name: packageID
       schema:
         type: string
@@ -402,30 +369,63 @@ components:
       required: true
       description: Package ID
   responses:
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    NoContent:
+      description: The request has succeeded, no content returned
     UnauthorizedError:
       description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
-    NoContent:
-      description: The request has succeeded, no content returned
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+  requestBodies:
+    SubscriptionBody:
+      description: Subscription request body
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              package_id:
+                type: string
+                format: uuid
+              event_kind:
+                $ref: '#/components/schemas/EventKindId'
+            required:
+            - package_id
+            - event_kind
+    OptOutBody:
+      description: Opt-out entry request body
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              repository_id:
+                type: string
+                format: uuid
+              event_kind:
+                $ref: '#/components/schemas/EventKindId'
+            required:
+            - repository_id
+            - event_kind
   securitySchemes:
     ApiKeyId:
       type: apiKey

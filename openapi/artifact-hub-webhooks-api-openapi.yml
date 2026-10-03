@@ -285,102 +285,58 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    NoContent:
+      description: The request has succeeded, no content returned
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: The user does not have permission to perform the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
   schemas:
-    RepositorySummary:
-      type: object
-      required:
-      - repository_id
-      - kind
-      - name
-      - url
-      - verified_publisher
-      - official
-      - scanner_disabled
-      properties:
-        repository_id:
-          type: string
-          format: uuid
-        kind:
-          $ref: '#/components/schemas/RepositoryKind'
-        name:
-          type: string
-          example: repo1
-        display_name:
-          type: string
-          example: Repository 1
-        url:
-          type: string
-          format: uri
-          example: http://repourl
-        verified_publisher:
-          type: boolean
-        official:
-          type: boolean
-        cncf:
-          type:
-          - boolean
-          - 'null'
-        private:
-          type: boolean
-        scanner_disabled:
-          type: boolean
-          example: false
-        user_alias:
-          type: string
-          example: jdoe
-        organization_name:
-          type: string
-          example: org1
-        organization_display_name:
-          type: string
-          example: Organization 1
-    WebhookSummaryWithPackages:
-      allOf:
-      - $ref: '#/components/schemas/WebhookSummary'
-      - type: object
-        required:
-        - name
-        - url
-        - active
-        - event_kinds
-        - packages
-        properties:
-          packages:
-            type: array
-            items:
-              type: object
-              required:
-              - package_id
-              properties:
-                package_id:
-                  type: string
-                  format: uuid
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
-    WebhookNotification:
-      type: object
-      required:
-      - notification_id
-      - created_at
-      - processed
-      - processed_at
-      properties:
-        notification_id:
-          type: string
-          format: uuid
-        created_at:
-          type: integer
-        processed:
-          type: boolean
-        processed_at:
-          type: integer
-        error:
-          type: string
-          example: error
+    PackageCategoryId:
+      type: integer
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
+    EventKindId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     WebhookTest:
       type: object
       required:
@@ -403,6 +359,37 @@ components:
             $ref: '#/components/schemas/EventKindId'
           example:
           - 0
+    WebhookSummaryWithPackages:
+      allOf:
+      - $ref: '#/components/schemas/WebhookSummary'
+      - type: object
+        required:
+        - name
+        - url
+        - active
+        - event_kinds
+        - packages
+        properties:
+          packages:
+            type: array
+            items:
+              type: object
+              required:
+              - package_id
+              properties:
+                package_id:
+                  type: string
+                  format: uuid
+    PackageSummary:
+      allOf:
+      - $ref: '#/components/schemas/PackageBase'
+      - type: object
+        properties:
+          category:
+            $ref: '#/components/schemas/PackageCategoryId'
+          stars:
+            type: integer
+            example: 3
     PackageBase:
       type: object
       required:
@@ -482,68 +469,6 @@ components:
           example: false
         production_organizations_count:
           type: number
-    PackageSummary:
-      allOf:
-      - $ref: '#/components/schemas/PackageBase'
-      - type: object
-        properties:
-          category:
-            $ref: '#/components/schemas/PackageCategoryId'
-          stars:
-            type: integer
-            example: 3
-    WebhookSummary:
-      type: object
-      required:
-      - name
-      - url
-      - active
-      properties:
-        name:
-          type: string
-          example: webhook1
-        description:
-          type: string
-          example: description
-        url:
-          type: string
-          format: uri
-          example: http://url
-        secret:
-          type: string
-          example: 123abc
-        content_type:
-          type: string
-          example: application/json
-        template:
-          type: string
-          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{ .Package.URL }}"}'
-        active:
-          type: boolean
-        event_kinds:
-          type: array
-          items:
-            $ref: '#/components/schemas/EventKindId'
-    PackageCategoryId:
-      type: integer
-      enum:
-      - 1
-      - 2
-      - 3
-      - 4
-      - 5
-      - 6
-      - 7
-      - 8
-      description: "Package category:\n  * `1` - AI / Machine learning\n  * `2` - Database\n  * `3` - Integration and delivery\n  * `4` - Monitoring and logging\n  * `5` - Networking\n  * `6` - Security\n  * `7` - Storage\n  * `8` - Streaming and messaging\n"
-    EventKindId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 4
-      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     Webhook:
       allOf:
       - $ref: '#/components/schemas/WebhookSummary'
@@ -596,54 +521,112 @@ components:
       - 26
       - 27
       description: "Repository kind:\n  * `0` - Helm charts\n  * `1` - Falco rules\n  * `2` - OPA policies\n  * `3` - OLM operators\n  * `4` - Tinkerbell actions\n  * `5` - Krew kubectl plugins\n  * `6` - Helm plugins\n  * `7` - Tekton tasks\n  * `8` - KEDA scalers\n  * `9` - Core DNS plugins\n  * `10` - Keptn integrations\n  * `11` - Tekton pipelines\n  * `12` - Container images\n  * `13` - Kubewarden policies\n  * `14` - Gatekeeper policies\n  * `15` - Kyverno policies\n  * `16` - Knative client plugins\n  * `17` - Backstage plugins\n  * `18` - Argo templates\n  * `19` - KubeArmor templates\n  * `20` - KCL packages\n  * `21` - Headlamp plugins\n  * `22` - Inspektor gadgets\n  * `23` - Tekton stepactions\n  * `24` - Meshery designs\n  * `25` - Opencost plugins\n  * `26` - Radius recipes\n  * `27` - Bootable containers\n  * `28` - Kagent agents\n"
-  responses:
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: The user does not have permission to perform the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    WebhookIDParam:
-      in: path
-      name: webhookID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Webhook ID
-    OrgNameParam:
-      in: path
-      name: orgName
-      schema:
-        type: string
-        example: org1
-      required: true
-      description: Organization name
+    RepositorySummary:
+      type: object
+      required:
+      - repository_id
+      - kind
+      - name
+      - url
+      - verified_publisher
+      - official
+      - scanner_disabled
+      properties:
+        repository_id:
+          type: string
+          format: uuid
+        kind:
+          $ref: '#/components/schemas/RepositoryKind'
+        name:
+          type: string
+          example: repo1
+        display_name:
+          type: string
+          example: Repository 1
+        url:
+          type: string
+          format: uri
+          example: http://repourl
+        verified_publisher:
+          type: boolean
+        official:
+          type: boolean
+        cncf:
+          type:
+          - boolean
+          - 'null'
+        private:
+          type: boolean
+        scanner_disabled:
+          type: boolean
+          example: false
+        user_alias:
+          type: string
+          example: jdoe
+        organization_name:
+          type: string
+          example: org1
+        organization_display_name:
+          type: string
+          example: Organization 1
+    WebhookSummary:
+      type: object
+      required:
+      - name
+      - url
+      - active
+      properties:
+        name:
+          type: string
+          example: webhook1
+        description:
+          type: string
+          example: description
+        url:
+          type: string
+          format: uri
+          example: http://url
+        secret:
+          type: string
+          example: 123abc
+        content_type:
+          type: string
+          example: application/json
+        template:
+          type: string
+          example: '{"text": "Package {{ .Package.Name }} version {{ .Package.Version }} released! {{ .Package.URL }}"}'
+        active:
+          type: boolean
+        event_kinds:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventKindId'
+    WebhookNotification:
+      type: object
+      required:
+      - notification_id
+      - created_at
+      - processed
+      - processed_at
+      properties:
+        notification_id:
+          type: string
+          format: uuid
+        created_at:
+          type: integer
+        processed:
+          type: boolean
+        processed_at:
+          type: integer
+        error:
+          type: string
+          example: error
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   requestBodies:
     WebhookBody:
       description: Webhook body
@@ -652,6 +635,23 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/WebhookSummaryWithPackages'
+  parameters:
+    OrgNameParam:
+      in: path
+      name: orgName
+      schema:
+        type: string
+        example: org1
+      required: true
+      description: Organization name
+    WebhookIDParam:
+      in: path
+      name: webhookID
+      schema:
+        type: string
+        format: uuid
+      required: true
+      description: Webhook ID
   securitySchemes:
     ApiKeyId:
       type: apiKey

@@ -328,14 +328,6 @@ components:
         example: alias
       required: true
       description: User alias
-    OrgNameParam:
-      in: path
-      name: orgName
-      schema:
-        type: string
-        example: org1
-      required: true
-      description: Organization name
     LimitParam:
       in: query
       name: limit
@@ -354,7 +346,27 @@ components:
         default: 0
       required: false
       description: The number of items to skip before starting to collect the result set
+    OrgNameParam:
+      in: path
+      name: orgName
+      schema:
+        type: string
+        example: org1
+      required: true
+      description: Organization name
   schemas:
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationSummary'
+      - type: object
+        required:
+        - members_count
+        - confirmed
+        properties:
+          members_count:
+            type: integer
+          confirmed:
+            type: boolean
     AuthorizerAction:
       type: string
       enum:
@@ -394,6 +406,27 @@ components:
         * `updateOrganizationRepository` - Update repository from organization
 
         '
+    OrganizationSummary:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: org1
+        display_name:
+          type: string
+          example: Organization 1
+        description:
+          type: string
+          example: description
+        home_url:
+          type: string
+          format: uri
+          example: http://url
+        logo_image_id:
+          type: string
+          example: 12345abcde
     Member:
       type: object
       required:
@@ -428,39 +461,6 @@ components:
         policy_data:
           type: string
           example: "{\n  \"roles\": {\n    \"owner\": {\n      \"users\": [\"user1\"]\n    },\n    \"customRole1\": {\n      \"users\": [\"member1\", \"member2\"],\n      \"allowed_actions\": [\"addOrganizationMember\", \"addOrganizationRepository\"]\n    }\n  }\n}\n"
-    OrganizationSummary:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: org1
-        display_name:
-          type: string
-          example: Organization 1
-        description:
-          type: string
-          example: description
-        home_url:
-          type: string
-          format: uri
-          example: http://url
-        logo_image_id:
-          type: string
-          example: 12345abcde
-    Organization:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationSummary'
-      - type: object
-        required:
-        - members_count
-        - confirmed
-        properties:
-          members_count:
-            type: integer
-          confirmed:
-            type: boolean
     Error:
       type: object
       properties:
@@ -468,30 +468,30 @@ components:
           type: string
           example: error details
   responses:
-    Forbidden:
-      description: The user does not have permission to perform the requested operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    NoContent:
+      description: The request has succeeded, no content returned
     UnauthorizedError:
       description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
+    Forbidden:
+      description: The user does not have permission to perform the requested operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request sent was not valid
       content:
         application/json:
           schema:

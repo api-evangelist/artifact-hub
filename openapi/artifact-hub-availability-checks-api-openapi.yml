@@ -36,6 +36,14 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    ResourceKindNameParam:
+      in: path
+      name: resourceKind
+      schema:
+        $ref: '#/components/schemas/ResourceKindName'
+      required: true
+      description: Resource kind name
   schemas:
     ResourceKindName:
       type: string
@@ -51,14 +59,6 @@ components:
         message:
           type: string
           example: error details
-  parameters:
-    ResourceKindNameParam:
-      in: path
-      name: resourceKind
-      schema:
-        $ref: '#/components/schemas/ResourceKindName'
-      required: true
-      description: Resource kind name
   responses:
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
