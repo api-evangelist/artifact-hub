@@ -204,6 +204,9 @@ apis:
   - type: Overlay
     url: overlays/artifact-hub-integrations-api-overlay.yaml
 common:
+  - type: CapabilityMap
+    url: capabilities/artifact-hub-capability-edges.yml
+    name: Artifact Hub Business Capability Map
   - type: Website
     url: https://artifacthub.io/
   - type: IssueTracker

@@ -1,0 +1,26 @@
+slug: artifact-hub
+provider: Artifact Hub
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Webhooks
+  spec_file: artifact-hub-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.7
+  evidence: POST /webhooks/user  'Add user's webhook'; POST /webhooks/test  'Trigger webhook test'; schemas
+    Webhook, WebhookNotification, EventKindId
+  reason: Full lifecycle management of outbound webhook subscriptions (user- and org-scoped) plus delivery
+    testing and event kinds, which is exactly the Webhook & Event Subscription Management sub-capability
+    rather than generic plumbing, since it is a product surface offered to integrators.
