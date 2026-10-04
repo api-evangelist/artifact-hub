@@ -256,26 +256,26 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NoContent:
-      description: The request has succeeded, no content returned
+    GoneError:
+      description: The code provided has expired
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
+    NoContent:
+      description: The request has succeeded, no content returned
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    GoneError:
-      description: The code provided has expired
     BadRequest:
       description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
       content:
         application/json:
           schema:
@@ -283,6 +283,12 @@ components:
     Created:
       description: The request has succeeded and has led to the creation of a resource
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
     User:
       type: object
       required:
@@ -310,12 +316,6 @@ components:
           type: boolean
         tfa_enabled:
           type: boolean
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
   securitySchemes:
     ApiKeyId:
       type: apiKey

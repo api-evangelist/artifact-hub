@@ -221,6 +221,13 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
   responses:
     InternalServerError:
       description: The server encountered an unexpected condition that prevented it from fulfilling the request
@@ -230,13 +237,6 @@ components:
             $ref: '#/components/schemas/Error'
     TooManyRequests:
       description: The user has sent too many requests in a given amount of time
-  schemas:
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
   securitySchemes:
     ApiKeyId:
       type: apiKey
