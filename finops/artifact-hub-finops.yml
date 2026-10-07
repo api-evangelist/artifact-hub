@@ -1,11 +1,9 @@
+# Coverage demoted 2026-10-07 (roadmap#942, PLAN.md Stage A): this file was written by an API Evangelist
+# sweep and names no billing unit, meters or pricing category read from the provider — it restates the
+# FinOps framework. It is `x-coverage: unmeasured`, and the FOCUS alignment it claimed has been removed.
+x-coverage: unmeasured
 specification: FinOps Framework
 specificationVersion: '1.0'
-alignedWith:
-  framework: FinOps Foundation Framework
-  frameworkUrl: https://www.finops.org/framework/
-  dataSpec: FOCUS
-  dataSpecVersion: '1.3'
-  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: Artifact Hub
 providerId: artifact-hub
 publisherName: Artifact Hub
@@ -130,11 +128,9 @@ apis:
 unitEconomics:
   - name: Self-hosted infrastructure cost per 1K API requests
     metric: infrastructure_cost / (api_requests / 1000)
-    target: null
     note: Applies only to a self-hosted deployment; the hosted service charges nothing.
   - name: Self-hosted infrastructure cost per tracked repository
     metric: infrastructure_cost / tracked_repositories
-    target: null
     note: >-
       The tracker and scanner CronJobs are the dominant cost driver in a self-hosted
       instance, and they scale with repositories tracked rather than with API traffic.
