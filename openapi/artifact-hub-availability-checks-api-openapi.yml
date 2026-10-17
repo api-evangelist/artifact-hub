@@ -46,6 +46,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: error details
     ResourceKindName:
       type: string
       enum:
@@ -54,12 +60,6 @@ components:
       - organizationName
       - userAlias
       description: "Resource kind name:\n  * `repositoryName` - Repository name\n  * `repositoryURL` - Repository URL\n  * `organizationName` - Organization name\n  * `userAlias` - User alias\n"
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-          example: error details
   parameters:
     ResourceKindNameParam:
       in: path

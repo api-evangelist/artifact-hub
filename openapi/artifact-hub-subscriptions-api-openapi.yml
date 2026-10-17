@@ -223,23 +223,32 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  requestBodies:
-    SubscriptionBody:
-      description: Subscription request body
-      required: true
+  responses:
+    TooManyRequests:
+      description: The user has sent too many requests in a given amount of time
+    NoContent:
+      description: The request has succeeded, no content returned
+    Created:
+      description: The request has succeeded and has led to the creation of a resource
+    InternalServerError:
+      description: The server encountered an unexpected condition that prevented it from fulfilling the request
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              package_id:
-                type: string
-                format: uuid
-              event_kind:
-                $ref: '#/components/schemas/EventKindId'
-            required:
-            - package_id
-            - event_kind
+            $ref: '#/components/schemas/Error'
+    UnauthorizedError:
+      description: Valid authentication credentials not provided
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request sent was not valid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  requestBodies:
     OptOutBody:
       description: Opt-out entry request body
       required: true
@@ -256,32 +265,30 @@ components:
             required:
             - repository_id
             - event_kind
-  responses:
-    TooManyRequests:
-      description: The user has sent too many requests in a given amount of time
-    NoContent:
-      description: The request has succeeded, no content returned
-    InternalServerError:
-      description: The server encountered an unexpected condition that prevented it from fulfilling the request
+    SubscriptionBody:
+      description: Subscription request body
+      required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request sent was not valid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnauthorizedError:
-      description: Valid authentication credentials not provided
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Created:
-      description: The request has succeeded and has led to the creation of a resource
+            type: object
+            properties:
+              package_id:
+                type: string
+                format: uuid
+              event_kind:
+                $ref: '#/components/schemas/EventKindId'
+            required:
+            - package_id
+            - event_kind
   parameters:
+    EventKindParam:
+      in: query
+      name: event_kind
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventKindId'
+      description: Event kind
     OffsetParam:
       in: query
       name: offset
@@ -308,14 +315,6 @@ components:
         maximum: 60
       required: false
       description: The number of items to return
-    OptOutIDParam:
-      in: path
-      name: optOutID
-      schema:
-        type: string
-        format: uuid
-      required: true
-      description: Opt-out entry ID
     PackageIDQueryParam:
       in: query
       name: packageID
@@ -324,22 +323,15 @@ components:
         format: uuid
       required: true
       description: Package ID
-    EventKindParam:
-      in: query
-      name: event_kind
-      required: true
+    OptOutIDParam:
+      in: path
+      name: optOutID
       schema:
-        $ref: '#/components/schemas/EventKindId'
-      description: Event kind
+        type: string
+        format: uuid
+      required: true
+      description: Opt-out entry ID
   schemas:
-    EventKindId:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-      - 4
-      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     RepositorySummary:
       type: object
       required:
@@ -388,6 +380,14 @@ components:
         organization_display_name:
           type: string
           example: Organization 1
+    EventKindId:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      - 4
+      description: "Event kind:\n  * `0` - New package release\n  * `1` - Security alerts\n  * `2` - Repository tracking errors\n  * `4` - Repository scanning errors\n"
     Error:
       type: object
       properties:
