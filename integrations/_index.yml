@@ -97,42 +97,6 @@
     detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
-- slug: artifact-hub-openssf-best-practices-badge
-  label: OpenSSF Best Practices Badge
-  partner_name: OpenSSF Best Practices Badge
-  category: OpenSSF Best Practices badge (open-source project security conformance)
-  type: register
-  channel: standard-directory
-  evidence: https://www.bestpractices.dev/en/projects/4106
-  source: edge
-  relationship: standard-participant
-  contract_reference:
-    register: OpenSSF Best Practices badge projects (bestpractices.dev/en/projects.json, paged)
-    standard: OpenSSF Best Practices Badge criteria (formerly CII Best Practices; bestpractices.dev)
-    spec_file: null
-    role: badge-holder
-    registered_name: Artifact Hub
-    matched_by: github-org
-    matched_on: artifacthub
-    certified_products:
-    - product: open-source project
-      product_type: open-source project
-      standard: OpenSSF Best Practices Badge criteria (formerly CII Best Practices; bestpractices.dev)
-      lapsed: false
-      partner_tier: passing
-      projects:
-      - name: Artifact Hub
-        id: 4106
-        url: https://www.bestpractices.dev/en/projects/4106
-        badge_level: passing
-    signal_note: 'certified_products = ONE entry (product type: open-source project) with the highest CURRENT badge
-      level in partner_tier; a provider whose projects only lost the badge is lapsed: true; project names are context,
-      never counted; in_progress entries are not conformance'
-    detected_by: sweep-openssf-best-practices-badges.py
-    detected: '2026-10-22'
-    identity_source: apis.yml GitHubOrganization pointer (provider's own declaration)
-  status: not-a-workflow
-  arazzo: null
 - slug: artifact-hub-advanced-micro-devices
   label: Advanced Micro Devices
   partner: advanced-micro-devices
@@ -7327,5 +7291,41 @@
     signal_note: one edge per (provider, package kind); listing alone = participation. Repository / package counts
       are context, never counted. official / verified-publisher is partner_tier and badges, read only as publisher_verified
       (weight 0)
+  status: not-a-workflow
+  arazzo: null
+- slug: artifact-hub-openssf-best-practices-badge-bestpractices-dev
+  label: OpenSSF Best Practices Badge (bestpractices.dev)
+  partner_name: OpenSSF Best Practices Badge (bestpractices.dev)
+  category: OpenSSF Best Practices badge (open-source project security practices)
+  type: register
+  channel: standard-directory
+  evidence: https://www.bestpractices.dev/en/projects/4106
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: OpenSSF Best Practices Badge projects (www.bestpractices.dev/en/projects.json)
+    standard: OpenSSF Best Practices Badge criteria (passing / silver / gold)
+    spec_file: null
+    role: badged-project-owner
+    registered_name: Artifact Hub
+    matched_domain: artifacthub.io
+    matched_by: domain
+    certified_products:
+    - product: open-source project
+      product_type: open-source project
+      standard: OpenSSF Best Practices Badge criteria (passing / silver / gold)
+      partner_tier: passing
+      lapsed: false
+      badge_date: '2020-06-30'
+    badged_projects:
+    - name: Artifact Hub
+      id: 4106
+      badge: passing
+      url: https://www.bestpractices.dev/en/projects/4106
+    signal_note: 'certified_products = ONE entry per provider (product type open-source project): highest current
+      OpenSSF Best Practices badge level in partner_tier, earliest date at that level; lapsed: true when every linked
+      project lost its badge. badged_projects is context, never counted'
+    detected_by: sweep-openssf-best-practices-badges.py
+    detected: '2026-10-22'
   status: not-a-workflow
   arazzo: null
