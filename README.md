@@ -1,4 +1,4 @@
-# Artifact Hub (artifact-hub)
+# Artifact Hub
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,63 +66,165 @@
 
 Artifact Hub is a CNCF incubating web-based application that enables finding, installing, and publishing cloud-native packages. Built primarily in TypeScript and Go, it addresses fragmentation in the cloud-native ecosystem by providing a single discovery experience for consumers. It supports 27+ artifact types including Helm charts, OPA policies, Falco rules, OLM operators, Tinkerbell actions, kubectl plugins, Tekton tasks, KEDA scalers, CoreDNS plugins, and more. Artifact Hub provides a searchable catalog with versioning, security reports via Trivy and Snyk, changelog tracking, and webhook notification support. Licensed under Apache 2.0 and governed by the CNCF.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/artifact-hub/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/artifact-hub/refs/heads/main/apis.yml)
+**Areas:** Cloud-Native · CNCF · Helm Charts · Package Registry · Discovery · Open Source
 
-## Scope
+## Artifact Hub on APIs.io
 
-- **Type:** Index
+Everything profiled for Artifact Hub is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/artifact-hub/](https://apis.io/providers/artifact-hub/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (10)
 
-- Cloud Native
-- CNCF
-- Helm Charts
-- Package Registry
-- Discovery
-- Open Source
+- [Artifact Hub API](https://apis.io/apis/artifact-hub/artifact-hub-api/) — The Artifact Hub REST API provides endpoints for searching and retrieving cloud-native packages across all supported artifact types, managing repositories,…
+- [Artifact Hub Organizations API](https://apis.io/apis/artifact-hub/artifact-hub-organizations-api/) — Organizations and memberships
+- [Artifact Hub Packages API](https://apis.io/apis/artifact-hub/artifact-hub-packages-api/) — Search and retrieve cloud-native packages
+- [Artifact Hub Repositories API](https://apis.io/apis/artifact-hub/artifact-hub-repositories-api/) — Repository management
+- [Artifact Hub Stats API](https://apis.io/apis/artifact-hub/artifact-hub-stats-api/) — Site-wide statistics
+- [Artifact Hub Subscriptions API](https://apis.io/apis/artifact-hub/artifact-hub-subscriptions-api/) — Package event subscriptions
+- [Artifact Hub Users API](https://apis.io/apis/artifact-hub/artifact-hub-users-api/) — User accounts and sessions
+- [Artifact Hub Webhooks API](https://apis.io/apis/artifact-hub/artifact-hub-webhooks-api/) — Webhook configuration and delivery
+- [Artifact Hub Availability checks API](https://apis.io/apis/artifact-hub/artifact-hub-availability-checks-api/) — The Availability checks API from Artifact Hub — 1 operation(s) for availability checks.
+- [Artifact Hub Integrations API](https://apis.io/apis/artifact-hub/artifact-hub-integrations-api/) — The Integrations API from Artifact Hub — 3 operation(s) for integrations.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-16
-- **Modified:** 2026-04-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Artifact Hub API
+Event-driven and webhook contracts.
 
-The Artifact Hub REST API provides endpoints for searching and retrieving cloud-native packages across all supported artifact types, managing repositories, handling user authentication and sessions, managing organization memberships, configuring webhooks for release notifications, and administering package security reports. The API is the backend service powering artifacthub.io and is available for self-hosted instances.
+- [Artifact Hub Webhooks](https://apis.io/asyncapis/artifact-hub/artifact-hub-webhooks/)
 
-- **Human URL:** [https://artifacthub.io/docs/api/](https://artifacthub.io/docs/api/)
-- **Base URL:** `https://artifacthub.io/api/v1`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Package Search
-- Registry
-- REST API
-- Cloud Native
+- [Candidate MCP tool list (no first-party server published)](https://apis.io/servers/artifact-hub/candidate-mcp-tool-list-no-first-party-server-published/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://artifacthub.io/docs/api/)
-- [GitHub Repository](https://github.com/artifacthub/hub)
-- [Postman Collection](collections/artifact-hub.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/artifact-hub.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-## Common Properties
+- [Artifact Hub Agentic Access](https://apis.io/agentic-access/artifact-hub/artifact-hub-agentic-access/)
 
+#### Collections (10)
+
+Postman and Open Collection request collections.
+
+- [Artifact Hub API](https://apis.io/collections/artifact-hub/open-artifact-hub/)
+- [Artifact Hub Availability checks API](https://apis.io/collections/artifact-hub/open-artifact-hub-availability-checks-api/)
+- [Artifact Hub Integrations API](https://apis.io/collections/artifact-hub/open-artifact-hub-integrations-api/)
+- [Artifact Hub Organizations API](https://apis.io/collections/artifact-hub/open-artifact-hub-organizations-api/)
+- [Artifact Hub Packages API](https://apis.io/collections/artifact-hub/open-artifact-hub-packages-api/)
+- [Artifact Hub Repositories API](https://apis.io/collections/artifact-hub/open-artifact-hub-repositories-api/)
+- [Artifact Hub Stats API](https://apis.io/collections/artifact-hub/open-artifact-hub-stats-api/)
+- [Artifact Hub Subscriptions API](https://apis.io/collections/artifact-hub/open-artifact-hub-subscriptions-api/)
+- [Artifact Hub Users API](https://apis.io/collections/artifact-hub/open-artifact-hub-users-api/)
+- [Artifact Hub Webhooks API](https://apis.io/collections/artifact-hub/open-artifact-hub-webhooks-api/)
+
+#### Overlays (9)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Artifact Hub Availability Checks Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-availability-checks-api-overlay/)
+- [Artifact Hub Integrations Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-integrations-api-overlay/)
+- [Artifact Hub Organizations Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-organizations-api-overlay/)
+- [Artifact Hub Packages Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-packages-api-overlay/)
+- [Artifact Hub Repositories Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-repositories-api-overlay/)
+- [Artifact Hub Stats Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-stats-api-overlay/)
+- [Artifact Hub Subscriptions Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-subscriptions-api-overlay/)
+- [Artifact Hub Users Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-users-api-overlay/)
+- [Artifact Hub Webhooks Api Overlay](https://apis.io/overlays/artifact-hub/artifact-hub-webhooks-api-overlay/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Artifact Hub Authentication](https://apis.io/security/artifact-hub/artifact-hub-authentication/)
+- [Artifact Hub Domain Security](https://apis.io/security/artifact-hub/artifact-hub-domain-security/)
+- [Artifact Hub Vulnerability Disclosure](https://apis.io/security/artifact-hub/artifact-hub-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Artifact Hub Plans Pricing](https://apis.io/plans/artifact-hub/artifact-hub-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Artifact Hub Rate Limits](https://apis.io/rate-limits/artifact-hub/artifact-hub-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Artifact Hub Finops](https://apis.io/finops/artifact-hub/artifact-hub-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://artifacthub.io/)
 - [Documentation](https://artifacthub.io/docs/)
-- [GitHub Organization](https://github.com/artifacthub)
-- [GitHub Repository](https://github.com/artifacthub/hub)
-- [Portal](https://artifacthub.io/)
+- [API reference](https://artifacthub.io/docs/api/)
+- [Blog](https://artifacthub.github.io/blog/)
 - [Compliance](https://www.cncf.io/projects/artifact-hub/)
-- [Release Notes](https://github.com/artifacthub/hub/releases)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://artifacthub.io/llms.txt)
+- [Privacy policy](https://www.linuxfoundation.org/legal/privacy-policy)
+- [GitHub](https://github.com/artifacthub)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 49.1** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 52.8 |
+| Contract governance | 4.5 |
+| Operational transparency | 42.1 |
+| Developer ergonomics | 56.5 |
+| Access clarity | 18.4 |
+
+**Agent readiness 23.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 31.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/artifact-hub/](https://apis.io/providers/artifact-hub/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Artifact Hub: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/artifact-hub/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
